@@ -1,11 +1,14 @@
 import { defineConfig, globalIgnores } from 'eslint/config';
-import nextVitals from 'eslint-config-next/core-web-vitals';
-import nextTs from 'eslint-config-next/typescript';
+import base from '@archiview/eslint';
 
 const eslintConfig = defineConfig([
-  ...nextVitals,
-  ...nextTs,
-  // Override default ignores of eslint-config-next.
+  ...base,
+
+  // 원하는 룰 추가.
+  {
+    rules: {},
+  },
+
   globalIgnores([
     // Default ignores of eslint-config-next:
     '.next/**',

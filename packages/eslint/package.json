@@ -1,0 +1,20 @@
+{
+  "name": "@archiview/eslint",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./base.js",
+    "./react": "./react.js"
+  },
+  "peerDependencies": {
+    "eslint": "^9.0.0",
+    "typescript": ">=5"
+  },
+  "dependencies": {
+    "@rushstack/eslint-config": "^4.6.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}
