@@ -1,10 +1,25 @@
+'use client';
+import { useState } from 'react';
 
+import { TabBar } from '@/shared/components/TabBar';
+
+type SearchScope = 'all' | 'info' | 'editor';
 
 export default function Home(): React.ReactNode {
+  const [scope, setScope] = useState<SearchScope>('all');
 
   return (
     <div>
-      <div className="flex justify-center items-center h-screen flex-col">
+      <div className="flex justify-center items-center h-screen flex-col w-full">
+        <TabBar
+          items={[
+            { value: 'all', label: '전체' },
+            { value: 'info', label: '정보' },
+            // { key: 'editor', label: '에디터' },
+          ]}
+          value={scope}
+          onChange={setScope}
+        />
         <div className="heading-24-bold">Archiview Project Initialize</div>
         <div className="heading2">Archiview Project Initialize</div>
         <div className="heading3">Archiview Project Initialize</div>

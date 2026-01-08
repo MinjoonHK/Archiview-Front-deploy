@@ -1,39 +1,43 @@
 import { cn } from '../lib/cn';
 
 interface ITabItem<T extends string> {
-  key: T;
+  value: T;
   label: string;
 }
 
 interface ITabBarProps<T extends string> {
   items: readonly ITabItem<T>[];
   value: T;
-  onChange: (key: T) => void;
+  onChange: (value: T) => void;
 }
 
-export const TabBar = <T extends string>({ items, value, onChange }: ITabBarProps<T>) => {
+export const TabBar = <T extends string>({
+  items,
+  value,
+  onChange,
+}: ITabBarProps<T>): React.ReactNode => {
   return (
     <div
       role="tablist"
-      className="grid border-t"
+      className="grid w-full border-b-[0.8px] border-neutral-20 px-5 gap-1"
       style={{ gridTemplateColumns: `repeat(${items.length}, 1fr)` }}
     >
       {items.map((item) => {
-        const active = item.key === value;
+        const active = item.value === value;
 
         return (
           <button
-            key={item.key}
+            key={item.value}
             role="tab"
             aria-selected={active}
-            onClick={() => onChange(item.key)}
+            onClick={() => onChange(item.value)}
             className={cn(
-              'relative py-3 text-center',
-              active ? 'text-black font-semibold' : 'text-gray-400',
+              'relative py-3 text-center body-16-bold',
+              active ? 'text-black' : 'text-gray-400',
             )}
           >
             {item.label}
-            {active && <div className="absolute bottom-0 left-0 h-[2px] w-full bg-black" />}
+            {active && <div className="absolute bottom-0 left-0 h-[1.8px] w-full bg-black" />}
           </button>
         );
       })}
