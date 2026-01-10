@@ -6,7 +6,8 @@ import { TabBar } from '@/shared/components/TabBar';
 import { SearchBar } from '@/shared/components/SearchBar';
 import { PlaceListCard } from '@/shared/components/PlaceListCard';
 import { EditorResultCard } from '@/shared/components/EditorResultCard';
-import { InputWrapper } from '@/shared/components/common/InputWrapper';
+import { UnderLineInput } from '@/shared/components/common/Input/UnderLineInput';
+import { BoxInput } from '@/shared/components/common/Input/BoxInput';
 import { XIcon } from '@/shared/components/icon/XIcon';
 import { Button } from '@/shared/components/button';
 
@@ -32,7 +33,7 @@ export const HomePage = (): React.ReactElement => {
           saves={5}
         />
 
-        <InputWrapper
+        <UnderLineInput
           state="success"
           message="message"
           rightSlot={
@@ -43,7 +44,15 @@ export const HomePage = (): React.ReactElement => {
           }
         >
           <input placeholder="입력해주세요" />
-        </InputWrapper>
+        </UnderLineInput>
+
+        <BoxInput
+          state="success"
+          message="입력을 완료했어요."
+          rightSlot={<button className="bg-amber-400">완료</button>}
+        >
+          <input placeholder="텍스트를 입력하세요" />
+        </BoxInput>
 
         <TabBar
           items={[

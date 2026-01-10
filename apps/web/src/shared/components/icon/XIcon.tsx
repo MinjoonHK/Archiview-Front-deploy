@@ -4,6 +4,10 @@ type XIconProps = React.SVGProps<SVGSVGElement> & {
   title?: string;
 };
 
+/**
+ * X 모양 버튼
+ * 피그마 Input 컴포넌트에 있는 그 X 버튼
+ */
 export const XIcon = ({ title, ...props }: XIconProps) => {
   return (
     <svg
