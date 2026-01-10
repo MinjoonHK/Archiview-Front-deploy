@@ -6,7 +6,8 @@ import { TabBar } from '@/shared/components/TabBar';
 import { SearchBar } from '@/shared/components/SearchBar';
 import { PlaceListCard } from '@/shared/components/PlaceListCard';
 import { EditorResultCard } from '@/shared/components/EditorResultCard';
-
+import { InputWrapper } from '@/shared/components/common/InputWrapper';
+import { XIcon } from '@/shared/components/icon/XIcon';
 import { Button } from '@/shared/components/button';
 
 import Image from 'next/image';
@@ -30,6 +31,20 @@ export const HomePage = (): React.ReactElement => {
           views={10}
           saves={5}
         />
+
+        <InputWrapper
+          state="success"
+          message="message"
+          rightSlot={
+            <>
+              <XIcon />
+              <XIcon />
+            </>
+          }
+        >
+          <input placeholder="입력해주세요" />
+        </InputWrapper>
+
         <TabBar
           items={[
             { value: 'all', label: '전체' },
