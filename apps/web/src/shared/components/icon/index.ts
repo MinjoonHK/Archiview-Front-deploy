@@ -6,3 +6,6 @@ export * from './CheckCircleIcon';
 export * from './RightArrowIcon';
 export * from './FolderIcon';
 export * from './EyeIcon';
+export * from './KakaoIcon';
+export * from './GoogleIcon';
+export * from './XIcon';
