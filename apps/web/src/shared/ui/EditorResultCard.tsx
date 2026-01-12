@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Card } from './common/Card';
 import { RightArrowIcon, FolderIcon, EyeIcon } from './icon';
 
-interface EditorResultCardProps {
+interface IEditorResultCardProps {
   image: React.ReactNode;
   title: string;
   description: string;
@@ -22,7 +22,7 @@ export const EditorResultCard = ({
   saves,
   selected,
   onClick,
-}: EditorResultCardProps): React.ReactElement => {
+}: IEditorResultCardProps): React.ReactElement => {
   return (
     <Card thumbnail={image} selected={selected}>
       <button

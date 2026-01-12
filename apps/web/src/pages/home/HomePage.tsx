@@ -2,14 +2,14 @@
 
 import { useState } from 'react';
 
-import { TabBar } from '@/shared/components/TabBar';
-import { SearchBar } from '@/shared/components/SearchBar';
-import { PlaceListCard } from '@/shared/components/PlaceListCard';
-import { EditorResultCard } from '@/shared/components/EditorResultCard';
-import { UnderLineInput } from '@/shared/components/common/Input/UnderLineInput';
-import { BoxInput } from '@/shared/components/common/Input/BoxInput';
-import { XIcon } from '@/shared/components/icon/XIcon';
-import { Button } from '@/shared/components/button';
+import { TabBar } from '@/shared/ui/TabBar';
+import { SearchBar } from '@/shared/ui/SearchBar';
+import { PlaceListCard } from '@/shared/ui/PlaceListCard';
+import { EditorResultCard } from '@/shared/ui/EditorResultCard';
+import { UnderLineInput } from '@/shared/ui/common/Input/UnderLineInput';
+import { BoxInput } from '@/shared/ui/common/Input/BoxInput';
+import { XIcon } from '@/shared/ui/icon/XIcon';
+import { Button } from '@/shared/ui/button';
 
 import Image from 'next/image';
 

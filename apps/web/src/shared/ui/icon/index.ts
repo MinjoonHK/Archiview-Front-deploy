@@ -6,3 +6,4 @@ export * from './CheckCircleIcon';
 export * from './RightArrowIcon';
 export * from './FolderIcon';
 export * from './EyeIcon';
+export * from './BackArrow';
