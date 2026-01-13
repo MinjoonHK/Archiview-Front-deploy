@@ -1,30 +1,18 @@
-import * as React from 'react';
+import type { SVGProps } from 'react';
 
-type XIconProps = React.SVGProps<SVGSVGElement> & {
-  title?: string;
-};
-
-/**
- * X 모양 버튼
- * 피그마 Input 컴포넌트에 있는 그 X 버튼
- */
-export const XIcon = ({ title, ...props }: XIconProps) => {
+export const XIcon = (props: SVGProps<SVGSVGElement>): React.ReactElement => {
   return (
     <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={12}
-      height={12}
-      viewBox="0 0 12 12"
+      width="11"
+      height="11"
+      viewBox="0 0 11 11"
       fill="none"
-      role={title ? 'img' : 'presentation'}
-      aria-label={title}
-      aria-hidden={title ? undefined : true}
+      xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
-      {title ? <title>{title}</title> : null}
       <path
-        d="M10.75 0.75L0.750675 10.7493M10.7493 10.75L0.75 0.750707"
-        stroke="currentColor"
+        d="M9.75 0.75L0.750608 9.74936M9.74939 9.75L0.75 0.750636"
+        stroke="black"
         strokeWidth={1.5}
         strokeLinecap="round"
         strokeLinejoin="round"
