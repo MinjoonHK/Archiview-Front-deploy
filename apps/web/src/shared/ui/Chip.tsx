@@ -39,9 +39,8 @@ export const Chip = ({
     inline-flex
     items-center
     gap-[8px]
-    p-[12px]
-		font-[14px]
-    font-semibold
+    px-[12px]
+    body-14-semibold
     rounded-[999px]
     cursor-pointer
     focus:outline-none
@@ -50,7 +49,7 @@ export const Chip = ({
   `;
 
   // chipType 스타일
-  const chipTypeStyle = chipType === 'keyword' ? 'h-[36px]' : 'h-[26px]';
+  const chipTypeStyle = chipType === 'keyword' ? 'bg-neutral-10 h-[36px]' : 'h-[26px]';
 
   const selectedStyle = selected ? 'border border-primary-40 text-primary-40' : null;
 
