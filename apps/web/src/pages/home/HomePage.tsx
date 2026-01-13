@@ -1,113 +1,50 @@
 'use client';
 
+import { Badge } from '@/shared/components/Badge';
+import { Header } from '@/shared/components/common/Header';
+import { NavigationFooter } from '@/shared/components/common/NavigationFooter';
+import { SearchBar } from '@/shared/components/SearchBar';
 import { useState } from 'react';
-
-import { TabBar } from '@/shared/ui/TabBar';
-import { SearchBar } from '@/shared/ui/SearchBar';
-import { PlaceListCard } from '@/shared/ui/PlaceListCard';
-import { EditorResultCard } from '@/shared/ui/EditorResultCard';
-import { UnderLineInput } from '@/shared/ui/common/Input/UnderLineInput';
-import { BoxInput } from '@/shared/ui/common/Input/BoxInput';
-import { XIcon } from '@/shared/ui/icon/XIcon';
-import { Button } from '@/shared/ui/button';
-
-import Image from 'next/image';
-
-type SearchScope = 'all' | 'info' | 'editor';
+import { CategorySection } from '@/pages/home/components/CategorySection';
+import { HotPlaceSection } from '@/pages/home/components/HotPlaceSection';
+import { BelievedEditorSeciton } from '@/pages/home/components/BelievedEditorSeciton';
 
 export const HomePage = (): React.ReactElement => {
-  const [scope, setScope] = useState<SearchScope>('all');
-  const [input, setInput] = useState('');
-
+  const [searchedText, setSearchedText] = useState<string>('');
   return (
-    <div>
-      <div className="flex justify-center items-center h-screen flex-col w-full">
-        <SearchBar value={input} onChange={setInput} />
-        <PlaceListCard image="" title="제목" description="내용" uploadedAt="1/2 업로드" />
-        <EditorResultCard
-          title="title"
-          image=""
-          description="내용"
-          uploadedAt="1/2 업로드"
-          views={10}
-          saves={5}
-        />
-
-        <UnderLineInput
-          state="success"
-          message="message"
-          rightSlot={
-            <>
-              <XIcon />
-              <XIcon />
-            </>
-          }
-        >
-          <input placeholder="입력해주세요" />
-        </UnderLineInput>
-
-        <BoxInput
-          state="success"
-          message="입력을 완료했어요."
-          rightSlot={<button className="bg-amber-400">완료</button>}
-        >
-          <input placeholder="텍스트를 입력하세요" />
-        </BoxInput>
-
-        <TabBar
-          items={[
-            { value: 'all', label: '전체' },
-            { value: 'info', label: '정보' },
-            // { key: 'editor', label: '에디터' },
-          ]}
-          value={scope}
-          onChange={setScope}
-        />
-        <div className="heading-24-bold">Archiview Project Initialize</div>
-        <div className="heading2">Archiview Project Initialize</div>
-        <div className="heading3">Archiview Project Initialize</div>
-        <div className="body1">Archiview Project Initialize</div>
-        <div className="body2">Archiview Project Initialize</div>
-        <div className="body3">Archiview Project Initialize</div>
-        <div className="captions">Archiview Project Initialize</div>
-        <div className="b1 text-neutral-50">Archiview Neutral Color</div>
-        <div className="b1 text-primary-50">Archiview Primary Color</div>
-        <div className="b1 text-secondary-50">Archiview Secondary Color</div>
-        <div className="b1 text-error-50">Archiview Error Color</div>
-        <div className="flex justify-center items-center h-screen flex-col">
-          <div className="flex items-center justify-center gap-4">
-            <Button variant="contained">Contained</Button>
-            <Button variant="contained" disabled>
-              disabled
-            </Button>
+    <div className="flex flex-col min-h-screen">
+      <Header />
+      <div className="flex-1 overflow-y-auto scroll-none">
+        <div className="relative">
+          <div className="bg-[#84C6FF] h-[179px] w-full rounded-b-[32px] px-[20px] pt-[32px] pb-[52px] ">
+            <div className="mb-[12px]">
+              <Badge variant="contained" label="아카이버" color="primary-60" />
+            </div>
+            <div className="heading-24-bold">닉네임 닉네임님 </div>
+            <div className="body-14-regular text-primary-50">소중한 정보를 검색해보세요!</div>
           </div>
-          <Button variant="outlined" fullwidth>
-            Outlined Fullwidth
-          </Button>
-          <div className="w-full px-8">
-            <Button
-              variant="login"
-              fullwidth
-              startIcon={
-                <Image src="/icons/Kakao_Icon.svg" alt="Kakao_Icon" width={24} height={24} />
-              }
-              className="bg-[#FEE500]"
-            >
-              카카오톡으로 로그인
-            </Button>
-            <Button
-              variant="login"
-              startIcon={
-                <Image src="/icons/Google_Icon.svg" alt="Kakao_Icon" width={24} height={24} />
-              }
-              fullwidth
-              className="bg-[#EAEBEC]"
-            >
-              구글로 로그인
-            </Button>
+          {/* <Image
+            className="absolute top-[14px] right-0"
+            src="/images/MainFolderImage.png"
+            alt="MainFolderImage"
+            width={243}
+            height={162}
+          /> */}
+          <div className="absolute left-1/2 -translate-x-1/2 bottom-[-20px] bg-transparent rounded-full shadow-[0_0_11px_0_rgba(144,144,144,0.40)] flex items-center">
+            <SearchBar
+              value={searchedText}
+              onChange={(e) => setSearchedText(e)}
+              onSubmit={() => {}}
+            />
           </div>
         </div>
+        <div className="p-[20px]">
+          <CategorySection />
+          <HotPlaceSection />
+          <BelievedEditorSeciton />
+        </div>
       </div>
+      <NavigationFooter />
     </div>
   );
 };
