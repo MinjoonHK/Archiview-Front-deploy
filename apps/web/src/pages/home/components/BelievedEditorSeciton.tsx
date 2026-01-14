@@ -1,5 +1,5 @@
-import { Badge } from '@/shared/components/Badge';
-import { CaretRightIcon, FolderIcon } from '@/shared/components/icon';
+import { Badge } from '@/shared/ui/Badge';
+import { CaretRightIcon, FolderIcon } from '@/shared/ui/icon';
 import Image from 'next/image';
 
 const BelievedEditorItem = ({
