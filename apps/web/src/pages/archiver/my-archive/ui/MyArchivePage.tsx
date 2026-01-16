@@ -13,6 +13,8 @@ export const MyArchiverPage = () => {
   return (
     <div className="flex h-full flex-col min-h-0">
       <SelectButtonGroup />
+        <div className="px-5 py-3">
+      </div>
       <div className="flex-1 min-h-0">
         <KakaoMap lat={37.5665} lng={126.978} level={3} />
       </div>
