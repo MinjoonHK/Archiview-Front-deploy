@@ -8,6 +8,7 @@ import { CategorySection } from '@/pages/home/ui/CategorySection';
 import { HotPlaceSection } from '@/pages/home/ui/HotPlaceSection';
 import { BelievedEditorSeciton } from '@/pages/home/ui/BelievedEditorSeciton';
 import Image from 'next/image';
+
 export const HomePage = (): React.ReactElement => {
   const [searchedText, setSearchedText] = useState<string>('');
   return (
