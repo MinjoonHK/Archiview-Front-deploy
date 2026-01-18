@@ -10,6 +10,7 @@ interface IBoxInputProps {
   rightSlot?: React.ReactNode;
   children: FocusableInputElement;
   className?: string;
+  onClick?: () => void;
 }
 
 const boxBorderByState: Record<VisualState, string> = {
@@ -26,12 +27,20 @@ const messageByState: Record<VisualState, string> = {
   success: 'text-primary-40',
 };
 
-export const BoxInput = ({ state, message, rightSlot, children, className }: IBoxInputProps) => {
+export const BoxInput = ({
+  state,
+  message,
+  rightSlot,
+  children,
+  className,
+  onClick,
+}: IBoxInputProps) => {
   return (
     <Input state={state} message={message}>
       {({ visualState, shouldShowMessage, bind }) => (
         <div className={cn('flex flex-col gap-1 w-full', className)}>
           <div
+            onClick={onClick}
             className={cn(
               'flex items-center h-12 gap-3 rounded-xl border px-4 caret-primary-40',
               boxBorderByState[visualState],

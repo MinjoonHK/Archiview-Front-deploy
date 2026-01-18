@@ -18,7 +18,7 @@ export const Modal = ({ isOpen, onClose, children, closeOnOverlayClick = true }:
         }}
       />
 
-      <div className="relative z-10 w-full p-5 rounded-[20px] bg-white">{children}</div>
+      <div className="relative z-10 w-full p-5 rounded-default bg-white">{children}</div>
     </div>
   );
 };
