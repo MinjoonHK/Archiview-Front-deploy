@@ -1,18 +1,19 @@
 'use client';
 import { Badge } from '@/shared/ui/Badge';
-import { Header } from '@/shared/ui/common/Header';
-import { NavigationFooter } from '@/shared/ui/common/NavigationFooter';
+import { LogoHeader } from '@/widgets/header/LogoHeader';
+import { NavigationFooter } from '@/widgets/navigation/NavigationFooter';
 import { SearchBar } from '@/shared/ui/SearchBar';
 import { useState } from 'react';
 import { CategorySection } from '@/pages/home/ui/CategorySection';
 import { HotPlaceSection } from '@/pages/home/ui/HotPlaceSection';
 import { BelievedEditorSeciton } from '@/pages/home/ui/BelievedEditorSeciton';
 import Image from 'next/image';
+
 export const HomePage = (): React.ReactElement => {
   const [searchedText, setSearchedText] = useState<string>('');
   return (
     <div className="flex min-h-screen flex-col">
-      <Header />
+      <LogoHeader />
       <div className="flex-1 overflow-y-auto scroll-none">
         <div className="relative">
           <div className=" w-full bg-[#84C6FF] h-45 rounded-b-[32px] px-5 pt-8 pb-13 ">
