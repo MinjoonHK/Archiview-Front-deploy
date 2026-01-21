@@ -4,9 +4,9 @@ import { LogoHeader } from '@/widgets/header';
 import { NavigationFooter } from '@/widgets/navigation/NavigationFooter';
 import { SearchBar } from '@/shared/ui/SearchBar';
 import { useState } from 'react';
-import { CategorySection } from '@/pages/home/ui/CategorySection';
-import { HotPlaceSection } from '@/pages/home/ui/HotPlaceSection';
-import { BelievedEditorSeciton } from '@/pages/home/ui/BelievedEditorSeciton';
+import { CategorySection } from '@/pages/archiver/home/ui/CategorySection';
+import { HotPlaceSection } from '@/pages/archiver/home/ui/HotPlaceSection';
+import { BelievedEditorSeciton } from '@/pages/archiver/home/ui/BelievedEditorSeciton';
 import Image from 'next/image';
 
 export const HomePage = (): React.ReactElement => {
