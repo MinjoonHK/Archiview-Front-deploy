@@ -2,42 +2,37 @@
 
 import { useRouter, usePathname } from 'next/navigation';
 
-import {
-  LocationPinIcon,
-  UserCircleIcon,
-  HomeIcon,
-  NavigationFooterFolderIcon,
-} from '../../shared/ui/icon';
+import { HomeIcon, UserCircleIcon, ShareInformationIcon, SettingIcon } from '@/shared/ui/icon';
 
 // TODO : 라우팅 수정
-export const NAVIGATION_FOOTER_ITEMS = [
+export const EDITOR_NAVIGATION_FOOTER_ITEMS = [
   {
     key: 'home',
     label: '홈',
-    href: '/',
+    href: '',
     icon: HomeIcon,
   },
   {
-    key: 'follow',
-    label: '팔로우',
+    key: 'profile',
+    label: '프로필',
     href: '/follow-list',
-    icon: NavigationFooterFolderIcon,
-  },
-  {
-    key: 'archive',
-    label: '아카이브',
-    href: '/archive',
-    icon: LocationPinIcon,
-  },
-  {
-    key: 'mypage',
-    label: '마이페이지',
-    href: '/mypage',
     icon: UserCircleIcon,
+  },
+  {
+    key: 'share-information',
+    label: '정보공유',
+    href: '/archive',
+    icon: ShareInformationIcon,
+  },
+  {
+    key: 'setting',
+    label: '설정',
+    href: '/mypage',
+    icon: SettingIcon,
   },
 ] as const;
 
-const NavigationFooterItem = ({
+const EditorNavigationFooterItem = ({
   icon,
   label,
   isActive,
@@ -65,18 +60,18 @@ const NavigationFooterItem = ({
   );
 };
 
-export const NavigationFooter = (): React.ReactElement => {
+export const EditorNavigationFooter = (): React.ReactElement => {
   const router = useRouter();
   const pathname = usePathname();
 
   return (
     <div className="h-18 bottom-0 px-4 border-t border-neutral-40 pt-2 pb-3">
       <div className="flex items-center justify-between gap-2">
-        {NAVIGATION_FOOTER_ITEMS.map((item) => {
+        {EDITOR_NAVIGATION_FOOTER_ITEMS.map((item) => {
           const isActive = pathname === item.href;
 
           return (
-            <NavigationFooterItem
+            <EditorNavigationFooterItem
               key={item.key}
               icon={item.icon}
               label={item.label}

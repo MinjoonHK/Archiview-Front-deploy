@@ -1,7 +1,7 @@
 'use client';
 import { Badge } from '@/shared/ui/Badge';
 import { LogoHeader } from '@/widgets/header';
-import { NavigationFooter } from '@/widgets/navigation/NavigationFooter';
+import { ArchiverNavigationFooter } from '@/widgets/navigation/ArchiverNavigationFooter';
 import { SearchBar } from '@/shared/ui/SearchBar';
 import { useState } from 'react';
 import { CategorySection } from '@/pages/archiver/home/ui/CategorySection';
@@ -42,7 +42,7 @@ export const HomePage = (): React.ReactElement => {
           <CategorySection /> <HotPlaceSection /> <BelievedEditorSeciton />
         </div>
       </div>
-      <NavigationFooter />
+      <ArchiverNavigationFooter />
     </div>
   );
 };

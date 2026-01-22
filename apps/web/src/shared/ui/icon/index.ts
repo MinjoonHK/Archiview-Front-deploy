@@ -17,3 +17,5 @@ export * from './NavigationFooterFolderIcon';
 export * from './CaretRightIcon';
 export * from './ProfileDeleteIcon';
 export * from './UpArrowIcon';
+export * from './ShareInformationIcon';
+export * from './SettingIcon';
