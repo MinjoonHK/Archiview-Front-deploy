@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { Chip } from '@/shared/ui/Chip';
 import { RightArrowIcon } from '@/shared/ui/icon';
 
-export const TopBanner = () => {
+export const EditorTopBanner = () => {
   return (
     <div className="w-full h-62.75 bg-primary-30 rounded-b-4xl px-5 pt-8 pb-6">
       <Image

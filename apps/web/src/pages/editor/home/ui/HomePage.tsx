@@ -1,10 +1,11 @@
-import { TopBanner } from './TopBanner';
+import { EditorTopBanner } from './EditorTopBanner';
+import { EditorInsight } from './EditorInsight';
 
 export const HomePage = () => {
   return (
     <div className="w-full">
-      <TopBanner />
-      에디터홈페이지
+      <EditorTopBanner />
+      <EditorInsight />
     </div>
   );
 };
