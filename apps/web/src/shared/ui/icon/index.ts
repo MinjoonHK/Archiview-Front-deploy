@@ -19,3 +19,6 @@ export * from './ProfileDeleteIcon';
 export * from './UpArrowIcon';
 export * from './ShareInformationIcon';
 export * from './SettingIcon';
+export * from './FolderOutlineIcon';
+export * from './InstagramOutlineIcon';
+export * from './PlaneArrowOutlineIcon';

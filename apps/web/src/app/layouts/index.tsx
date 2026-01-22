@@ -30,7 +30,7 @@ export const metadata: Metadata = {
 export function RootLayout({ children }: { children: React.ReactNode }): React.ReactNode {
   return (
     <html lang="en">
-      <body className="bg-neutral-20">
+      <body>
         <Script id="kakao-map-sdk" src={KAKAO_SDK_URL} strategy="beforeInteractive" />
         <MSWProvider>{children}</MSWProvider>
       </body>

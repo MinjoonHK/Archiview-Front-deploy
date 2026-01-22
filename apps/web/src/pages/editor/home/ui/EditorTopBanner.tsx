@@ -6,13 +6,13 @@ import { RightArrowIcon } from '@/shared/ui/icon';
 
 export const EditorTopBanner = () => {
   return (
-    <div className="w-full h-62.75 bg-primary-30 rounded-b-4xl px-5 pt-8 pb-6">
+    <div className="relative w-full h-62.75 bg-primary-30 rounded-b-4xl px-5 pt-8 pb-6">
       <Image
         src="/images/MainMarkerIcon.svg"
         alt="MainMarkerImage"
-        width={180}
-        height={180}
-        className="absolute top-24 right-4"
+        width={190}
+        height={190}
+        className="absolute top-12 right-1"
       />
       <Chip label="에디터" className="rounded-xl border-none bg-primary-40 text-white" />
       <div className="pt-3">

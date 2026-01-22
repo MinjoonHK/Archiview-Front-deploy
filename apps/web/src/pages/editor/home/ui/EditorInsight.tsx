@@ -4,7 +4,7 @@ import { PeriodDropdown } from './PeriodDropDown';
 
 export const EditorInsight = () => {
   return (
-    <div className="p-5">
+    <div className="px-5 py-8">
       <div className="flex flex-row justify-between items-center pb-4">
         <p className="heading-20-bold">인사이트</p> <PeriodDropdown value="ALL" />
       </div>
