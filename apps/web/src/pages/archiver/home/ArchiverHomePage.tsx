@@ -1,22 +1,22 @@
 'use client';
+
+import { useState } from 'react';
+import Image from 'next/image';
+
 import { Badge } from '@/shared/ui/Badge';
-import { LogoHeader } from '@/widgets/header';
 import { ArchiverNavigationFooter } from '@/widgets/navigation/ArchiverNavigationFooter';
 import { SearchBar } from '@/shared/ui/SearchBar';
-import { useState } from 'react';
 import { CategorySection } from '@/pages/archiver/home/ui/CategorySection';
 import { HotPlaceSection } from '@/pages/archiver/home/ui/HotPlaceSection';
 import { BelievedEditorSeciton } from '@/pages/archiver/home/ui/BelievedEditorSeciton';
-import Image from 'next/image';
 
 export const ArchiverHomePage = (): React.ReactElement => {
   const [searchedText, setSearchedText] = useState<string>('');
   return (
     <div className="flex min-h-screen flex-col">
-      <LogoHeader />
       <div className="flex-1 overflow-y-auto scroll-none">
         <div className="relative">
-          <div className=" w-full bg-[#84C6FF] h-45 rounded-b-[32px] px-5 pt-8 pb-13 ">
+          <div className=" w-full bg-[#84C6FF] h-45 rounded-b-4xl px-5 pt-8 pb-13 ">
             <div className="mb-3">
               <Badge variant="contained" label="아카이버" color="primary-60" />
             </div>
@@ -42,7 +42,6 @@ export const ArchiverHomePage = (): React.ReactElement => {
           <CategorySection /> <HotPlaceSection /> <BelievedEditorSeciton />
         </div>
       </div>
-      <ArchiverNavigationFooter />
     </div>
   );
 };
