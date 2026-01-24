@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
-import { Card } from '@/shared/ui/common/card/Card';
+import { Card } from '@/shared/ui/common/Card/Card';
 import { Button } from '@/shared/ui/button';
 
 type Role = 'EDITOR' | 'ARCHIVER';
