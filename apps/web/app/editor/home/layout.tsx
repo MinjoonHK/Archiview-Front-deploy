@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { Header } from '@/widgets/header';
-import { ArchiviewLogoIcon } from '@/shared/ui/icon';
+import { LogoHeader } from '@/widgets/header';
 import { EditorNavigationFooter } from '@/widgets/navigation/EditorNavigationFooter';
 
 export default function HomeLayout({
@@ -11,7 +10,7 @@ export default function HomeLayout({
 }): React.ReactElement {
   return (
     <div className="flex h-full flex-col">
-      <Header left={<ArchiviewLogoIcon />} />
+      <LogoHeader />
       <main className="flex-1 min-h-0 overflow-y-auto scroll-none">{children}</main>
       <EditorNavigationFooter />
     </div>

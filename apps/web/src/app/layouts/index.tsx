@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import '@/shared/styles/globals.css';
 
 import { MSWProvider } from '../providers/MSWProvider';
+import { QueryProvider } from '../providers/QueryProvider';
 
 const KAKAO_KEY = process.env.NEXT_PUBLIC_KAKAO_MAP_KEY;
 
@@ -32,7 +33,9 @@ export function RootLayout({ children }: { children: React.ReactNode }): React.R
     <html lang="en">
       <body>
         <Script id="kakao-map-sdk" src={KAKAO_SDK_URL} strategy="beforeInteractive" />
-        <MSWProvider>{children}</MSWProvider>
+        <QueryProvider>
+          <MSWProvider>{children}</MSWProvider>
+        </QueryProvider>
       </body>
     </html>
   );

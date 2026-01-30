@@ -1,0 +1,33 @@
+import * as React from 'react';
+
+type Props = React.SVGProps<SVGSVGElement>;
+
+export const InstagramOutlinedIcon = (props: Props) => (
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 16 16"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+    focusable="false"
+    {...props}
+  >
+    <path
+      d="M1.66699 7.99984C1.66699 5.01428 1.66699 3.52149 2.59449 2.594C3.52198 1.6665 5.01476 1.6665 8.00033 1.6665C10.9859 1.6665 12.4787 1.6665 13.4062 2.594C14.3337 3.52149 14.3337 5.01428 14.3337 7.99984C14.3337 10.9854 14.3337 12.4782 13.4062 13.4057C12.4787 14.3332 10.9859 14.3332 8.00033 14.3332C5.01476 14.3332 3.52198 14.3332 2.59449 13.4057C1.66699 12.4782 1.66699 10.9854 1.66699 7.99984Z"
+      stroke="#98CCFA"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M11 8C11 9.65685 9.65685 11 8 11C6.34315 11 5 9.65685 5 8C5 6.34315 6.34315 5 8 5C9.65685 5 11 6.34315 11 8Z"
+      stroke="#98CCFA"
+    />
+    <path
+      d="M11.6719 4.33325L11.6659 4.33325"
+      stroke="#98CCFA"
+      strokeWidth="1.33333"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
