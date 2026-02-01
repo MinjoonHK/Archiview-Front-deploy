@@ -10,13 +10,11 @@ export interface IPlaceInfo {
   longitude: number;
 }
 
-export type IPlaceInfoResponseList = IPlaceInfo[];
-
 export interface IArchiverMyProfileResponse {
   postId: number;
   url: string;
   hashTag: string;
-  placeInfoResponseList: IPlaceInfoResponseList;
+  placeInfoResponseList: IPlaceInfo[];
 }
 
 // 아카이버용 장소 정보 관련 조회 API DTO
