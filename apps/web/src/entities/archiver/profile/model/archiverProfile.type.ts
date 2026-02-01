@@ -12,7 +12,7 @@ export interface IPlaceInfo {
 
 export type IPlaceInfoResponseList = IPlaceInfo[];
 
-export interface IArchiverProfileResponse {
+export interface IArchiverMyProfileResponse {
   postId: number;
   url: string;
   hashTag: string;
@@ -20,7 +20,7 @@ export interface IArchiverProfileResponse {
 }
 
 // 아카이버용 장소 정보 관련 조회 API DTO
-export type IArchiverProfileResponseDTO = ApiResponse<IArchiverProfileResponse>;
+export type IArchiverProfileResponseDTO = ApiResponse<IArchiverMyProfileResponse>;
 
 // 내 프로필 조회(아카이버) API DTO
-export type IMyProfileResponseDTO = ApiResponse<IArchiverProfileResponse>;
+export type IArchiverMyProfileResponseDTO = ApiResponse<IArchiverMyProfileResponse>;

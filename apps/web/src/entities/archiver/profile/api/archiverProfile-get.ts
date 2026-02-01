@@ -2,15 +2,15 @@ import { clientApi } from '@/shared/lib/api/client';
 import { ARCHIVER_ENDPOINTS } from '@/shared/constants/endpoints/archiver/ArchiverEndpoints';
 
 import type {
-  IMyProfileResponseDTO,
+  IArchiverMyProfileResponse,
   IArchiverProfileResponseDTO,
 } from '../model/archiverProfile.type';
 
 export const archiverProfileGet = {
-  getMyProfile: async (): Promise<IMyProfileResponseDTO> => {
+  getMyProfile: async (): Promise<IArchiverMyProfileResponse> => {
     const response = await clientApi
       .get(`${ARCHIVER_ENDPOINTS.me.profile}`)
-      .json<IMyProfileResponseDTO>();
+      .json<IArchiverMyProfileResponse>();
     return response;
   },
 
