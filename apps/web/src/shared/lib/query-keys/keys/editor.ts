@@ -55,11 +55,13 @@ export const editorKeys = createQueryKeyStore({
   },
 
   /**
+   * @param {{useMock?: boolean}} params
    * @description 내가 업로드한 장소 목록 조회용 쿼리키 (파라미터 없음)
    * @returns ['getMyPlaceList']
    */
   getMyPlaceList: {
     all: null,
+    applyFilters: (params?: { useMock?: boolean }) => [params?.useMock ?? false],
   },
 
   /**

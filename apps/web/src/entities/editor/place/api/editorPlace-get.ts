@@ -51,7 +51,8 @@ export const editorPlaceGet = {
           period: params?.period ?? 'ALL',
           useMock: params?.useMock ?? false,
         },
-      }).json<IEditorInsightResponseDTO>();
+      })
+      .json<IEditorInsightResponseDTO>();
     return response;
   },
 
@@ -78,9 +79,13 @@ export const editorPlaceGet = {
   },
 
   // 내가 업로드한 장소 목록 조회
-  getMyPlaceList: async (): Promise<IEditorMeUploadedPlaceListResponseDTO> => {
+  getMyPlaceList: async (params?: {
+    useMock?: boolean;
+  }): Promise<IEditorMeUploadedPlaceListResponseDTO> => {
     const response = await clientApi
-      .get(`${EDITOR_ENDPOINTS.me.places}`)
+      .get(`${EDITOR_ENDPOINTS.me.places}`, {
+        searchParams: { useMock: params?.useMock ?? false },
+      })
       .json<IEditorMeUploadedPlaceListResponseDTO>();
     return response;
   },
