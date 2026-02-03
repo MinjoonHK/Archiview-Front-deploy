@@ -6,8 +6,8 @@ import { Card } from '@/shared/ui/common/Card';
 
 import { useEditorInsightSummaryQuery } from '@/entities/editor/place/queries/useGetInsightSummery';
 import type { InsightPeriod } from '@/entities/editor/place/model/editorPlace.type';
+import { PeriodDropdown } from '@/entities/editor/place/ui/PeriodDropDown';
 
-import { PeriodDropdown } from './PeriodDropDown';
 
 function parseInsightPeriod(value: string | null): InsightPeriod {
   if (value === 'WEEK' || value === 'MONTH' || value === 'ALL') return value;
@@ -17,7 +17,7 @@ function parseInsightPeriod(value: string | null): InsightPeriod {
 export const EditorInsight = () => {
   const sp = useSearchParams();
 
-  const period = useMemo<InsightPeriod>(() => parseInsightPeriod(sp?.get('period') ?? "ALL"), [sp]);
+  const period = useMemo<InsightPeriod>(() => parseInsightPeriod(sp?.get('period') ?? 'ALL'), [sp]);
 
   const {
     data: insightData,

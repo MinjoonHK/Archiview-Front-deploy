@@ -3,8 +3,8 @@
 import { useMemo } from 'react';
 import { useSearchParams } from 'next/navigation';
 
-import { PlaceOptionTabs, type PlaceOption } from './PlaceOptionTabs';
-import { EditorPlaceItemList } from './EditorPlaceItemList';
+import { PlaceOptionTabs, type PlaceOption } from '@/features/editor/ui/PlaceOptionTabs';
+import { EditorPlaceItemList } from '@/features/editor/ui/EditorPlaceItemList';
 
 function parseMetric(value: string | null): PlaceOption {
   switch (value) {

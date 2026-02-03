@@ -4,7 +4,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@/shared/ui/button';
 import { UpArrowIcon } from '@/shared/ui/icon';
 
-import type { InsightPeriod } from '@/entities/editor/place/model/editorPlace.type'; // 경로 맞춰
+import type { InsightPeriod } from '@/entities/editor/place/model/editorPlace.type';
 
 const PERIOD_LABEL: Record<InsightPeriod, string> = {
   ALL: '전체 기간',

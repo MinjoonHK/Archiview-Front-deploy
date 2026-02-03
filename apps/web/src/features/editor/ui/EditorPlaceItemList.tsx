@@ -1,26 +1,12 @@
-'use client';
-
 import { useMemo } from 'react';
 import { useSearchParams } from 'next/navigation';
 
 import { useGetMyPlaceList } from '@/entities/editor/place/queries/useGetMyPlaceList';
 import type { IEditorInsightPlace } from '@/entities/editor/place/model/editorPlace.type';
+import { parseMetric } from '@/features/editor/utils/parseMetric';
 
-import { EditorPlaceItem } from './EditorPlaceItem';
 import type { PlaceOption } from './PlaceOptionTabs';
-
-function parseMetric(value: string | null): PlaceOption {
-  switch (value) {
-    case 'MOST_VIEWED':
-    case 'MOST_SAVED':
-    case 'MOST_INSTAGRAM':
-    case 'MOST_DIRECTIONS':
-    case 'ALL':
-      return value;
-    default:
-      return 'ALL';
-  }
-}
+import { EditorPlaceItem } from '../../../entities/editor/place/ui/EditorPlaceItem';
 
 function sortPlaces(places: IEditorInsightPlace[], metric: PlaceOption) {
   const copy = [...places];
