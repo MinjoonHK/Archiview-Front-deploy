@@ -5,8 +5,7 @@ import Image from 'next/image';
 
 import { Item } from '@/shared/ui/common/Item';
 import { RightArrowIcon, ProfileDeleteIcon } from '@/shared/ui/icon';
-
-import { FollowDeleteModal } from './FollowDeleteModal';
+import { FollowDeleteModal } from '@/entities/archiver/profile/ui/FollowDeleteModal';
 
 interface IEditorProfileItemProps {
   nickname: string;

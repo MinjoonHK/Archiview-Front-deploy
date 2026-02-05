@@ -1,4 +1,4 @@
-import { HotPlaceCard } from './HotPlaceCard';
+import { HotPlaceCard } from '../../../../entities/archiver/place/ui/HotPlaceCard';
 
 import { useGetHotPlace } from '@/entities/archiver/place/queries/useGetHotPlace';
 import { IHotPlace } from '@/entities/archiver/place/model/archiverPlace.type';

@@ -2,7 +2,7 @@ import { CaretRightIcon } from '@/shared/ui/icon';
 import { useGetEditorTrusted } from '@/entities/archiver/profile/queries/useGetEditorTrusted';
 import { IPlace } from '@/entities/archiver/profile/model/archiverProfile.type';
 
-import { EditorRecommendCard } from './EditorRecommendCard';
+import { EditorRecommendCard } from '../../../../entities/archiver/profile/ui/EditorRecommendCard';
 
 // TODO : 믿고먹는 에디터 응답값이 이거맞는지..?
 export const EditorTrustedSection = (): React.ReactElement => {

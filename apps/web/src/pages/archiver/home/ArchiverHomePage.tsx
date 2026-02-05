@@ -6,9 +6,9 @@ import Image from 'next/image';
 
 import { Badge } from '@/shared/ui/Badge';
 import { SearchBar } from '@/shared/ui/SearchBar';
-import { CategorySection } from '@/pages/archiver/home/ui/CategorySection';
-import { HotPlaceSection } from '@/pages/archiver/home/ui/HotPlaceSection';
-import { EditorTrustedSection } from '@/pages/archiver/home/ui/EditorTrustedSection';
+import { CategorySection } from '@/entities/common/ui/CategorySection';
+import { HotPlaceSection } from '@/features/archiver/place/ui/HotPlaceSection';
+import { EditorTrustedSection } from '@/features/archiver/profile/ui/EditorTrustedSection';
 import { useGetMyProfile } from '@/entities/archiver/profile/queries/useGetMyProfile';
 
 export const ArchiverHomePage = (): React.ReactElement => {
@@ -17,7 +17,7 @@ export const ArchiverHomePage = (): React.ReactElement => {
   const { data: myData, isLoading, isError } = useGetMyProfile({ useMock: true });
 
   if (isLoading) return <div className="mb-5">로딩중...</div>;
-  
+
   if (isError) return <div className="mb-5">에러</div>;
 
   return (
