@@ -1,5 +1,3 @@
-import { CaretRightIcon } from '@/shared/ui/icon';
-
 import { HotPlaceCard } from './HotPlaceCard';
 
 export const HotPlaceSection = (): React.ReactElement => {
@@ -7,8 +5,6 @@ export const HotPlaceSection = (): React.ReactElement => {
     <section className="mb-5">
       <div className="flex justify-between mb-4">
         <span className="heading-20-bold">요즘 HOT한 장소</span>
-        {/* TODO : 라우팅 작업 */}
-        <CaretRightIcon />
       </div>
       <div className="flex overflow-x-scroll gap-3 scroll-none">
         <HotPlaceCard

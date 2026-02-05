@@ -33,7 +33,7 @@ export const clientApi = ky.create({
     beforeRequest: [
       (request) => {
         const token =
-          'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZDA0NmYzNy05ZjI5LTQ5NDUtYThmZi03N2ZjMmU1ODQ5ODIiLCJlbWFpbCI6InRlc3QtZWRpdG9yQGFyY2hpdmlldy5jb20iLCJyb2xlIjoiRURJVE9SIiwiaWF0IjoxNzcwMTMzMzQ1LCJleHAiOjE3NzI3MjUzNDV9.l-7LBogvBcjC-HgnPsllbZLw_JN14WwGSn-GcjoZ_tF7kKLwKuPuqtX4cexxzFG5o2_FQGkIi50IRBLpYE5Rmw';
+          'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI4ODc2NzZlYi0xNWM5LTRiYTAtYjc2Ny03MzFhNWJhZjVjMDQiLCJlbWFpbCI6InRlc3QtZWRpdG9yQGFyY2hpdmlldy5jb20iLCJyb2xlIjoiRURJVE9SIiwiaWF0IjoxNzcwMjkwMDQ5LCJleHAiOjE3NzI4ODIwNDl9.SBluaUYuI7McS4oeEIsAWM7sNAZ8sWVWV1Vx8P0Xs8dBH8SsqweV556ebpXVa_YER8zklbbC_k-EeF1PeHnrZw"';
 
         if (token) {
           request.headers.set('Authorization', `Bearer ${token}`);
