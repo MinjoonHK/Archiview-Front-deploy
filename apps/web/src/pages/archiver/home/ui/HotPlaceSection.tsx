@@ -2,11 +2,7 @@ import { HotPlaceCard } from './HotPlaceCard';
 
 import { useGetHotPlace } from '@/entities/archiver/place/queries/useGetHotPlace';
 import { IHotPlace } from '@/entities/archiver/place/model/archiverPlace.type';
-// name: string;
-// imageUrl: string;
-// categoryNames: string[];
-// hashTags: string[];
-// viewCount: number;
+
 export const HotPlaceSection = (): React.ReactElement => {
   const { data: hotPlaceData, isLoading, isError } = useGetHotPlace({ useMock: true });
 

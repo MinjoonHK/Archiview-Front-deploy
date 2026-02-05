@@ -8,7 +8,7 @@ import { Badge } from '@/shared/ui/Badge';
 import { SearchBar } from '@/shared/ui/SearchBar';
 import { CategorySection } from '@/pages/archiver/home/ui/CategorySection';
 import { HotPlaceSection } from '@/pages/archiver/home/ui/HotPlaceSection';
-import { BelievedEditorSection } from '@/pages/archiver/home/ui/BelievedEditorSection';
+import { EditorTrustedSection } from '@/pages/archiver/home/ui/EditorTrustedSection';
 
 export const ArchiverHomePage = (): React.ReactElement => {
   const [searchedText, setSearchedText] = useState<string>('');
@@ -45,7 +45,7 @@ export const ArchiverHomePage = (): React.ReactElement => {
           </Link>
         </div>
         <div className="p-5">
-          <CategorySection /> <HotPlaceSection /> <BelievedEditorSection />
+          <CategorySection /> <HotPlaceSection /> <EditorTrustedSection />
         </div>
       </div>
     </div>
