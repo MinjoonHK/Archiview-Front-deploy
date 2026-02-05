@@ -9,9 +9,15 @@ import { SearchBar } from '@/shared/ui/SearchBar';
 import { CategorySection } from '@/pages/archiver/home/ui/CategorySection';
 import { HotPlaceSection } from '@/pages/archiver/home/ui/HotPlaceSection';
 import { EditorTrustedSection } from '@/pages/archiver/home/ui/EditorTrustedSection';
+import { useGetMyProfile } from '@/entities/archiver/profile/queries/useGetMyProfile';
 
 export const ArchiverHomePage = (): React.ReactElement => {
   const [searchedText, setSearchedText] = useState<string>('');
+
+  const { data: myData, isLoading, isError } = useGetMyProfile({ useMock: true });
+
+  if (isLoading) return <div className="mb-5">로딩중...</div>;
+  if (isError) return <div className="mb-5">에러</div>;
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -23,7 +29,7 @@ export const ArchiverHomePage = (): React.ReactElement => {
                 아카이버
               </Badge>
             </div>
-            <div className="heading-24-bold">닉네임 닉네임님</div>
+            <div className="heading-24-bold">{myData?.data?.nickname}</div>
             <div className="body-14-regular text-primary-50">소중한 정보를 검색해보세요!</div>
           </div>
           <Image
