@@ -15,8 +15,18 @@ export interface IPlace {
   stats: IStats;
 }
 
+export interface IEditor {
+  editorId: string;
+  nickname: string;
+  instagramId: string;
+  instagramUrl: string;
+  introduction: string;
+  hashtags: string[];
+  profileImageUrl: string;
+}
+
 export interface IMyFollowsResponse {
-  places: IPlace[];
+  editors: IEditor[];
 }
 
 export interface IEditorsTrustedResponse {

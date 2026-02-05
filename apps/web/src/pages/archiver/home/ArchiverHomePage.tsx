@@ -17,6 +17,7 @@ export const ArchiverHomePage = (): React.ReactElement => {
   const { data: myData, isLoading, isError } = useGetMyProfile({ useMock: true });
 
   if (isLoading) return <div className="mb-5">로딩중...</div>;
+  
   if (isError) return <div className="mb-5">에러</div>;
 
   return (
