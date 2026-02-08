@@ -16,7 +16,7 @@ export const errorInterceptor = async (error: KyHttpError) => {
 };
 
 export const clientApi = ky.create({
-  prefixUrl: process.env.NEXT_PUBLIC_API_URL + '/api',
+  prefixUrl: process.env.NEXT_PUBLIC_API_URL + '/api/v1',
   timeout: 10000,
   credentials: 'include',
   hooks: {
