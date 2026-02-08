@@ -38,7 +38,7 @@ export const RoleSelectSection = () => {
   };
 
   return (
-    <div className="pt-11.5 flex h-full flex-col">
+    <div className="pt-11.5 flex justify-between h-full flex-col">
       <div className="flex flex-col h-full gap-4">
         {/* 에디터 */}
         <Card selected={role === 'EDITOR'} onClick={() => setRole('EDITOR')} className="p-5">
@@ -82,13 +82,13 @@ export const RoleSelectSection = () => {
         </Card>
       </div>
 
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center mb-4">
         <Button
           variant={buttonVariant}
           onClick={handleNext}
           className={[
             'w-full body-16-semibold',
-            role ? 'bg-neutral-90 text-white' : 'bg-neutral-10 text-neutral-40',
+            role ? '' : 'bg-neutral-20 text-neutral-40 border-none',
           ].join(' ')}
         >
           {buttonLabel}

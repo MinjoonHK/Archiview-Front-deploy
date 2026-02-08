@@ -12,4 +12,7 @@ export const AUTH_ENDPOINTS = {
     archiver: `${BASE}/test/archiver`,
     editor: `${BASE}/test/editor`,
   },
+  users: {
+    onboarding: `${BASE}/users/onboarding`,
+  },
 } as const;
