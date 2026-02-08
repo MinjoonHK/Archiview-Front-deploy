@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 
 import { Card } from '@/shared/ui/common/Card/Card';
 import { Button } from '@/shared/ui/button';
+import { authPost } from '@/entities/auth/api/auth-post';
 
 type Role = 'EDITOR' | 'ARCHIVER';
 
@@ -20,19 +21,23 @@ export const RoleSelectSection = () => {
       : '아카이버로 가입하기'
     : '가입하기';
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (!role) return;
 
     switch (role) {
-      case 'ARCHIVER':
-        router.push(`/register-finish?role=${role}`);
+      case 'ARCHIVER': {
+        try {
+          await authPost.register({ role });
+          router.push(`/register-finish?role=${role}`);
+        } catch (e) {
+          // TODO: 토스트/에러 처리
+          console.error(e);
+        }
         break;
+      }
 
       case 'EDITOR':
         router.push('/term-agree-editor');
-        break;
-
-      default:
         break;
     }
   };
