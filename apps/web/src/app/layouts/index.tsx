@@ -25,7 +25,7 @@ export function RootLayout({ children }: { children: React.ReactNode }): React.R
         <MSWProvider>
           <QueryProvider>{children}</QueryProvider>
         </MSWProvider>
-        <Toaster position="bottom-right" />
+        <Toaster position="top-left" richColors className="toaster-within-content" />
       </body>
     </html>
   );

@@ -160,3 +160,15 @@ body {
   overscroll-behavior: none; /* 모바일 당겨서 새로고침 방지 */
   touch-action: none; /* 기본 스크롤/줌 제스처 차단 */
 }
+
+/* Toaster를 콘텐츠 영역(max-width) 안의 오른쪽 아래에 맞춤 */
+.toaster-within-content {
+  transform: translateX(50%);
+  width: 100%;
+  max-width: var(--max-width);
+  pointer-events: none;
+}
+
+.toaster-within-content > * {
+  pointer-events: auto;
+}

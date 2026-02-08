@@ -3,6 +3,8 @@ import { EDITOR_ENDPOINTS } from '@/shared/constants/endpoints/editor/EditorEndp
 import {
   ICreateEditorPostRequest,
   ICreateEditorPostResponseDTO,
+  IEditEditorPostRequest,
+  IEditEditorPostResponseDTO,
   IEditorGetPresignedUrlResponseDTO,
   IGetEditorPresignedUrlRequest,
 } from '../model/editorPlace.type';
@@ -14,6 +16,16 @@ export const editorPlacePost = {
     const response = await clientApi
       .post(EDITOR_ENDPOINTS.posts, { json: body })
       .json<ICreateEditorPostResponseDTO>();
+    return response;
+  },
+
+  editPosts: async (
+    postId: number,
+    body: IEditEditorPostRequest,
+  ): Promise<IEditEditorPostResponseDTO> => {
+    const response = await clientApi
+      .put(EDITOR_ENDPOINTS.me.postsDetail(postId), { json: body })
+      .json<IEditEditorPostResponseDTO>();
     return response;
   },
 

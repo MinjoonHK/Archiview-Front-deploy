@@ -68,7 +68,6 @@ export interface IPlaceInfo {
 
 export interface IPlaceInfoRequest {
   placeName: string;
-  name: string;
   description: string;
   addressName: string;
   roadAddressName: string;
@@ -114,6 +113,12 @@ export interface ICreateEditorPostPlaceInfoResponse {
   placeInfoResponseList: IPlaceInfo[];
 }
 
+export interface IEditEditorPostRequest extends ICreateEditorPostRequest {}
+
+export interface IEditEditorPostPlaceInfoResponse {
+  postId: number;
+}
+
 export interface IGetEditorPresignedUrlRequest {
   filename: string;
   contentType: string;
@@ -143,6 +148,9 @@ export type IEditorMeUploadedPlaceListResponseDTO = ApiResponse<IEditorMeUploade
 
 // 에디터 게시글 생성
 export type ICreateEditorPostResponseDTO = ApiResponse<ICreateEditorPostPlaceInfoResponse>;
+
+// 에디터 게시글 수정
+export type IEditEditorPostResponseDTO = ApiResponse<ICreateEditorPostPlaceInfoResponse>;
 
 // 에디터 게시글 생성 전 업로드 URL 조회
 export type IEditorGetPresignedUrlResponseDTO = ApiResponse<IEditorPresignedUrlResponse>;
