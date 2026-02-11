@@ -12,5 +12,6 @@ export const AUTH_ENDPOINTS = {
   },
   users: {
     onboarding: `users/onboarding`,
+    switchRole: `users/switch-role`,
   },
 } as const;

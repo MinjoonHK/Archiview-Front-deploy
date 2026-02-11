@@ -1,7 +1,11 @@
 import { clientApi } from '@/shared/lib/api/client';
 import { AUTH_ENDPOINTS } from '@/shared/constants/endpoints/auth/AuthEndpoints';
 
-import { IRegisterRequestDTO, IRegisterResponeDTO } from '../model/auth.type';
+import {
+  IRegisterRequestDTO,
+  IRegisterResponeDTO,
+  ISwitchRoleResponseDTO,
+} from '../model/auth.type';
 
 export const authPost = {
   // 회원가입 (온보딩 완료)
@@ -9,6 +13,14 @@ export const authPost = {
     const response = await clientApi
       .post(`${AUTH_ENDPOINTS.users.onboarding}`, { json: { role } })
       .json<IRegisterResponeDTO>();
+
+    return response;
+  },
+
+  changeRole: async ({ role }: IRegisterRequestDTO): Promise<ISwitchRoleResponseDTO> => {
+    const response = await clientApi
+      .post(`${AUTH_ENDPOINTS.users.switchRole}`, { json: { role } })
+      .json<ISwitchRoleResponseDTO>();
 
     return response;
   },

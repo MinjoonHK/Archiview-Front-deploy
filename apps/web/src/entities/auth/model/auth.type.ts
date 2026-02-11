@@ -1,6 +1,6 @@
 import { ApiResponse } from '@/shared/lib/api/common';
 
-type Role = 'EDITOR' | 'ARCHIVER';
+type Role = 'EDITOR' | 'ARCHIVER' | 'GUEST';
 export interface IRegisterRequestDTO {
   role: Role;
 }
@@ -13,6 +13,11 @@ export interface IUserType {
   email: string;
 }
 
+export interface ISwitchRoleResponse {
+  accessToken: string;
+  role: Role;
+}
+
 export type IRegisterResponeDTO = ApiResponse<Record<string, never>>;
 
 // 현재 사용자 조회
@@ -20,3 +25,5 @@ export type IUserResponseDTO = ApiResponse<IUserType>;
 
 // 로그아웃
 export type ILogoutResponseDTO = ApiResponse<Record<string, never>>;
+
+export type ISwitchRoleResponseDTO = ApiResponse<ISwitchRoleResponse>;
