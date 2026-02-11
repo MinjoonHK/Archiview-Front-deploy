@@ -29,7 +29,7 @@ export interface IPostPlace {
 }
 
 export interface IPlaceDetailResponse {
-  places: IPlaceDetail[];
+  place: IPlaceDetail;
   postPlaces: IPostPlace[];
 }
 

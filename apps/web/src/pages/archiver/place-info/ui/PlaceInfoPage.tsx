@@ -8,19 +8,24 @@ import { InfoSection } from './InfoSection';
 import { CardSection } from './CardSection';
 
 export const PlaceInfoPage = ({ placeId }: { placeId: number }) => {
-  const { data, isLoading, error } = useGetPlaceDetail({
+  const {
+    data: placeDetailData,
+    isLoading,
+    error,
+  } = useGetPlaceDetail({
     placeId,
     useMock: true,
   });
-
-  console.log(data);
-
+  console.log(placeDetailData);
   return (
     <div className="h-screen flex flex-col">
       <div className="flex-1 overflow-auto scroll-none">
         <BackButtonHeader title="" />
-        <RoundedHeaderSection />
-        <InfoSection />
+        <RoundedHeaderSection place={placeDetailData?.data?.place} />
+        <InfoSection
+          place={placeDetailData?.data?.place}
+          recordNumber={placeDetailData?.data?.postPlaces.length}
+        />
         <CardSection />
       </div>
       <div className="shrink-0"></div>

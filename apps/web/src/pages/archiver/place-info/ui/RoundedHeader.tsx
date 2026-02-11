@@ -4,7 +4,23 @@ import { EyeIcon } from '@/shared/ui/icon/place-info/EyleIcon';
 import { FolderIcon } from '@/shared/ui/icon/place-info/FolderIcon';
 import Image from 'next/image';
 
-export const RoundedHeaderSection = () => {
+interface IPlaceDetail {
+  placeId: number;
+  name: string;
+  placeUrl: string;
+  phoneNumber: string;
+  addressName: string;
+  roadAddressName: string;
+  latitude: number;
+  longitude: number;
+  nearestStationWalkTime: string;
+  viewCount: number;
+  saveCount: number;
+  instagramInflowCount: number;
+  directionCount: number;
+}
+
+export const RoundedHeaderSection = ({ place }: { place?: IPlaceDetail }) => {
   return (
     <section className="relative mb-[86px]">
       <div className="h-[196px] overflow-hidden">
@@ -32,22 +48,22 @@ export const RoundedHeaderSection = () => {
         <div className="flex justify-center items-center gap-2 w-full caption-12-regular text-primary-50">
           <div className="flex items-center gap-1 px-2">
             <FolderIcon className="text-primary-30" />
-            154
+            {place?.saveCount}
           </div>
           <div>|</div>
           <div className="flex items-center gap-1 px-2">
             <EyeIcon className="text-primary-30" />
-            5,678
+            {place?.viewCount}
           </div>
           <div>|</div>
           <div className="flex items-center gap-1 px-2">
             <CursorIcon className="text-primary-30" />
-            132
+            {place?.directionCount}
           </div>
           <div>|</div>
           <div className="flex items-center gap-1 px-2">
             <InstagramOutlineIcon className="text-primary-30" />
-            125
+            {place?.instagramInflowCount}
           </div>
         </div>
       </div>

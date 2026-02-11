@@ -13,6 +13,5 @@ export const useGetPlaceDetail = ({ placeId, useMock }: IParams) => {
   return useQuery({
     queryKey: archiverKeys.getPlaceDetail.applyFilters({ placeId, useMock }).queryKey,
     queryFn: () => archiverPlaceGet.getPlaceDetail({ placeId, useMock }),
-    enabled: Number.isFinite(placeId),
   });
 };
