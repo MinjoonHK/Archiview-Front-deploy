@@ -1,7 +1,9 @@
-import { PopularPlaceSection } from '@/widgets/editor/PopularPlaceSection';
+'use client';
 
 import { EditorTopBanner } from '../../../../widgets/editor/EditorTopBanner';
 import { EditorInsight } from '../../../../features/editor/ui/EditorInsight';
+
+import { PopularPlaceSection } from './PopularPlaceSection';
 
 export const EditorHomePage = () => {
   return (
