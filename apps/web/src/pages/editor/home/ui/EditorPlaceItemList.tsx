@@ -1,5 +1,5 @@
 import { IEditorHomeResponseDTO } from '@/entities/editor/home/model/editorHome.type';
-import { EditorPlaceItem } from './EditorPlaceItem';
+import { EditorPlaceItem } from '@/entities/editor/place/ui/EditorPlaceItem';
 import Link from 'next/link';
 
 export const EditorPlaceItemList = ({

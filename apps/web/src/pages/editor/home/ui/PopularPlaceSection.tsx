@@ -1,4 +1,4 @@
-import { PlaceOptionTabs } from './PlaceOptionTabs';
+import { PlaceOptionTabs } from '@/features/editor/ui/PlaceOptionTabs';
 import { EditorPlaceItemList } from './EditorPlaceItemList';
 import { IEditorHomeResponseDTO } from '@/entities/editor/home/model/editorHome.type';
 
