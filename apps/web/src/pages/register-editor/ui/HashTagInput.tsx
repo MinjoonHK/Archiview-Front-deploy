@@ -1,119 +1,9 @@
-'use client';
-
 import { useCallback, useMemo, useState } from 'react';
 
 import { cn } from '@/shared/lib/cn';
 import { BoxInput } from '@/shared/ui/common/Input/BoxInput';
 import { Button } from '@/shared/ui/button';
 import { XIcon } from '@/shared/ui/icon';
-
-interface INickNameInputProps {
-  value: string;
-  onChange: (value: string) => void;
-  onCheckDuplicate: () => void;
-  disabledCheck?: boolean;
-  className?: string;
-}
-
-export const NickNameInput = ({
-  value,
-  onChange,
-  onCheckDuplicate,
-  disabledCheck,
-  className,
-}: INickNameInputProps) => {
-  return (
-    <div className={cn('flex gap-3 items-center', className)}>
-      <BoxInput className="flex-1" state="default">
-        <input
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          placeholder="프로필 닉네임을 입력해주세요 (6자 이내)"
-        />
-      </BoxInput>
-
-      <Button
-        onClick={onCheckDuplicate}
-        disabled={disabledCheck}
-        className="w-18.5 h-12 rounded-xl px-0 bg-primary-40 text-white body-14-semibold disabled:bg-neutral-30"
-      >
-        중복확인
-      </Button>
-    </div>
-  );
-};
-
-interface IIntroductionInputProps {
-  value: string;
-  onChange: (value: string) => void;
-  className?: string;
-}
-
-export const IntroductionInput = ({ value, onChange, className }: IIntroductionInputProps) => {
-  return (
-    <div className={cn('flex gap-3 items-center', className)}>
-      <BoxInput className="flex-1" state="default">
-        <input
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          placeholder="한줄로 당신을 소개해주세요. (50자 이내)"
-        />
-      </BoxInput>
-    </div>
-  );
-};
-
-export const InstagramInput = ({
-  value,
-  onChange,
-  onCheckDuplicate,
-  className,
-}: INickNameInputProps) => {
-  return (
-    <div className={cn('flex gap-3 items-center', className)}>
-      <BoxInput className="flex-1" state="default">
-        <input
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          placeholder="프로필 이름을 입력해주세요"
-        />
-      </BoxInput>
-
-      <Button
-        onClick={onCheckDuplicate}
-        className="w-18.5 h-12 rounded-xl px-0 bg-primary-40 text-white body-14-semibold disabled:bg-neutral-30"
-      >
-        입력
-      </Button>
-    </div>
-  );
-};
-
-export const InstagramUrlInput = ({
-  value,
-  onChange,
-  onCheckDuplicate,
-  className,
-}: INickNameInputProps) => {
-  return (
-    <div className={cn('flex gap-3 items-center', className)}>
-      <BoxInput className="flex-1" state="default">
-        <input
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          placeholder="인스타그램 프로필 링크를 입력해주세요."
-        />
-      </BoxInput>
-
-      <Button
-        onClick={onCheckDuplicate}
-        className="w-18.5 h-12 rounded-xl px-0 bg-primary-40 text-white body-14-semibold disabled:bg-neutral-30"
-      >
-        입력
-      </Button>
-    </div>
-  );
-};
 
 interface IHashTagChipProps {
   label: string;
@@ -178,7 +68,7 @@ export const HashTagInputRow = ({
   );
 };
 
-interface IHashTagFieldProps {
+interface IHashTagInputProps {
   value: string[];
   onChange: (next: string[]) => void;
   max?: number;
@@ -195,7 +85,7 @@ const normalizeTag = (raw: string) => {
   return `#${noHash}`;
 };
 
-export const HashTagField = ({ value, onChange, max = 2, className }: IHashTagFieldProps) => {
+export const HashTagInput = ({ value, onChange, max = 2, className }: IHashTagInputProps) => {
   const [input, setInput] = useState('');
 
   const canAdd = useMemo(() => value.length < max, [value.length, max]);
