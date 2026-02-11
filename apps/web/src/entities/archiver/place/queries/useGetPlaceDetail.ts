@@ -9,9 +9,10 @@ interface IParams {
   useMock?: boolean;
 }
 
-export const useGetPlaceDetail = (params: IParams) => {
+export const useGetPlaceDetail = ({ placeId, useMock }: IParams) => {
   return useQuery({
-    queryKey: archiverKeys.getPlaceDetail.applyFilters(params).queryKey,
-    queryFn: () => archiverPlaceGet.getPlaceDetail(params),
+    queryKey: archiverKeys.getPlaceDetail.applyFilters({ placeId, useMock }).queryKey,
+    queryFn: () => archiverPlaceGet.getPlaceDetail({ placeId, useMock }),
+    enabled: Number.isFinite(placeId),
   });
 };

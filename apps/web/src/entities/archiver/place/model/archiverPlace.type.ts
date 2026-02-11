@@ -3,13 +3,17 @@ import type { ApiResponse } from '@/shared/lib/api/common';
 export interface IPlaceDetail {
   placeId: number;
   name: string;
-  roadAddress: string;
-  detailAddress: string;
-  zipCode: string;
+  placeUrl: string;
+  phoneNumber: string;
+  addressName: string;
+  roadAddressName: string;
   latitude: number;
   longitude: number;
   nearestStationWalkTime: string;
   viewCount: number;
+  saveCount: number;
+  instagramInflowCount: number;
+  directionCount: number;
 }
 
 export interface IPostPlace {
@@ -20,6 +24,8 @@ export interface IPostPlace {
   description: string;
   imageUrl: string;
   categoryNames: string[];
+  editorName: string;
+  editorInstagramId: string;
 }
 
 export interface IPlaceDetailResponse {

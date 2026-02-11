@@ -9,8 +9,8 @@ export const archiverPlaceGet = {
     useMock?: boolean;
   }): Promise<IPlaceDetailResponseDTO> => {
     const response = await clientApi
-      .get(`${ARCHIVER_ENDPOINTS.places.placeDetail}`, {
-        searchParams: { placeId: params.placeId, useMock: params?.useMock ?? false },
+      .get(`${ARCHIVER_ENDPOINTS.places.placeDetail(params.placeId)}`, {
+        searchParams: { useMock: params?.useMock ?? false },
       })
       .json<IPlaceDetailResponseDTO>();
     return response;
