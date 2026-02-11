@@ -1,21 +1,10 @@
-import Script from 'next/script';
 import type { Metadata } from 'next';
 
 import '@/shared/styles/globals.css';
 
 import { QueryProvider } from '../providers/QueryProvider';
-
-const KAKAO_KEY = process.env.NEXT_PUBLIC_KAKAO_MAP_KEY;
-
-if (!KAKAO_KEY) {
-  throw new Error('NEXT_PUBLIC_KAKAO_MAP_KEY is missing');
-}
-
-const KAKAO_SDK_URL =
-  `//dapi.kakao.com/v2/maps/sdk.js` +
-  `?appkey=${KAKAO_KEY}` +
-  `&libraries=services` +
-  `&autoload=false`;
+import { KakaoMapScript } from '@/shared/lib/map/KakaoMapScript';
+import { Toaster } from 'sonner';
 
 export const metadata: Metadata = {
   title: 'Archiview',
@@ -31,8 +20,9 @@ export function RootLayout({ children }: { children: React.ReactNode }): React.R
   return (
     <html lang="en">
       <body>
-        <Script id="kakao-map-sdk" src={KAKAO_SDK_URL} strategy="beforeInteractive" />
-        <QueryProvider>{children}</QueryProvider>
+        <KakaoMapScript />
+          <QueryProvider>{children}</QueryProvider>
+        <Toaster position="top-left" richColors className="toaster-within-content" />
       </body>
     </html>
   );

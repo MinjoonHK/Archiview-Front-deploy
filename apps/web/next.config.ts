@@ -3,7 +3,7 @@ import type { NextConfig } from 'next';
 /** @type {import('next').NextConfig} */
 
 const nextConfig: NextConfig = {
-  /* config options here */
+
   images: {
     remotePatterns: [
       {
@@ -12,6 +12,22 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       },
     ],
+  },
+
+  turbopack: {
+    resolveAlias: {
+      '@': './src/*',
+    },
+  },
+  async rewrites() {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+    if (!apiUrl) return [];
+    return [
+      {
+        source: '/api/v1/:path*',
+        destination: `/api/v1/:path*`,
+      },
+    ];
   },
 };
 
