@@ -31,6 +31,10 @@ export const RegisterEditorPage = () => {
   const [hashtags, setHashtags] = useState<string[]>([]);
   const [isChecked, setIsChecked] = useState(false);
 
+  const [isNicknameDisabled, setIsNicknameDisabled] = useState(false);
+  const [isInstagramIdDisabled, setIsInstagramIdDisabled] = useState(false);
+  const [isInstagramUrlDisabled, setIsInstagramUrlDisabled] = useState(false);
+
   const [isFinishModalOpen, setIsFinishModalOpen] = useState(false);
 
   const { getPresignedUrl } = useEditorGetPresignedUrl();
@@ -67,7 +71,7 @@ export const RegisterEditorPage = () => {
 
     e.target.value = '';
   };
-
+  console.log(hashtags)
   const payload = useMemo(
     () => ({
       profileImageUrl,
@@ -81,21 +85,36 @@ export const RegisterEditorPage = () => {
   );
 
   const isSubmitEnabled = useMemo(() => {
-    const hasProfileImage = !!profileImageUrl; // 이미지 필수로 볼 거면 이렇게
+    const hasProfileImage = !!profileImageUrl;
     const hasNickname = nickname.trim().length > 0;
-    const hasIntroduction = introduction.trim().length <= 50;
+    const hasIntroduction = introduction.trim().length <= 50 && introduction.trim().length > 0;
     const hasInstagramId = instagramId.trim().length > 0;
     const hasInstagramUrl = instagramUrl.trim().length > 0;
     const hasHashtags = hashtags.length === 2;
+
+    const allRequiredInputsDisabled =
+      isNicknameDisabled && isInstagramIdDisabled && isInstagramUrlDisabled;
+
     return (
       hasProfileImage &&
       hasNickname &&
       hasInstagramId &&
       hasInstagramUrl &&
       hasHashtags &&
-      hasIntroduction
+      hasIntroduction &&
+      allRequiredInputsDisabled
     );
-  }, [profileImageUrl, nickname, instagramId, instagramUrl]);
+  }, [
+    profileImageUrl,
+    nickname,
+    introduction,
+    instagramId,
+    instagramUrl,
+    hashtags,
+    isNicknameDisabled,
+    isInstagramIdDisabled,
+    isInstagramUrlDisabled,
+  ]);
 
   const handleSubmit = () => {
     if (!isSubmitEnabled) return;
@@ -153,6 +172,7 @@ export const RegisterEditorPage = () => {
             value={nickname}
             onChange={setNickname}
             disabledCheck={!nickname || nickname.length > 6}
+            onDisabledChange={setIsNicknameDisabled}
           />
         </div>
 
@@ -169,7 +189,11 @@ export const RegisterEditorPage = () => {
             <p className="body-14-semibold">인스타그램 아이디</p>
             <p className="caption-12-medium text-primary-40">*필수</p>
           </div>
-          <InstagramIdInput value={instagramId} onChange={setInstagramId} />
+          <InstagramIdInput
+            value={instagramId}
+            onChange={setInstagramId}
+            onDisabledChange={setIsInstagramIdDisabled}
+          />
         </div>
 
         <div>
@@ -177,7 +201,11 @@ export const RegisterEditorPage = () => {
             <p className="body-14-semibold">인스타그램 URL</p>
             <p className="caption-12-medium text-primary-40">*필수</p>
           </div>
-          <InstagramUrlInput value={instagramUrl} onChange={setInstagramUrl} />
+          <InstagramUrlInput
+            value={instagramUrl}
+            onChange={setInstagramUrl}
+            onDisabledChange={setIsInstagramUrlDisabled}
+          />
         </div>
 
         <div>
