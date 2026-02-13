@@ -5,6 +5,7 @@ import { Badge } from '@/shared/ui/Badge';
 import { Card } from '@/shared/ui/common/Card';
 import { DotThreeIcon, ProfileAddIcon } from '@/shared/ui/icon';
 import { useFollowEditor } from '@/entities/archiver/follow/mutation/useFollowEditor';
+import { useBlockEditor } from '@/entities/archiver/report/mutation/useBlockEditor';
 
 import { ReportBottomSheetModal } from './ReportBottomSheetModal';
 import { ReportModal, BlockModal } from './ReportModal';
@@ -26,8 +27,10 @@ interface IEditorProfileCardProps {
 export const EditorProfileCard = ({ editorId, editorData }: IEditorProfileCardProps) => {
   const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
   const [reportModalOpen, setReportModalOpen] = useState(false);
+  const [blockModalOpen, setBlockModalOpen] = useState(false);
 
   const { followEditor } = useFollowEditor();
+  const { blockEditor } = useBlockEditor();
 
   const stripHash = (tag?: string) => (tag ?? '').trim().replace(/^#/, '');
 
@@ -119,6 +122,7 @@ export const EditorProfileCard = ({ editorId, editorData }: IEditorProfileCardPr
           open={bottomSheetOpen}
           setOpen={setBottomSheetOpen}
           setReportModalOpen={setReportModalOpen}
+          setBlockModalOpen={setBlockModalOpen}
         />
       )}
 
@@ -127,19 +131,20 @@ export const EditorProfileCard = ({ editorId, editorData }: IEditorProfileCardPr
         onCancel={() => {
           setReportModalOpen(false);
         }}
-        // TODO : api 연동하기
+        // TODO : 신고 폼 연동
         onConfirm={() => {
           setReportModalOpen(false);
         }}
       />
       <BlockModal
-        isOpen={reportModalOpen}
+        isOpen={blockModalOpen}
         onCancel={() => {
-          setReportModalOpen(false);
+          setBlockModalOpen(false);
         }}
         // TODO : api 연동하기
         onConfirm={() => {
-          setReportModalOpen(false);
+          blockEditor({ editorId: editorId });
+          setBlockModalOpen(false);
         }}
         editorName={'에디터 닉네임'}
       />

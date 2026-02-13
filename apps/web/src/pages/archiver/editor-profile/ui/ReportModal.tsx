@@ -96,7 +96,7 @@ export const BlockModal = ({
             type="button"
             onClick={onCancel}
             className={cn(
-              'h-10 rounded-xl bg-neutral-100 text-[14px] font-medium text-neutral-500',
+              'h-10 rounded-xl bg-neutral-30 text-[14px] font-medium text-neutral-500',
               'hover:bg-neutral-200 active:bg-neutral-200',
               'disabled:cursor-not-allowed disabled:opacity-60',
             )}

@@ -6,12 +6,14 @@ interface IReportBottomSheetModalProps {
   open: boolean;
   setOpen: (open: boolean) => void;
   setReportModalOpen: (open: boolean) => void;
+  setBlockModalOpen: (open: boolean) => void;
 }
 
 export const ReportBottomSheetModal = ({
   open,
   setOpen,
   setReportModalOpen,
+  setBlockModalOpen,
 }: IReportBottomSheetModalProps) => {
   return (
     <>
@@ -28,7 +30,7 @@ export const ReportBottomSheetModal = ({
             <br />
             선택해주세요.
           </p>
-          <div className='flex flex-col'>
+          <div className="flex flex-col">
             <button
               onClick={() => {
                 console.log('Dfdfdf');
@@ -42,7 +44,7 @@ export const ReportBottomSheetModal = ({
             </button>
             <button
               onClick={() => {
-                setReportModalOpen(true);
+                setBlockModalOpen(true);
                 setOpen(false);
               }}
             >
