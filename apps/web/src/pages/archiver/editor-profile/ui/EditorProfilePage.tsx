@@ -7,7 +7,9 @@ import { BottomSheet } from '@/shared/ui/common/BottomSheet/BottomSheet';
 import { CategoryOptionTabs } from '@/pages/editor/profile/CategoryOptionTabs';
 import { HamburgerIcon } from '@/shared/ui/icon/HamburgerIcon';
 import { useGetEditorProfile } from '@/entities/archiver/profile/queries/useGetEditorProfile';
+import { useGetEditorPlaceList } from '@/entities/archiver/profile/queries/useGetEditorPlaceList';
 
+import { ArchiverPlaceItem } from '../../my-archive/ui/ArchiverPlaceItem';
 import { EditorProfileCard } from './EditorProfileCard';
 
 export type CategoryTab =
@@ -28,10 +30,33 @@ export const EditorProfilePage = ({ editorId }: { editorId: string }) => {
 
   const { data: editorData } = useGetEditorProfile({
     editorId,
-    useMock: true
+    useMock: true,
   });
 
-  console.log(editorData);
+  const {
+    data: placeListData,
+    isLoading,
+    isError,
+  } = useGetEditorPlaceList({
+    userId: editorId,
+    sort: 'LATEST',
+    useMock: true,
+  });
+
+  const places = placeListData?.data?.postPlaces ?? [];
+
+  const filteredPlaces = useMemo(() => {
+    if (category === 'ALL') return places;
+
+    // NEAR는 지금 지도 기반 로직이 없으니 일단 전체 반환(또는 빈 배열)
+    if (category === 'NEAR') return places;
+
+    return places.filter((p: any) => {
+      // p.categoryNames가 string[]이라고 가정
+      return Array.isArray(p.categoryNames) && p.categoryNames.includes(category);
+    });
+  }, [places, category]);
+
   return (
     <div className="flex h-full flex-col min-h-0">
       <div className="px-5">
@@ -56,15 +81,15 @@ export const EditorProfilePage = ({ editorId }: { editorId: string }) => {
               </p>
               <HamburgerIcon />
             </div>
-            {/* {filteredPlaces.map((p) => (
+            {filteredPlaces.map((p) => (
               <ArchiverPlaceItem
-                key={p.id}
-                name={p.title}
+                key={p.postPlaceId}
+                name={p.placeName}
                 description={p.description}
-                savedCount={p.savedCount}
+                savedCount={p.saveCount}
                 viewCount={p.viewCount}
               />
-            ))} */}
+            ))}
           </div>
         </BottomSheet>
       </div>
