@@ -25,6 +25,15 @@ export interface IEditor {
   profileImageUrl: string;
 }
 
+export interface IEditorProfile {
+  nickname: string;
+  instagramId: string;
+  instagramUrl: string;
+  introduction: string;
+  hashtags: string[];
+  profileImageUrl: string;
+}
+
 export interface IMyFollowsResponse {
   editors: IEditor[];
 }
@@ -47,3 +56,6 @@ export type IMyFollowsResponseDTO = ApiResponse<IMyFollowsResponse>;
 
 // 믿고 먹는 에디터 조회
 export type IEditorsTrustedResponseDTO = ApiResponse<IEditorsTrustedResponse>;
+
+// 에디터 프로필 조회
+export type IEditorProfileResponseDTO = ApiResponse<IEditorProfile>;

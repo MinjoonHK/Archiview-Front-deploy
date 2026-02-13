@@ -6,6 +6,7 @@ import { KakaoMap } from '@/shared/ui/KakaoMap';
 import { BottomSheet } from '@/shared/ui/common/BottomSheet/BottomSheet';
 import { CategoryOptionTabs } from '@/pages/editor/profile/CategoryOptionTabs';
 import { HamburgerIcon } from '@/shared/ui/icon/HamburgerIcon';
+import { useGetEditorProfile } from '@/entities/archiver/profile/queries/useGetEditorProfile';
 
 import { EditorProfileCard } from './EditorProfileCard';
 
@@ -31,11 +32,17 @@ interface IPlace {
   category: CategoryTab;
 }
 
-export const EditorProfilePage = () => {
+export const EditorProfilePage = ({ editorId }: { editorId: string }) => {
   const [open, setOpen] = useState(false);
   const [category, setCategory] = useState<CategoryTab>('ALL');
   const [selectedPlaceId, setSelectedPlaceId] = useState<string | null>(null);
 
+  const { data: editorData } = useGetEditorProfile({
+    editorId,
+    useMock: true
+  });
+
+  console.log(editorData);
   return (
     <div className="flex h-full flex-col min-h-0">
       <div className="px-5">
@@ -44,7 +51,7 @@ export const EditorProfilePage = () => {
       <CategoryOptionTabs value={category} onChange={setCategory} />
 
       <div className="flex-1 min-h-0 pt-6">
-      {/* <div className="h-100 pt-6"> */}
+        {/* <div className="h-100 pt-6"> */}
         <KakaoMap
           lat={37.5665}
           lng={126.978}

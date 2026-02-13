@@ -1,4 +1,5 @@
 import { createQueryKeyStore } from '@lukemorales/query-key-factory';
+import { param } from 'framer-motion/client';
 
 export const archiverKeys = createQueryKeyStore({
   /**
@@ -77,6 +78,19 @@ export const archiverKeys = createQueryKeyStore({
     all: null,
     applyFilters: (params?: { size?: number; useMock?: boolean }) => [
       params?.size ?? 10,
+      params?.useMock ?? false,
+    ],
+  },
+
+  /**
+   * @param {{editorId: string}} params
+   * @description 에디터 프로필 조회용 쿼리키
+   * @returns ['getEditorProfile', 'applyFilters', editorId]
+   */
+  getEditorProfile: {
+    all: null,
+    applyFilters: (params: { editorId: string; useMock?: boolean }) => [
+      params.editorId,
       params?.useMock ?? false,
     ],
   },

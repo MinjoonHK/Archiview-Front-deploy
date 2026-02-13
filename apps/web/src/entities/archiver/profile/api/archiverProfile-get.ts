@@ -5,6 +5,7 @@ import type {
   IArchiverMyProfileResponseDTO,
   IEditorsTrustedResponseDTO,
   IMyFollowsResponseDTO,
+  IEditorProfileResponseDTO,
 } from '../model/archiverProfile.type';
 
 export const archiverProfileGet = {
@@ -35,6 +36,18 @@ export const archiverProfileGet = {
         searchParams: { useMock: params?.useMock ?? false },
       })
       .json<IMyFollowsResponseDTO>();
+    return response;
+  },
+
+  getEditorProfile: async (params: {
+    editorId: string;
+    useMock?: boolean;
+  }): Promise<IEditorProfileResponseDTO> => {
+    const response = await clientApi
+      .get(`archivers/editors/${params.editorId}/profile`, {
+        searchParams: { useMock: params?.useMock ?? false },
+      })
+      .json<IEditorProfileResponseDTO>();
     return response;
   },
 };

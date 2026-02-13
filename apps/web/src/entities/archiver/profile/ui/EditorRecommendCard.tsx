@@ -14,7 +14,7 @@ export const EditorRecommendCard = ({ editor }: IEditorRecommendCardProps) => {
 
   return (
     // TODO : 라우팅 연결하기
-    <Link href={`/`} className="block shrink-0">
+    <Link href={`/archiver/editor-profile/${editor.editorId}`} className="block shrink-0">
       <Card className="shrink-0 h-52 w-46 shadow-default overflow-hidden border-none">
         <div className="relative w-full shrink-0 overflow-hidden" style={{ height: '99px' }}>
           <Image
