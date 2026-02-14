@@ -32,6 +32,20 @@ import { openInAppBrowser } from '@/shared/lib/native-bridge';
 await openInAppBrowser('https://archiview.space/');
 ```
 
+### 위치 정보 가져오기(web -> native)
+
+```ts
+import { getCurrentLocation } from '@/shared/lib/native-bridge';
+
+const location = await getCurrentLocation();
+if (!location) {
+  // 권한 거부/미지원
+  return;
+}
+
+console.log(location.coords.latitude, location.coords.longitude);
+```
+
 ### 네이티브 -> 웹 이벤트 구독
 
 ```ts

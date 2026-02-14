@@ -1,8 +1,9 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-
+import { getCurrentLocation } from '@/shared/lib/native-bridge/nativeMethods.client';
+import type { GeoLocation } from '@archiview/webview-bridge-contract';
 import { KakaoMap } from '@/shared/ui/KakaoMap';
 import { BottomSheet } from '@/shared/ui/common/BottomSheet/BottomSheet';
 import { CategoryOptionTabs } from '@/pages/editor/profile/CategoryOptionTabs';
@@ -39,8 +40,16 @@ export const MyArchivePageInner = () => {
   const [open, setOpen] = useState(false);
   const [category, setCategory] = useState<CategoryTab>('ALL');
   const [selectedPlaceId, setSelectedPlaceId] = useState<string | null>(null);
-
+  const [location, setLocation] = useState<GeoLocation | null>(null);
   const { data, isLoading, isError } = useGetMyArchives({ useMock: false });
+
+  useEffect(() => {
+    const run = async () => {
+      const loc = await getCurrentLocation();
+      setLocation(loc);
+    };
+    run().catch(console.error);
+  }, []);
 
   const places: IPlace[] = useMemo(() => {
     const postPlaces = data?.data?.postPlaces ?? [];
@@ -79,7 +88,11 @@ export const MyArchivePageInner = () => {
   return (
     <div className="flex h-full flex-col min-h-0">
       <CategoryOptionTabs value={category} onChange={setCategory} />
-
+      <pre>
+        {location
+          ? JSON.stringify(location, null, 2)
+          : 'loading (or not in WebView / permission denied)'}
+      </pre>
       <div className="flex-1 min-h-0 pt-6">
         <KakaoMap
           lat={selectedPlace?.lat ?? 37.5665}

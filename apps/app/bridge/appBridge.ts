@@ -1,7 +1,9 @@
 import * as WebBrowser from 'expo-web-browser';
+import * as Location from 'expo-location';
+import { Linking } from 'react-native';
 
 import { bridge } from '@webview-bridge/react-native';
-import type { AppBridgeState } from '@archiview/webview-bridge-contract';
+import type { AppBridgeState, GeoLocation } from '@archiview/webview-bridge-contract';
 
 export const appBridge = bridge<AppBridgeState>(({ get, set }) => ({
   bridgeVersion: 1,
@@ -13,6 +15,34 @@ export const appBridge = bridge<AppBridgeState>(({ get, set }) => ({
 
   async openInAppBrowser(url: string) {
     await WebBrowser.openBrowserAsync(url);
+  },
+
+  async openAppSettings() {
+    await Linking.openSettings();
+  },
+
+  async getCurrentLocation(): Promise<GeoLocation | null> {
+    const { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted') {
+      return null;
+    }
+
+    const location = await Location.getCurrentPositionAsync({
+      accuracy: Location.Accuracy.Balanced,
+    });
+
+    return {
+      coords: {
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        accuracy: location.coords.accuracy ?? undefined,
+        altitude: location.coords.altitude ?? undefined,
+        altitudeAccuracy: location.coords.altitudeAccuracy ?? undefined,
+        heading: location.coords.heading ?? undefined,
+        speed: location.coords.speed ?? undefined,
+      },
+      timestamp: location.timestamp,
+    };
   },
 
   async setToken(token) {

@@ -1,6 +1,6 @@
 'use client';
 
-import type { NativeToken } from '@archiview/webview-bridge-contract';
+import type { GeoLocation, NativeToken } from '@archiview/webview-bridge-contract';
 
 import { nativeBridge } from './bridge.client';
 
@@ -23,6 +23,21 @@ export const openInAppBrowser = async (url: string): Promise<boolean> => {
   }
   await nativeBridge.openInAppBrowser(url);
   return true;
+};
+
+export const openAppSettings = async (): Promise<boolean> => {
+  if (!nativeBridge.isNativeMethodAvailable('openAppSettings')) {
+    return false;
+  }
+  await nativeBridge.openAppSettings();
+  return true;
+};
+
+export const getCurrentLocation = async (): Promise<GeoLocation | null> => {
+  if (!nativeBridge.isNativeMethodAvailable('getCurrentLocation')) {
+    return null;
+  }
+  return nativeBridge.getCurrentLocation();
 };
 
 export const setToken = async (token: NativeToken): Promise<boolean> => {

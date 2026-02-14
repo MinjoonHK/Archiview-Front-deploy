@@ -33,3 +33,19 @@
 
 - 하위호환을 위해 `getBridgeVersion()`을 유지하는 것을 권장한다.
 - 웹에서 네이티브 메서드 호출 시 `isWebViewBridgeAvailable` / `isNativeMethodAvailable`로 가드해야 한다.
+
+## 예시: 위치 정보 가져오기(web -> native)
+
+웹에서는 네이티브 메서드로 위치 정보를 요청할 수 있다.
+
+```ts
+import { getCurrentLocation } from '@/shared/lib/native-bridge';
+
+const location = await getCurrentLocation();
+if (!location) {
+  // 권한 거부/미지원
+  return;
+}
+
+console.log(location.coords.latitude, location.coords.longitude);
+```

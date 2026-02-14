@@ -5,6 +5,7 @@ export {
   getToken,
   isNativeMethodAvailable,
   isWebViewBridgeAvailable,
+  openAppSettings,
   openInAppBrowser,
   setToken,
 } from './nativeMethods.client';

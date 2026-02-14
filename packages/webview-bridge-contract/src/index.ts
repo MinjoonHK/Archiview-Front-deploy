@@ -2,12 +2,31 @@ import type { Bridge, BridgeStore } from '@webview-bridge/types';
 
 export type NativeToken = string | null;
 
+export type GeoCoordinates = {
+  latitude: number;
+  longitude: number;
+  accuracy?: number;
+  altitude?: number;
+  altitudeAccuracy?: number;
+  heading?: number;
+  speed?: number;
+};
+
+export type GeoLocation = {
+  coords: GeoCoordinates;
+  timestamp: number;
+};
+
 export interface AppBridgeState extends Bridge {
   bridgeVersion: number;
   token: NativeToken;
 
   getBridgeVersion(): Promise<number>;
   openInAppBrowser(url: string): Promise<void>;
+
+  openAppSettings(): Promise<void>;
+
+  getCurrentLocation(): Promise<GeoLocation | null>;
 
   setToken(token: NativeToken): Promise<void>;
   getToken(): Promise<NativeToken>;
