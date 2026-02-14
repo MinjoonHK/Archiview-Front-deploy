@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import '@/shared/styles/globals.css';
 
 import { QueryProvider } from '../providers/QueryProvider';
+import { NativeBridgeProvider } from '../providers/NativeBridgeProvider';
 import { KakaoMapScript } from '@/shared/lib/map/KakaoMapScript';
 import { Toaster } from 'sonner';
 
@@ -21,7 +22,9 @@ export function RootLayout({ children }: { children: React.ReactNode }): React.R
     <html lang="en">
       <body>
         <KakaoMapScript />
+        <NativeBridgeProvider>
           <QueryProvider>{children}</QueryProvider>
+        </NativeBridgeProvider>
         <Toaster position="top-center" richColors className="toaster-within-content" />
       </body>
     </html>

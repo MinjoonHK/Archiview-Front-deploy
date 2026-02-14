@@ -1,8 +1,9 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-
+import { getCurrentLocation } from '@/shared/lib/native-bridge/nativeMethods.client';
+import type { GeoLocation } from '@archiview/webview-bridge-contract';
 import { KakaoMap } from '@/shared/ui/KakaoMap';
 import { BottomSheet } from '@/shared/ui/common/BottomSheet/BottomSheet';
 import { CategoryOptionTabs } from '@/pages/editor/profile/CategoryOptionTabs';
@@ -24,6 +25,7 @@ export type CategoryTab =
 interface IPlace {
   id: string;
   title: string;
+  thumbnail: string;
   description: string;
   lat: number;
   lng: number;
@@ -32,14 +34,22 @@ interface IPlace {
   category: CategoryTab;
 }
 
-export const MyArchivePageInner = ({ initialPlaces }: { initialPlaces: IPlace[] }) => {
+export const MyArchivePageInner = () => {
   const router = useRouter();
 
   const [open, setOpen] = useState(false);
   const [category, setCategory] = useState<CategoryTab>('ALL');
   const [selectedPlaceId, setSelectedPlaceId] = useState<string | null>(null);
-
+  const [location, setLocation] = useState<GeoLocation | null>(null);
   const { data, isLoading, isError } = useGetMyArchives({ useMock: false });
+
+  useEffect(() => {
+    const run = async () => {
+      const loc = await getCurrentLocation();
+      setLocation(loc);
+    };
+    run().catch(console.error);
+  }, []);
 
   const places: IPlace[] = useMemo(() => {
     const postPlaces = data?.data?.postPlaces ?? [];
@@ -47,6 +57,7 @@ export const MyArchivePageInner = ({ initialPlaces }: { initialPlaces: IPlace[] 
     return postPlaces.map((p) => ({
       id: String(p.postPlaceId),
       title: p.placeName,
+      thumbnail: p.imageUrl,
       description: p.description ?? '',
       lat: 37.5665,
       lng: 126.978,
@@ -77,7 +88,11 @@ export const MyArchivePageInner = ({ initialPlaces }: { initialPlaces: IPlace[] 
   return (
     <div className="flex h-full flex-col min-h-0">
       <CategoryOptionTabs value={category} onChange={setCategory} />
-
+      <pre>
+        {location
+          ? JSON.stringify(location, null, 2)
+          : 'loading (or not in WebView / permission denied)'}
+      </pre>
       <div className="flex-1 min-h-0 pt-6">
         <KakaoMap
           lat={selectedPlace?.lat ?? 37.5665}
@@ -86,20 +101,31 @@ export const MyArchivePageInner = ({ initialPlaces }: { initialPlaces: IPlace[] 
           // TODO: 마커
         />
 
-        <BottomSheet isOpen={open} onOpenChange={setOpen} height={500} peekHeight={72}>
-          <div className="h-full px-5 pb-6 ">
-           
-            {filteredPlaces.map((p) => (
-              <ArchiverPlaceItem
-                key={p.id}
-                name={p.title}
-                description={p.description}
-                savedCount={p.savedCount}
-                viewCount={p.viewCount}
-                onClick={() => router.push(`/archiver/place-info/${p.id}`)}
-              />
-            ))}
-          </div>
+        <BottomSheet
+          isOpen={open}
+          onOpenChange={setOpen}
+          height={500}
+          peekHeight={72}
+          header={
+            <div className="px-5 pb-4 pt-2.5">
+              <p className="heading-20-bold">
+                내주변 <span className="text-primary-40 pl-1">{filteredPlaces.length}</span>
+              </p>
+            </div>
+          }
+          contentClassName="overflow-y-auto px-0 pb-6"
+        >
+          {filteredPlaces.map((p) => (
+            <ArchiverPlaceItem
+              key={p.id}
+              name={p.title}
+              thumbnail={p.thumbnail}
+              description={p.description}
+              savedCount={p.savedCount}
+              viewCount={p.viewCount}
+              onClick={() => router.push(`/archiver/place-info/${p.id}`)}
+            />
+          ))}
         </BottomSheet>
       </div>
     </div>

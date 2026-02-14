@@ -7,6 +7,7 @@ import { Button } from '@/shared/ui/button';
 
 import { OnboardingCarousel, type IOnboardingCarouselHandle } from './OnboardingCarousel';
 import { AppleButton, GoogleButton, KakaoButton } from './SocialLoginButton';
+import { AppleLoginButton } from './AppleLoginButton';
 
 const ONBOARDING_TEXT: Array<{ title: string; description: string }> = [
   {
@@ -92,7 +93,13 @@ export const LoginPage = () => {
           </div>
           <div className="flex w-full flex-col gap-4 px-5 pb-10">
             <KakaoButton />
-            <AppleButton />
+            <AppleLoginButton
+              clientId={process.env.NEXT_PUBLIC_APPLE_CLIENT_ID!}
+              redirectUri={`${process.env.NEXT_PUBLIC_API_URL}/login/oauth2/code/apple`}
+              className="w-full rounded-xl bg-black px-4 py-3 text-white"
+            >
+              Apple로 로그인
+            </AppleLoginButton>
             <div className="flex flex-col items-center gap-1">
               <GoogleButton />
             </div>

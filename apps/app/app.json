@@ -21,7 +21,8 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.archiview.app"
+      "package": "com.archiview.app",
+      "permissions": ["ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION"]
     },
     "web": {
       "output": "static",
@@ -29,6 +30,12 @@
     },
     "plugins": [
       "expo-router",
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "아카이뷰는 내 주변 장소를 찾고 지도에 내 위치를 표시하기 위해 위치 권한이 필요합니다."
+        }
+      ],
       [
         "expo-splash-screen",
         {

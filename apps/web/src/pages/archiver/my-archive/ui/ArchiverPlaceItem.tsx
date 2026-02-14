@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 
 import { Item } from '@/shared/ui/common/Item';
 import { RightArrowIcon, FolderOutlineIcon, EyeIcon } from '@/shared/ui/icon';
@@ -9,7 +10,7 @@ interface IArchiverPlaceItemProps {
   savedCount: number;
   viewCount: number;
   onClick?: () => void;
-  thumbnail?: React.ReactNode;
+  thumbnail: string;
 }
 
 export const ArchiverPlaceItem = ({
@@ -18,10 +19,24 @@ export const ArchiverPlaceItem = ({
   savedCount,
   viewCount,
   onClick,
-  thumbnail = <div className="h-18 w-18 rounded-2xl bg-neutral-30" />,
+  thumbnail,
 }: IArchiverPlaceItemProps): React.ReactElement => {
   return (
-    <Item thumbnail={thumbnail} onClick={onClick}>
+    <Item
+      thumbnail={
+        <div className="relative h-18 w-18 overflow-hidden rounded-2xl bg-neutral-30">
+          <Image
+            src={thumbnail}
+            alt={name}
+            fill
+            sizes="72px"
+            unoptimized
+            className="object-cover"
+          />
+        </div>
+      }
+      onClick={onClick}
+    >
       <div className="flex flex-col pl-2 min-w-0">
         <p className="body-16-semibold flex flex-row items-center justify-between">
           <span className="truncate">{name}</span>

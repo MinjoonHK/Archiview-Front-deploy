@@ -14,6 +14,7 @@ export type CategoryTab =
 interface IPlace {
   id: string;
   title: string;
+  thumbnail: string;
   description: string;
   lat: number;
   lng: number;
@@ -27,6 +28,7 @@ export const TrialPage = () => {
     {
       id: '1',
       title: '장소1',
+      thumbnail: '/images/ExampleImage.png',
       lat: 37.5665,
       lng: 126.978,
       description:
@@ -38,6 +40,7 @@ export const TrialPage = () => {
     {
       id: '2',
       title: '장소1',
+      thumbnail: '/images/ExampleImage.png',
       lat: 37.5665,
       lng: 126.978,
       description:
@@ -49,6 +52,7 @@ export const TrialPage = () => {
     {
       id: '3',
       title: '장소1',
+      thumbnail: '/images/ExampleImage.png',
       lat: 37.5665,
       lng: 126.978,
       description:

@@ -23,41 +23,5 @@ interface IPlace {
 }
 
 export const MyArchiverPage = () => {
-  const initialPlaces: IPlace[] = [
-    {
-      id: '1',
-      title: '장소1',
-      lat: 37.5665,
-      lng: 126.978,
-      description:
-        '가게설명가게설명가게설명가게설명가게설명가게설명가게설명가게설명가게설명가게설명가게설명',
-      category: 'CAFE',
-      savedCount: 12,
-      viewCount: 345,
-    },
-    {
-      id: '2',
-      title: '장소1',
-      lat: 37.5665,
-      lng: 126.978,
-      description:
-        '가게설명가게설명가게설명가게설명가게설명가게설명가게설명가게설명가게설명가게설명가게설명',
-      category: 'CAFE',
-      savedCount: 12,
-      viewCount: 345,
-    },
-    {
-      id: '3',
-      title: '장소1',
-      lat: 37.5665,
-      lng: 126.978,
-      description:
-        '가게설명가게설명가게설명가게설명가게설명가게설명가게설명가게설명가게설명가게설명가게설명',
-      category: 'CAFE',
-      savedCount: 12,
-      viewCount: 345,
-    },
-    // ...
-  ];
-  return <MyArchivePageInner initialPlaces={initialPlaces} />;
+  return <MyArchivePageInner />;
 };

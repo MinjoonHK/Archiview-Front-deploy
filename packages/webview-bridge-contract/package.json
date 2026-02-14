@@ -1,0 +1,14 @@
+{
+  "name": "@archiview/webview-bridge-contract",
+  "version": "0.0.0",
+  "private": true,
+  "types": "./src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts"
+    }
+  },
+  "dependencies": {
+    "@webview-bridge/types": "^1.7.8"
+  }
+}
