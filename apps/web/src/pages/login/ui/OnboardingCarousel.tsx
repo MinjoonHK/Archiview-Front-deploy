@@ -47,7 +47,7 @@ export const OnboardingCarousel = ({ children, items }: IOnboardingCarouselProps
   const slideCount = Array.isArray(children) ? children.length : 1;
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col items-center justify-center gap-26 mt-26">
+    <div className="flex min-h-0 flex-1 flex-col items-center justify-center gap-6">
       {/* Carousel (비주얼만 이동) */}
       <div>
         <Carousel onIndexChange={setIndex} className="h-full">
