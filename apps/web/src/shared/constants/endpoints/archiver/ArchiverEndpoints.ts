@@ -7,8 +7,10 @@ export const ARCHIVER_ENDPOINTS = {
     hot: `archivers/places/hot`,
   },
   editors: {
-    trusted: `archivers/editores/trusted`,
+    trusted: `archivers/editors/trusted`,
   },
   follows: `archivers/follows`,
-  editorsTrusted: `archivers/editors/trusted`,
+  archives : {
+    postPlaces: (postPlaceId: number) => `archivers/archives/post-places/${postPlaceId}`,
+  }
 } as const;
