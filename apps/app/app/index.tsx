@@ -1,4 +1,4 @@
-import { WebView } from 'react-native-webview';
+import { WebView, emitAppReady } from '@/bridge';
 
 export default function Index() {
   return (
@@ -10,9 +10,19 @@ export default function Index() {
       sharedCookiesEnabled
       thirdPartyCookiesEnabled
       onLoadStart={(e) => console.log('loadStart', e.nativeEvent.url)}
-      onLoadEnd={(e) => console.log('loadEnd', e.nativeEvent.url)}
+      onLoadEnd={(e) => {
+        console.log('loadEnd', e.nativeEvent.url);
+        emitAppReady();
+      }}
       onNavigationStateChange={(nav) => console.log('nav', nav.url)}
-      onHttpError={(e) => console.log('httpError', e.nativeEvent.statusCode, e.nativeEvent.description, e.nativeEvent.url)}
+      onHttpError={(e) =>
+        console.log(
+          'httpError',
+          e.nativeEvent.statusCode,
+          e.nativeEvent.description,
+          e.nativeEvent.url,
+        )
+      }
       onError={(e) => console.log('error', e.nativeEvent)}
     />
   );

@@ -24,6 +24,11 @@ export default defineConfig([
         { type: 'features', pattern: 'src/features/**' },
         { type: 'entities', pattern: 'src/entities/**' },
         { type: 'shared', pattern: 'src/shared/**' },
+        // Workspace packages (e.g. packages/webview-bridge-contract)
+        // Treat as shared to allow importing workspace contract packages.
+        // Depending on how eslint is executed (editor/cli), paths can be evaluated
+        // relative to different roots. Support both "../../packages/*" and "packages/*".
+        { type: 'shared', pattern: ['../../packages/*', 'packages/*'] },
         { type: 'mocks', pattern: 'src/mocks/**' },
       ],
       'boundaries/ignore': ['**/*.test.*', '**/*.spec.*'],
