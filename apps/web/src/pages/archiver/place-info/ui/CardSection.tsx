@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Chip } from '@/shared/ui/Chip';
 import { FolderIcon } from '@/shared/ui/icon';
 import { usePostPlaceCardMutation } from '@/entities/archiver/place/mutation/usePostPlaceCard';
+import { useDeletePlaceCardMutation } from '@/entities/archiver/place/mutation/useDeletePlaceCard';
 import { useReportPostPlace } from '@/entities/archiver/report/mutation/useReportPostPlace';
 
 import { ReportEditorCardModal } from './ReportEditorCardModal';
@@ -24,17 +25,21 @@ interface IPostPlace {
 export const CardSection = ({
   postPlaces,
   placeName,
+  placeId,
 }: {
   postPlaces?: IPostPlace[];
   placeName?: string;
+  placeId: number;
 }) => {
   const [openPlaceFinishModal, setOpenPlaceFinishModal] = useState(false);
   const [openReportModal, setOpenReportModal] = useState(false);
   const [selectedReportPostPlaceId, setSelectedReportPostPlaceId] = useState<number | null>(null);
 
   const { postPlaceCard } = usePostPlaceCardMutation({
-    onSuccess: () => setOpenPlaceFinishModal(true),
+    onSuccess: () => setOpenPlaceFinishModal(false),
   });
+
+  const { deletePlaceCard } = useDeletePlaceCardMutation();
 
   const { reportPostPlace } = useReportPostPlace({
     onSuccess: () => {
@@ -53,8 +58,13 @@ export const CardSection = ({
     reportPostPlace({ postPlaceId: selectedReportPostPlaceId });
   };
 
-  const onFolderClick = (postPlaceId: number) => {
-    postPlaceCard({ postPlaceId });
+  const onFolderClick = (postPlaceId: number, isArchived: boolean) => {
+    if (isArchived) {
+      deletePlaceCard({ postPlaceId, placeId, useMock: false });
+      return;
+    }
+
+    postPlaceCard({ postPlaceId, placeId, useMock: false });
   };
 
   console.log(postPlaces);
@@ -67,7 +77,7 @@ export const CardSection = ({
             place={placeName ?? ''}
             isOpen={openPlaceFinishModal}
             onClose={() => setOpenPlaceFinishModal(false)}
-            onConfirm={() => console.log('확ㄴ인')}
+            onConfirm={() => setOpenPlaceFinishModal(false)}
           />
           <ReportEditorCardModal
             isOpen={openReportModal}
@@ -98,7 +108,7 @@ export const CardSection = ({
                   <p className="caption-12-semibold text-neutral-50">@ {post.editorInstagramId}</p>
                 </div>
                 <div className="flex gap-1">
-                  <button onClick={() => onFolderClick(post.postPlaceId)}>
+                  <button onClick={() => onFolderClick(post.postPlaceId, post.isArchived)}>
                     <FolderIcon active={post.isArchived} />
                   </button>
                   <button
