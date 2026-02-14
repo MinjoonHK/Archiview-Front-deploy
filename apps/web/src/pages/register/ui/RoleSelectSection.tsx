@@ -87,7 +87,7 @@ export const RoleSelectSection = () => {
         </Kard>
       </div>
 
-      <div className="flex flex-col items-center mb-4">
+      <div className="flex flex-col items-center mb-4 shrink-0 pt-4">
         <Button
           variant={buttonVariant}
           onClick={handleNext}

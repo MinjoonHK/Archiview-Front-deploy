@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
 import { Button } from '@/shared/ui/button';
+import Image from 'next/image';
 
 type Role = 'EDITOR' | 'ARCHIVER';
 
@@ -15,7 +16,7 @@ export const RegisterFinishPage = async ({ searchParams }: IRegisterFinishPagePr
   const description =
     role === 'EDITOR' ? '첫 아카이브를 만들어볼까요?' : '첫 아카이브를 만들어볼까요?';
 
-  const buttonLabel = role === 'EDITOR' ? '에디터 시작하기' : '아카이버 시작하기';
+  const buttonLabel = '아카이뷰 시작하기';
 
   const href = role === 'EDITOR' ? '/editor/home' : '/archiver/home';
 
@@ -25,16 +26,22 @@ export const RegisterFinishPage = async ({ searchParams }: IRegisterFinishPagePr
       <div className="flex flex-col gap-3 items-center">
         <p className="body-16-regular text-neutral-40">모든 준비가 끝났어요!</p>
 
-        <p className="heading-24-semibold text-center">
+        <p className="heading-24-semibold text-center mb-20">
           <span className="text-primary-40">{title}</span> 이 생성되었어요.
           <br />
           {description}
         </p>
+        <Image
+          src="/images/FinishOnboardingImage.svg"
+          alt="RegisterFinishImage"
+          width={166}
+          height={195}
+        />
       </div>
 
       {/* CTA */}
-      <Link href={href} className="w-full">
-        <Button variant="contained" className="w-full body-16-semibold">
+      <Link href={href} className="w-full p-4">
+        <Button variant="contained" className="w-full body-16-semibold bg-primary-40">
           {buttonLabel}
         </Button>
       </Link>

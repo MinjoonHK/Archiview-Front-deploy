@@ -44,9 +44,8 @@ export const KakaoButton = () => {
     }
 
     const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
-    const rawTarget = apiBaseUrl
-      ? joinUrl(apiBaseUrl, '/oauth2/authorization/kakao')
-      : '/oauth2/authorization/kakao';
+    const kakaoUrl = process.env.NEXT_PUBLIC_KAKAO_URL;
+    const rawTarget = apiBaseUrl ? joinUrl(apiBaseUrl, kakaoUrl!) : kakaoUrl!;
 
     const target = withDevQuery(rawTarget);
 
@@ -76,7 +75,12 @@ export const AppleButton = () => {
 
 export const GoogleButton = () => {
   return (
-    <Button variant="login" startIcon={<GoogleIcon />} className="bg-[#F5F6FA] w-full" type="button">
+    <Button
+      variant="login"
+      startIcon={<GoogleIcon />}
+      className="bg-[#F5F6FA] w-full"
+      type="button"
+    >
       <span className="text-neutral-70">구글로 로그인</span>
     </Button>
   );

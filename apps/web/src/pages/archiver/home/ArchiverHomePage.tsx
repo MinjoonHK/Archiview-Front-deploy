@@ -11,6 +11,7 @@ import { HotPlaceSection } from '@/features/archiver/place/ui/HotPlaceSection';
 import { EditorTrustedSection } from '@/features/archiver/profile/ui/EditorTrustedSection';
 import { useGetMyProfile } from '@/entities/archiver/profile/queries/useGetMyProfile';
 import { useAuth } from '@/entities/auth/hooks/useAuth';
+import { LoadingPage } from '@/shared/ui/common/Loading/LoadingPage';
 
 export const ArchiverHomePage = (): React.ReactElement => {
   const [searchedText, setSearchedText] = useState<string>('');
@@ -19,7 +20,7 @@ export const ArchiverHomePage = (): React.ReactElement => {
 
   const { data: myData, isLoading, isError } = useGetMyProfile({ useMock: false });
 
-  if (isLoading) return <div className="mb-5">로딩중...</div>;
+  if (isLoading) return <LoadingPage text="아카이버 홈 화면으로 이동중" role="ARCHIVER" />;
 
   if (isError) return <div className="mb-5">에러</div>;
 
