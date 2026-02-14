@@ -98,6 +98,7 @@ export const EditorProfilePage = ({ editorId }: { editorId: string }) => {
             <ArchiverPlaceItem
               key={p.postPlaceId}
               name={p.placeName}
+              thumbnail={p.imageUrl}
               description={p.description}
               savedCount={p.saveCount}
               viewCount={p.viewCount}

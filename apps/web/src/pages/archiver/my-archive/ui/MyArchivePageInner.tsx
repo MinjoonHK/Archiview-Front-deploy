@@ -24,6 +24,7 @@ export type CategoryTab =
 interface IPlace {
   id: string;
   title: string;
+  thumbnail: string;
   description: string;
   lat: number;
   lng: number;
@@ -32,7 +33,7 @@ interface IPlace {
   category: CategoryTab;
 }
 
-export const MyArchivePageInner = ({ initialPlaces }: { initialPlaces: IPlace[] }) => {
+export const MyArchivePageInner = () => {
   const router = useRouter();
 
   const [open, setOpen] = useState(false);
@@ -47,6 +48,7 @@ export const MyArchivePageInner = ({ initialPlaces }: { initialPlaces: IPlace[] 
     return postPlaces.map((p) => ({
       id: String(p.postPlaceId),
       title: p.placeName,
+      thumbnail: p.imageUrl,
       description: p.description ?? '',
       lat: 37.5665,
       lng: 126.978,
@@ -86,20 +88,31 @@ export const MyArchivePageInner = ({ initialPlaces }: { initialPlaces: IPlace[] 
           // TODO: 마커
         />
 
-        <BottomSheet isOpen={open} onOpenChange={setOpen} height={500} peekHeight={72}>
-          <div className="h-full px-5 pb-6 ">
-           
-            {filteredPlaces.map((p) => (
-              <ArchiverPlaceItem
-                key={p.id}
-                name={p.title}
-                description={p.description}
-                savedCount={p.savedCount}
-                viewCount={p.viewCount}
-                onClick={() => router.push(`/archiver/place-info/${p.id}`)}
-              />
-            ))}
-          </div>
+        <BottomSheet
+          isOpen={open}
+          onOpenChange={setOpen}
+          height={500}
+          peekHeight={72}
+          header={
+            <div className="px-5 pb-4 pt-2.5">
+              <p className="heading-20-bold">
+                내주변 <span className="text-primary-40 pl-1">{filteredPlaces.length}</span>
+              </p>
+            </div>
+          }
+          contentClassName="overflow-y-auto px-0 pb-6"
+        >
+          {filteredPlaces.map((p) => (
+            <ArchiverPlaceItem
+              key={p.id}
+              name={p.title}
+              thumbnail={p.thumbnail}
+              description={p.description}
+              savedCount={p.savedCount}
+              viewCount={p.viewCount}
+              onClick={() => router.push(`/archiver/place-info/${p.id}`)}
+            />
+          ))}
         </BottomSheet>
       </div>
     </div>

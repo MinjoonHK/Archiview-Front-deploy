@@ -24,6 +24,7 @@ export type CategoryTab =
 interface IPlace {
   id: string;
   title: string;
+  thumbnail: string;
   description: string;
   lat: number;
   lng: number;
@@ -68,6 +69,7 @@ export const TrialPageInner = ({ initialPlaces }: { initialPlaces: IPlace[] }) =
                 onClick={() => setTrialFinishOpen(true)}
                 key={p.id}
                 name={p.title}
+                thumbnail={p.thumbnail}
                 description={p.description}
                 savedCount={p.savedCount}
                 viewCount={p.viewCount}
