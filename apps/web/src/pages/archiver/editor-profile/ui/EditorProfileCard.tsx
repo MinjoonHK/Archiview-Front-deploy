@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 
 import { Badge } from '@/shared/ui/Badge';
-import { Card } from '@/shared/ui/common/Card';
+import { Kard } from '@/shared/ui/common/Kard';
 import { DotThreeIcon, ProfileAddIcon } from '@/shared/ui/icon';
 import { useFollowEditor } from '@/entities/archiver/follow/mutation/useFollowEditor';
 import { useBlockEditor } from '@/entities/archiver/report/mutation/useBlockEditor';
@@ -36,7 +36,7 @@ export const EditorProfileCard = ({ editorId, editorData }: IEditorProfileCardPr
 
   return (
     <>
-      <Card className="bg-primary-30 overflow-hidden border-none shadow-default">
+      <Kard className="bg-primary-30 overflow-hidden border-none shadow-default">
         {/* 상단(블루 영역) */}
 
         <div className="flex flex-row w-full gap-4 p-5">
@@ -115,7 +115,7 @@ export const EditorProfileCard = ({ editorId, editorData }: IEditorProfileCardPr
             50자 이내로 자기소개합니다. 50자 이내로 자기소개합니다. 50자 이내로 자기소개합니다.
           </p>
         </div>
-      </Card>
+      </Kard>
 
       {bottomSheetOpen && (
         <ReportBottomSheetModal
