@@ -10,7 +10,7 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.kimyonghee4255.app"
+      "bundleIdentifier": "com.archiview.app"
     },
     "android": {
       "adaptiveIcon": {
@@ -21,7 +21,7 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.kimyonghee4255.app"
+      "package": "com.archiview.app"
     },
     "web": {
       "output": "static",
