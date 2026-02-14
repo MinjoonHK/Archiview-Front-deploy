@@ -6,7 +6,10 @@ import { useState } from 'react';
 import { Button } from '@/shared/ui/button';
 
 import { OnboardingCarousel } from './OnboardingCarousel';
-import { AppleButton, GoogleButton, KakaoButton } from './SocialLoginButton';
+
+import { AppleLoginButton } from './AppleLoginButton';
+
+import { GoogleButton, KakaoButton } from './SocialLoginButton';
 
 const ONBOARDING_TEXT: Array<{ title: string; description: string }> = [
   {
@@ -81,18 +84,22 @@ export const LoginPage = () => {
       )}
 
       {step === 'login' && (
-        <div className="flex flex-1 flex-col items-center justify-between">
-          <div className="flex flex-1 items-center justify-center">
-            <Image src="/images/LoginPageImage.png" alt="archiview 로고" width={246} height={45} />
-          </div>
+        <>
           <div className="flex w-full flex-col gap-4 px-5 pb-10">
             <KakaoButton />
-            <AppleButton />
+            <AppleLoginButton
+              clientId={process.env.NEXT_PUBLIC_APPLE_CLIENT_ID!}
+              redirectUri={`${process.env.NEXT_PUBLIC_BASE_URL}/login/oauth2/code/apple`}
+              className="w-full rounded-xl bg-black px-4 py-3 text-white"
+            >
+              Apple로 로그인
+            </AppleLoginButton>
+            <Button className="w-full mt-13">회원가입</Button>
             <div className="flex flex-col items-center gap-1">
               <GoogleButton />
             </div>
           </div>
-        </div>
+        </>
       )}
     </div>
   );
