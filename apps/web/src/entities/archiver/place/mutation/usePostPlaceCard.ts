@@ -30,7 +30,6 @@ export const usePostPlaceCardMutation = (options?: IUsePostPlaceCardOptions) => 
       });
 
       options?.onSuccess?.(data, variables);
-      toast.success('성공');
     },
 
     onError: (error, variables) => {
