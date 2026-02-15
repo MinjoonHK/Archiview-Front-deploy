@@ -9,6 +9,8 @@ interface IInstagramUrlInputProps {
   disabledCheck?: boolean;
   onDisabledChange?: (locked: boolean) => void;
   className?: string;
+  /** true이면 마운트 시 이미 검증 완료(disabled) 상태로 시작 */
+  initialValidated?: boolean;
 }
 
 type ValidationResult =
@@ -33,11 +35,14 @@ export const InstagramUrlInput = ({
   onChange,
   onDisabledChange,
   className,
+  initialValidated = false,
 }: IInstagramUrlInputProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const [validation, setValidation] = useState<ValidationResult>({ state: 'default' });
-  const [hasValidated, setHasValidated] = useState(false);
+  const [validation, setValidation] = useState<ValidationResult>(
+    initialValidated ? { state: 'success', message: '인스타그램 링크가 정상적으로 인식됐어요' } : { state: 'default' },
+  );
+  const [hasValidated, setHasValidated] = useState(initialValidated);
 
   const isDisabled = hasValidated && validation.state === 'success';
 

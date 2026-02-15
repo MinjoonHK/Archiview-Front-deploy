@@ -52,6 +52,7 @@ export const EditorPlaceItemList = ({ places }: IEditorPlaceItemListProps) => {
       {sortedPlaces.map((place) => (
         <Link href={`/editor/place-info/${place.placeId}`} key={place.placeId}>
           <EditorPlaceItem
+            placeId={place.placeId}
             name={place.placeName}
             description={place.editorSummary}
             savedCount={place.stats.saveCount}

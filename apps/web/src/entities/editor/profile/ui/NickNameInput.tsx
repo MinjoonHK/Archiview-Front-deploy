@@ -9,6 +9,8 @@ interface INickNameInputProps {
   disabledCheck?: boolean;
   className?: string;
   onDisabledChange?: (locked: boolean) => void;
+  /** true이면 마운트 시 이미 검증 완료(disabled) 상태로 시작 */
+  initialValidated?: boolean;
 }
 
 interface IValidation {
@@ -22,11 +24,14 @@ export const NickNameInput = ({
   disabledCheck,
   onDisabledChange,
   className,
+  initialValidated = false,
 }: INickNameInputProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const [validation, setValidation] = useState<IValidation>({ state: 'default' });
-  const [hasValidated, setHasValidated] = useState(false);
+  const [validation, setValidation] = useState<IValidation>(
+    initialValidated ? { state: 'success' } : { state: 'default' },
+  );
+  const [hasValidated, setHasValidated] = useState(initialValidated);
 
   const isDisabled = hasValidated && validation.state === 'success';
 
