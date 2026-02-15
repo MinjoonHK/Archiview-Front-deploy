@@ -1,112 +1,85 @@
 'use client';
 
-import React, { useCallback, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import React from 'react';
 
-import { useAuth, SwitchRoleError } from '@/entities/auth/hooks/useAuth';
-import { ChangeRoleModal } from '@/entities/auth/ui/ChangeRoleModal';
 import { Button } from '@/shared/ui/button';
 
 import { EditorInfoCard } from './EditorInfoCard';
-import { EditorAccountManagementSection } from './EditorAccountManagementSection';
-import { EditorInfoSupportSection } from './EditorInfoSupportSection';
-import { EditorTermsConditionsSection } from './EditorTermsConditionsSection';
+import {
+  AccountManagementSection,
+  InfoSupportSection,
+  TermsConditionsSection,
+} from '../common';
 import { EllipseArrowIcons } from '@/shared/ui/icon/EllipseArrowIcons';
-import { useLogout } from '@/entities/auth/hooks/useLogout';
 import { useEditorGetMyProfile } from '@/entities/editor/profile/queries/useEditorGetMyProfile';
 
-export const EditorMyPage = (): React.ReactElement => {
-  const router = useRouter();
-  const { switchRole } = useAuth();
-  const { logout } = useLogout();
-  const { data: editorUserData } = useEditorGetMyProfile();
-  const [openChangeRoleModal, setOpenChangeRoleModal] = useState(false);
+const EDITOR_TERMS_ITEMS = [
+  { label: '서비스 이용약관', key: 'service-terms' },
+  { label: '위치 기반 서비스 이용약관', key: 'location-terms' },
+  { label: '에디터 운영 정책', key: 'editor-policy' },
+  { label: '개인정보 처리 방침', key: 'privacy-policy' },
+  { label: '오픈 라이선스', key: 'open-license' },
+] as const;
 
-  const handleSwitchToArchiver = useCallback(async () => {
-    try {
-      const nextRole = await switchRole();
-      router.replace(nextRole === 'ARCHIVER' ? '/archiver/home' : '/editor/home');
-    } catch (e) {
-      if (e instanceof SwitchRoleError && e.code === 'USER_013') {
-        setOpenChangeRoleModal(true);
-        return;
-      }
-      console.error('Failed to switch role', e);
-    }
-  }, [router, switchRole]);
+interface IEditorMyPageProps {
+  onLogout: () => void;
+  onWithdraw: () => void;
+  onContact: () => void;
+  onReportBug: () => void;
+  onTermsClick: (key: string) => void;
+  onSwitchRole: () => void;
+}
+
+export const EditorMyPage = ({
+  onLogout,
+  onWithdraw,
+  onContact,
+  onReportBug,
+  onTermsClick,
+  onSwitchRole,
+}: IEditorMyPageProps): React.ReactElement => {
+  const { data: editorUserData } = useEditorGetMyProfile();
 
   const handleEditProfile = () => {
     // TODO: 프로필 편집 페이지로 이동
   };
 
-  const handleLogout = () => {
-    logout();
-  };
-
-  const handleWithdraw = () => {
-    // TODO: 회원탈퇴 처리
-  };
-
-  const handleContact = () => {
-    // TODO: 문의하기
-  };
-
-  const handleReportBug = () => {
-    // TODO: 오류제보
-  };
-
-  const handleTermsClick = (key: string) => {
-    // TODO: 약관/정책 상세 페이지로 이동
-    console.log('terms click:', key);
-  };
-
   return (
-    <>
-      <div className="flex flex-1 flex-col">
-        {/* 프로필 카드 */}
-        <div className="px-5 pt-4">
-          <EditorInfoCard
-            nickname={editorUserData?.data?.nickname ?? ''}
-            instagramId={editorUserData?.data?.instagramId ?? ''}
-            tags={editorUserData?.data?.hashtags ?? []}
-            profileImageUrl={editorUserData?.data?.profileImageUrl ?? ''}
-            onEdit={handleEditProfile}
-          />
-        </div>
-
-        {/* 계정관리 */}
-        <EditorAccountManagementSection onLogout={handleLogout} onWithdraw={handleWithdraw} />
-
-        {/* 정보 및 지원 */}
-        <EditorInfoSupportSection onContact={handleContact} onReportBug={handleReportBug} />
-
-        {/* 약관 및 정책 */}
-        <EditorTermsConditionsSection onItemClick={handleTermsClick} />
-
-        {/* 하단 버전 + 역할 전환 */}
-        <div className="mt-auto flex flex-col items-center gap-4 px-5 pb-8 pt-10">
-          <span className="caption-12-regular text-neutral-40">버전 v.1.0</span>
-
-          <Button
-            variant="contained"
-            fullwidth
-            onClick={handleSwitchToArchiver}
-            className="rounded-[999px] w-[228px] h-[67px]"
-          >
-            <EllipseArrowIcons className="mr-1" />
-            아카이버 모드로 전환
-          </Button>
-        </div>
+    <div className="flex flex-1 flex-col">
+      {/* 프로필 카드 */}
+      <div className="px-5 pt-4">
+        <EditorInfoCard
+          nickname={editorUserData?.data?.nickname ?? ''}
+          instagramId={editorUserData?.data?.instagramId ?? ''}
+          tags={editorUserData?.data?.hashtags ?? []}
+          profileImageUrl={editorUserData?.data?.profileImageUrl ?? ''}
+          onEdit={handleEditProfile}
+        />
       </div>
 
-      <ChangeRoleModal
-        isOpen={openChangeRoleModal}
-        onClose={() => setOpenChangeRoleModal(false)}
-        onConfirm={() => {
-          setOpenChangeRoleModal(false);
-          router.push('/register-editor');
-        }}
-      />
-    </>
+      {/* 계정관리 */}
+      <AccountManagementSection onLogout={onLogout} onWithdraw={onWithdraw} />
+
+      {/* 정보 및 지원 */}
+      <InfoSupportSection onContact={onContact} onReportBug={onReportBug} />
+
+      {/* 약관 및 정책 */}
+      <TermsConditionsSection items={EDITOR_TERMS_ITEMS} onItemClick={onTermsClick} />
+
+      {/* 하단 버전 + 역할 전환 */}
+      <div className="mt-auto flex flex-col items-center gap-4 px-5 pb-8 pt-10">
+        <span className="caption-12-regular text-neutral-40">버전 v.1.0</span>
+
+        <Button
+          variant="contained"
+          fullwidth
+          onClick={onSwitchRole}
+          className="rounded-[999px] w-[228px] h-[67px]"
+        >
+          <EllipseArrowIcons className="mr-1" />
+          아카이버 모드로 전환
+        </Button>
+      </div>
+    </div>
   );
 };

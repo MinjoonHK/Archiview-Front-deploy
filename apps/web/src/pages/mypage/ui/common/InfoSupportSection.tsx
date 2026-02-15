@@ -1,14 +1,14 @@
 import React from 'react';
 
-interface IArchiverInfoSupportSectionProps {
+interface IInfoSupportSectionProps {
   onContact?: () => void;
   onReportBug?: () => void;
 }
 
-export const ArchiverInfoSupportSection = ({
+export const InfoSupportSection = ({
   onContact,
   onReportBug,
-}: IArchiverInfoSupportSectionProps): React.ReactElement => {
+}: IInfoSupportSectionProps): React.ReactElement => {
   return (
     <section>
       <h2 className="heading-20-bold px-5 pb-2 pt-6 text-neutral-90">정보 및 지원</h2>
