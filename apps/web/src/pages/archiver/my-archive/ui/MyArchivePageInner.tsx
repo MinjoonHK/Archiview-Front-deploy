@@ -10,6 +10,7 @@ import { CategoryOptionTabs } from '@/pages/editor/profile/CategoryOptionTabs';
 import { useGetMyArchives } from '@/entities/archiver/place/queries/useGetMyArchives';
 
 import { ArchiverPlaceItem } from './ArchiverPlaceItem';
+import { LoadingPage } from '@/shared/ui/common/Loading/LoadingPage';
 
 export type CategoryTab =
   | 'ALL'
@@ -78,7 +79,7 @@ export const MyArchivePageInner = () => {
   );
 
   if (isLoading) {
-    return <div className="px-5 pt-6">로딩중...</div>;
+    return <LoadingPage text="내 아카이브를 불러오는 중입니다." role="ARCHIVER" />;
   }
 
   if (isError) {

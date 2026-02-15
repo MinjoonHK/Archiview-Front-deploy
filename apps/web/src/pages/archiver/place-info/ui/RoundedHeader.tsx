@@ -50,7 +50,7 @@ export const RoundedHeaderSection = ({
         border-b-[#DBDCDF]
       "
       >
-        <div className="heading-20-semibold">장소이름</div>
+        <div className="heading-20-semibold">{place?.name}</div>
         <div className="flex justify-center items-center gap-2 w-full caption-12-regular text-primary-50">
           <div className="flex items-center gap-1 px-2">
             <FolderIcon className="text-primary-30" />

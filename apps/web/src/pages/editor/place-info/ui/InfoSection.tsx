@@ -2,6 +2,7 @@ import { IEditorInsightPlaceDetail } from '@/entities/editor/place/model/editorP
 import { CursorIcon } from '@/shared/ui/icon/place-info/CursorIcon';
 import { FolderIcon } from '@/shared/ui/icon/place-info/FolderIcon';
 import { MedalIcon } from '@/shared/ui/icon/place-info/MedalIcon';
+import PhoneIcon from '@/shared/ui/icon/place-info/PhoneIcon';
 import { PinIcon } from '@/shared/ui/icon/place-info/PinIcon';
 
 export const InfoSection = ({
@@ -38,8 +39,8 @@ export const InfoSection = ({
           {/* <div className="text-primary-40 underline">지도보기</div> */}
         </div>
         <div className="flex gap-[10px] items-center">
-          <CursorIcon className="text-primary-40 h-[22px] w-[22px]" />
-          {place?.nearestStationWalkTime}
+          <PhoneIcon className="text-primary-40 h-[22px] w-[22px]" />
+          {place?.phoneNumber}
         </div>
       </div>
     </section>

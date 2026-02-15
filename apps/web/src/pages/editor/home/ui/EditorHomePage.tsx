@@ -11,6 +11,7 @@ import { LoadingPage } from '@/shared/ui/common/Loading/LoadingPage';
 import { useEditorInsightSummaryQuery } from '@/entities/editor/place/queries/useGetInsightSummery';
 import { useGetMyPlaceList } from '@/entities/editor/place/queries/useGetMyPlaceList';
 import type { InsightPeriod } from '@/entities/editor/place/model/editorPlace.type';
+import { useMinLoading } from '@/shared/hooks/useMinLoading';
 
 function parseInsightPeriod(value: string | undefined): InsightPeriod {
   if (value === 'WEEK' || value === 'MONTH' || value === 'ALL') return value;
@@ -21,7 +22,10 @@ export const EditorHomePage = () => {
   useAuth();
 
   const sp = useSearchParams();
-  const period = useMemo<InsightPeriod>(() => parseInsightPeriod(sp?.get('period') ?? undefined), [sp]);
+  const period = useMemo<InsightPeriod>(
+    () => parseInsightPeriod(sp?.get('period') ?? undefined),
+    [sp],
+  );
 
   const {
     data: insightData,
@@ -38,9 +42,11 @@ export const EditorHomePage = () => {
   const isLoading = isInsightLoading || isPlaceLoading;
   const isError = isInsightError || isPlaceError;
 
-  if (isLoading) return <LoadingPage text="로딩 중입니다" role="EDITOR" />;
+  const showLoading = useMinLoading(isLoading, 1500);
+  if (showLoading) return <LoadingPage text="로딩 중입니다" role="EDITOR" />;
 
-  if (isError) return <div className="flex h-screen items-center justify-center">에러가 발생했습니다</div>;
+  if (isError)
+    return <div className="flex h-screen items-center justify-center">에러가 발생했습니다</div>;
 
   const places = placeData?.data?.places ?? [];
 
