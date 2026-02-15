@@ -10,7 +10,7 @@ interface AppleLoginButtonProps {
 
   /** Apple Developer에 등록한 Return URL과 "완전히 동일"해야 함 */
   redirectUri: string;
-
+  redirectUriDev?: string;
   /** 기본: "name email" */
   scope?: 'name email' | 'email' | 'name';
 
@@ -41,10 +41,17 @@ const randomId = () => {
   return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
 };
 
+const isLocalhost = () => {
+  if (typeof window === 'undefined') return false;
+  const h = window.location.hostname;
+  return h === 'localhost' || h === '127.0.0.1';
+};
+
 export const AppleLoginButton = ({
   children,
   clientId,
   redirectUri,
+  redirectUriDev,
   scope = 'name email',
   responseMode = 'form_post',
   responseType = 'code id_token',
@@ -59,9 +66,12 @@ export const AppleLoginButton = ({
     const finalState = state ?? randomId();
     const finalNonce = nonce ?? randomId();
 
+    const finalRedirectUri = isLocalhost() && redirectUriDev ? redirectUriDev : redirectUri;
+    console.log(finalRedirectUri)
+    console.log("dfdf")
     const params = new URLSearchParams({
       client_id: clientId,
-      redirect_uri: redirectUri,
+      redirect_uri: finalRedirectUri,
       response_type: responseType,
       response_mode: responseMode,
       scope,

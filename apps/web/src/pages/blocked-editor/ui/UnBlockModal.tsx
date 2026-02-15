@@ -19,11 +19,11 @@ export const UnBlockModal = ({ isOpen, onClose, onConfirm }: IUnBlockModalProps)
           <XIcon onClick={onClose} className="right-4 top-4 w-3" />
         </div>
 
-        <h2 className="body-16-bold text-neutral-90">이 에디터 차단을 해제할까요?</h2>
+        <h2 className="body-16-bold text-neutral-90">에디터 차단을 해제하시겠어요?</h2>
 
         <p className="mt-3 body-14-medium text-neutral-40">
-          다시 이 에디터의 장소 기록이 추천이
-          <br /> 피드에 표시될 수 있어요
+          에디터 차단이 해제돼요.
+          <br /> 이제 에디터를 다시 볼 수 있어요.
         </p>
 
         <div className="mt-6 flex gap-2">
