@@ -8,8 +8,10 @@ import {
   PlaneArrowOutlineIcon,
   InstagramOutlineIcon,
 } from '@/shared/ui/icon';
+import { useRouter } from 'next/navigation';
 
 interface IEditorPlaceItemProps {
+  placeId: number;
   name: string;
   description: string;
   savedCount: number;
@@ -20,6 +22,7 @@ interface IEditorPlaceItemProps {
 }
 
 export const EditorPlaceItem = ({
+  placeId,
   name,
   description,
   savedCount,
@@ -28,8 +31,14 @@ export const EditorPlaceItem = ({
   instagramCount,
   thumbnail = <div className="h-18 w-18 rounded-2xl bg-neutral-30" />,
 }: IEditorPlaceItemProps): React.ReactElement => {
+  const router = useRouter();
   return (
-    <Item thumbnail={thumbnail}>
+    <Item
+      thumbnail={thumbnail}
+      onClick={() => {
+        router.push(`/editor/place-info/${placeId}`);
+      }}
+    >
       <div className="flex flex-col pl-2 min-w-0">
         <p className="body-16-semibold flex flex-row items-center justify-between">
           <span className="truncate">{name}</span>

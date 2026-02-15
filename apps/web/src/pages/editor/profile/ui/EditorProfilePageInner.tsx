@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 
 import { KakaoMap } from '@/shared/ui/KakaoMap';
 import { BottomSheet } from '@/shared/ui/common/BottomSheet/BottomSheet';
@@ -9,6 +9,10 @@ import { EditorPlaceItem } from '../../../../entities/editor/place/ui/EditorPlac
 
 import { CategoryOptionTabs } from '../CategoryOptionTabs';
 import { HamburgerIcon } from '@/shared/ui/icon/HamburgerIcon';
+import { EditorProfileCard } from './EditorProfileCard';
+
+import type { IEditorInsightPlace } from '@/entities/editor/place/model/editorPlace.type';
+import { useRouter } from 'next/navigation';
 
 export type CategoryTab =
   | 'ALL'
@@ -21,44 +25,53 @@ export type CategoryTab =
   | 'DATE'
   | 'ETC';
 
-interface IPlace {
-  id: string;
-  title: string;
-  description: string;
-  lat: number;
-  lng: number;
-  savedCount: number;
-  viewCount: number;
-  shareCount: number;
-  instagramCount: number;
-  category: CategoryTab;
+interface IEditorProfile {
+  nickname: string;
+  instagramId?: string;
+  introduction?: string;
+  hashtags?: string[];
+  profileImageUrl?: string;
 }
 
-export const EditorProfilePageInner = ({ initialPlaces }: { initialPlaces: IPlace[] }) => {
+export const EditorProfilePageInner = ({
+  places,
+  profile,
+}: {
+  places: IEditorInsightPlace[];
+  profile: IEditorProfile;
+}) => {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [category, setCategory] = useState<CategoryTab>('ALL');
-  const [selectedPlaceId, setSelectedPlaceId] = useState<string | null>(null);
 
-  const filteredPlaces = useMemo(() => {
-    if (category === 'ALL') return initialPlaces;
-    return initialPlaces.filter((p) => p.category === category);
-  }, [initialPlaces, category]);
+  const handleEditProfile = () => {
+    router.push('/mypage/edit-profile');
+  };
 
-  const selectedPlace = useMemo(
-    () => filteredPlaces.find((p) => p.id === selectedPlaceId) ?? null,
-    [filteredPlaces, selectedPlaceId],
-  );
+  const handleShareInfo = () => {
+    router.push('/editor/register-place');
+  };
 
   return (
     <div className="flex h-full flex-col min-h-0">
-      <div className="bg-amber-400 h-50">프로필 카드 섹션</div>
+      <div className="pt-3 pb-6">
+        <EditorProfileCard
+          nickname={profile.nickname}
+          instagramId={profile.instagramId}
+          introduction={profile.introduction}
+          hashtags={profile.hashtags}
+          profileImageUrl={profile.profileImageUrl}
+          onEdit={handleEditProfile}
+          onShareInfo={handleShareInfo}
+        />
+      </div>
 
       <CategoryOptionTabs value={category} onChange={setCategory} />
 
       <div className="flex-1 min-h-0 pt-6">
         <KakaoMap
-          lat={selectedPlace?.lat ?? 37.5665}
-          lng={selectedPlace?.lng ?? 126.978}
+          lat={37.5665}
+          lng={126.978}
           level={3}
           // TODO: 마커
         />
@@ -67,19 +80,29 @@ export const EditorProfilePageInner = ({ initialPlaces }: { initialPlaces: IPlac
           <div className="px-5 pb-6">
             <div className="flex flex-row justify-between pb-4 pt-2.5">
               <p className="heading-20-bold">
-                업로드한 장소 <span className="text-primary-40 pl-1">숫자</span>
+                업로드한 장소 <span className="text-primary-40 pl-1">{places.length}</span>
               </p>
               <HamburgerIcon />
             </div>
-            {filteredPlaces.map((p) => (
+            {places.map((place) => (
               <EditorPlaceItem
-                key={p.id}
-                name={p.title}
-                description={p.description}
-                savedCount={p.savedCount}
-                viewCount={p.viewCount}
-                shareCount={p.shareCount}
-                instagramCount={p.instagramCount}
+                key={place.placeId}
+                placeId={place.placeId}
+                name={place.placeName}
+                description={place.editorSummary}
+                savedCount={place.stats.saveCount}
+                viewCount={place.stats.viewCount}
+                shareCount={place.stats.directionCount}
+                instagramCount={place.stats.instagramInflowCount}
+                thumbnail={
+                  place.placeImageUrl ? (
+                    <img
+                      src={place.placeImageUrl}
+                      alt={place.placeName}
+                      className="h-18 w-18 rounded-2xl object-cover"
+                    />
+                  ) : undefined
+                }
               />
             ))}
           </div>

@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { useRouter } from 'next/navigation';
 
 import { Button } from '@/shared/ui/button';
 
@@ -38,10 +39,11 @@ export const EditorMyPage = ({
   onTermsClick,
   onSwitchRole,
 }: IEditorMyPageProps): React.ReactElement => {
+  const router = useRouter();
   const { data: editorUserData } = useEditorGetMyProfile();
 
   const handleEditProfile = () => {
-    // TODO: 프로필 편집 페이지로 이동
+    router.push('/mypage/edit-profile');
   };
 
   return (
