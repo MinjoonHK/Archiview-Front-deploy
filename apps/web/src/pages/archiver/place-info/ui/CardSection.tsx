@@ -89,7 +89,7 @@ export const CardSection = ({
         onConfirm={() => setOpenPlaceFinishModal(false)}
       />
       {postPlaces?.map((post) => (
-        <div>
+        <div key={post.postId}>
           <ReportEditorCardModal
             isOpen={openReportModal}
             onCancel={() => {

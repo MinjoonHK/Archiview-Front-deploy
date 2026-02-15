@@ -1,13 +1,13 @@
 import { HotPlaceCard } from '@/entities/archiver/place/ui/HotPlaceCard';
 import { useGetHotPlace } from '@/entities/archiver/place/queries/useGetHotPlace';
 import { IHotPlace } from '@/entities/archiver/place/model/archiverPlace.type';
+import { LoadingPage } from '@/shared/ui/common/Loading/LoadingPage';
 
 export const HotPlaceSection = (): React.ReactElement => {
   const { data: hotPlaceData, isLoading, isError } = useGetHotPlace({ useMock: false });
 
-  if (isLoading) return <div className="mb-5">로딩중...</div>;
+  if (isLoading) return <LoadingPage text="요즘 HOT한 장소를 불러오는 중입니다." role="ARCHIVER" />;
   if (isError) return <div className="mb-5">에러</div>;
-  console.log(hotPlaceData);
   const hotPlaces = hotPlaceData?.data?.places ?? [];
 
   if (hotPlaces.length === 0) {

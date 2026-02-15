@@ -12,6 +12,7 @@ import { useGetEditorPlaceList } from '@/entities/archiver/profile/queries/useGe
 import { ArchiverPlaceItem } from '../../my-archive/ui/ArchiverPlaceItem';
 import { EditorProfileCard } from './EditorProfileCard';
 import { SortDropdown } from './SortDropDown';
+import { LoadingPage } from '@/shared/ui/common/Loading/LoadingPage';
 
 export type CategoryTab =
   | 'ALL'
@@ -60,7 +61,7 @@ export const EditorProfilePage = ({ editorId }: { editorId: string }) => {
 
   const editor = editorData?.data;
 
-  if (!editor) return <div className="px-5">로딩중...</div>;
+  if (!editor) return <LoadingPage text="에디터 프로필을 불러오는 중입니다." role="ARCHIVER" />;
 
   return (
     <div className="flex h-full flex-col min-h-0">

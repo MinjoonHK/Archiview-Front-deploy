@@ -5,11 +5,13 @@ import { RoundedHeaderSection } from './RoundedHeader';
 import { InfoSection } from './InfoSection';
 import { CardSection } from './CardSection';
 import { useEditorGetPlaceInfo } from '@/entities/editor/place/mutations/useEditorGetPlaceInfo';
+import { useMinLoading } from '@/shared/hooks/useMinLoading';
 import { LoadingPage } from '@/shared/ui/common/Loading/LoadingPage';
 
 export const PlaceInfoPage = ({ placeId }: { placeId: number }) => {
   const { placeInfoData, isLoading, isError } = useEditorGetPlaceInfo(placeId);
-  if (isLoading)
+  const showLoading = useMinLoading(isLoading, 1500);
+  if (showLoading)
     return (
       <div>
         <LoadingPage text="장소 정보를 불러오는 중입니다." role="EDITOR" />
@@ -19,7 +21,7 @@ export const PlaceInfoPage = ({ placeId }: { placeId: number }) => {
   if (isError) return <div>에러네용 ㅠㅠ</div>;
 
   return (
-    <div className="h-screen flex flex-col">
+    <div className="h-full flex flex-col">
       <div className="shrink-0">
         <BackButtonHeader title="장소 통계 및 정보" />
       </div>

@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import { SyncLoader } from 'react-spinners';
 import { BlueFolderIcon } from '../../icon';
 
