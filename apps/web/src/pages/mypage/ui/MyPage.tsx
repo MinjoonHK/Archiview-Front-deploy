@@ -10,6 +10,7 @@ import { useLogout } from '@/entities/auth/hooks/useLogout';
 import { EditorMyPage } from './editor/EditorMyPage';
 import { ArchiverMyPage } from './archiver/ArchiverMyPage';
 import { useGetMyProfile } from '@/entities/archiver/profile/queries/useGetMyProfile';
+import { LoadingPage } from '@/shared/ui/common/Loading/LoadingPage';
 
 const isStoredUserRole = (value: string | null): value is StoredUserRole => {
   return value === 'GUEST' || value === 'ARCHIVER' || value === 'EDITOR';
@@ -28,7 +29,7 @@ export const MyPage = (): React.ReactElement => {
   const router = useRouter();
   const { switchRole } = useAuth();
   const { logout } = useLogout();
-  const { data: myData } = useGetMyProfile({ useMock: false });
+  const { data: myData, isLoading: isMyDataLoading } = useGetMyProfile({ useMock: false });
 
   const [role, setRole] = useState<StoredUserRole | null>(null);
   const [openChangeRoleModal, setOpenChangeRoleModal] = useState(false);
@@ -86,6 +87,15 @@ export const MyPage = (): React.ReactElement => {
       window.open(editorAgreementUrl, '_blank');
     }
   }, []);
+
+  if (isMyDataLoading) {
+    return (
+      <LoadingPage
+        text="내 정보를 불러오는 중입니다."
+        role={role === 'EDITOR' ? 'EDITOR' : 'ARCHIVER'}
+      />
+    );
+  }
 
   const commonHandlers = {
     onLogout: handleLogout,
