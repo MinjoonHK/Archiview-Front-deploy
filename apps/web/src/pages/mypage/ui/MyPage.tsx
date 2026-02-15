@@ -1,0 +1,117 @@
+'use client';
+
+import React, { useCallback, useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+
+import { useAuth, SwitchRoleError } from '@/entities/auth/hooks/useAuth';
+import { LOCAL_STORAGE_KEYS, type StoredUserRole } from '@/shared/constants/localStorageKeys';
+import { ChangeRoleModal } from '@/entities/auth/ui/ChangeRoleModal';
+import { useLogout } from '@/entities/auth/hooks/useLogout';
+import { EditorMyPage } from './editor/EditorMyPage';
+import { ArchiverMyPage } from './archiver/ArchiverMyPage';
+import { useGetMyProfile } from '@/entities/archiver/profile/queries/useGetMyProfile';
+
+const isStoredUserRole = (value: string | null): value is StoredUserRole => {
+  return value === 'GUEST' || value === 'ARCHIVER' || value === 'EDITOR';
+};
+
+export const MyPage = (): React.ReactElement => {
+  const reportSubmitUrl = process.env.NEXT_PUBLIC_REPORT_SUBMIT_URL;
+  const termsOfServiceUrl = process.env.NEXT_PUBLIC_TERMS_OF_SERVICE_URL;
+  const geoLocationTermsOfServiceUrl = process.env.NEXT_PUBLIC_GEO_LOCATION_TERMS_OF_SERVICE_URL;
+  const privacyPolicyUrl = process.env.NEXT_PUBLIC_PRIVACY_POLICY_URL;
+  const editorPolicyUrl = process.env.NEXT_PUBLIC_EDITOR_POLICY_URL;
+  const editorAgreementUrl = process.env.NEXT_PUBLIC_EDITOR_AGREEMENT_URL;
+  const enquiryUrl = process.env.NEXT_PUBLIC_ENQUIRY_URL;
+  const errorReportUrl = process.env.NEXT_PUBLIC_ERROR_REPORT_URL;
+
+  const router = useRouter();
+  const { switchRole } = useAuth();
+  const { logout } = useLogout();
+  const { data: myData } = useGetMyProfile({ useMock: false });
+
+  const [role, setRole] = useState<StoredUserRole | null>(null);
+  const [openChangeRoleModal, setOpenChangeRoleModal] = useState(false);
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem(LOCAL_STORAGE_KEYS.role);
+      setRole(isStoredUserRole(stored) ? stored : null);
+    } catch (e) {
+      console.error('Failed to read role from localStorage', e);
+    }
+  }, []);
+
+  // --- 공통 핸들러 ---
+  const handleSwitchRole = useCallback(async () => {
+    try {
+      const nextRole = await switchRole();
+      setRole(nextRole);
+      router.replace(nextRole === 'ARCHIVER' ? '/archiver/home' : '/editor/home');
+    } catch (e) {
+      if (e instanceof SwitchRoleError && e.code === 'USER_013') {
+        setOpenChangeRoleModal(true);
+        return;
+      }
+      console.error('Failed to switch role', e);
+    }
+  }, [router, switchRole]);
+
+  const handleLogout = useCallback(() => {
+    logout();
+  }, [logout]);
+
+  const handleWithdraw = useCallback(() => {
+    window.open(reportSubmitUrl, '_blank');
+  }, []);
+
+  const handleContact = useCallback(() => {
+    window.open(enquiryUrl, '_blank');
+  }, []);
+
+  const handleReportBug = useCallback(() => {
+    window.open(errorReportUrl, '_blank');
+  }, []);
+
+  const handleTermsClick = useCallback((key: string) => {
+    if (key === 'service-terms') {
+      window.open(termsOfServiceUrl, '_blank');
+    } else if (key === 'location-terms') {
+      window.open(geoLocationTermsOfServiceUrl, '_blank');
+    } else if (key === 'editor-policy') {
+      window.open(editorPolicyUrl, '_blank');
+    } else if (key === 'privacy-policy') {
+      window.open(privacyPolicyUrl, '_blank');
+    } else if (key === 'open-license') {
+      window.open(editorAgreementUrl, '_blank');
+    }
+  }, []);
+
+  const commonHandlers = {
+    onLogout: handleLogout,
+    onWithdraw: handleWithdraw,
+    onContact: handleContact,
+    onReportBug: handleReportBug,
+    onTermsClick: handleTermsClick,
+    onSwitchRole: handleSwitchRole,
+  };
+
+  return (
+    <>
+      {role === 'EDITOR' ? (
+        <EditorMyPage {...commonHandlers} />
+      ) : (
+        <ArchiverMyPage myData={myData?.data ?? null} {...commonHandlers} />
+      )}
+
+      <ChangeRoleModal
+        isOpen={openChangeRoleModal}
+        onClose={() => setOpenChangeRoleModal(false)}
+        onConfirm={() => {
+          setOpenChangeRoleModal(false);
+          router.push('/register-editor');
+        }}
+      />
+    </>
+  );
+};

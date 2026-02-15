@@ -6,22 +6,32 @@ import { useGetPlaceDetail } from '@/entities/archiver/place/queries/useGetPlace
 import { RoundedHeaderSection } from './RoundedHeader';
 import { InfoSection } from './InfoSection';
 import { CardSection } from './CardSection';
+import { useMinLoading } from '@/shared/hooks/useMinLoading';
+import { LoadingPage } from '@/shared/ui/common/Loading/LoadingPage';
 
 export const PlaceInfoPage = ({ placeId }: { placeId: number }) => {
-  const { data: placeDetailData } = useGetPlaceDetail({
+  const {
+    data: placeDetailData,
+    isLoading,
+    isError,
+  } = useGetPlaceDetail({
     placeId,
     useMock: false,
   });
 
-  if (!placeDetailData?.data) return <div>에러</div>;
+  const showLoading = useMinLoading(isLoading, 1500);
+  if (showLoading) return <LoadingPage text="장소 정보를 불러오는 중입니다." role="ARCHIVER" />;
+  if (isError) return <div>에러</div>;
 
   return (
-    <div className="h-screen flex flex-col">
-      <div className="flex-1 overflow-auto scroll-none">
+    <div className="h-full flex flex-col">
+      <div className="shrink-0">
         <BackButtonHeader title="" />
+      </div>
+      <div className="flex-1 overflow-auto scroll-none">
         <RoundedHeaderSection
           place={placeDetailData?.data?.place}
-          thumbnail={placeDetailData.data.postPlaces[0].imageUrl}
+          thumbnail={placeDetailData?.data?.postPlaces[0].imageUrl || ''}
         />
         <InfoSection
           place={placeDetailData?.data?.place}
@@ -33,7 +43,6 @@ export const PlaceInfoPage = ({ placeId }: { placeId: number }) => {
           placeId={placeId}
         />
       </div>
-      <div className="shrink-0"></div>
     </div>
   );
 };

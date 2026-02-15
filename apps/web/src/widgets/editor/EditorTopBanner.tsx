@@ -25,8 +25,7 @@ export const EditorTopBanner = ({ editorNickname, placeCount }: IEditorTopBanner
       <div className="pt-3">
         <p className="heading-24-bold">{editorNickname}</p>
         <span className="heading-20-semibold">
-          총 <span className="text-primary-40 underline">{placeCount}</span>개의
-          장소를
+          총 <span className="text-primary-40 underline">{placeCount}</span>개의 장소를
           <br />
           아카이뷰에 공유했어요
         </span>
