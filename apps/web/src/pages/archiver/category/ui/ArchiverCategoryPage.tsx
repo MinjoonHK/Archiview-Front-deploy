@@ -1,15 +1,21 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import { CATEGORIES } from '@/shared/constants/category';
 import { OptionTabs } from '@/shared/ui/common/Tabs/OptionTabs';
 import { useGetCategoryPlaceList } from '@/entities/archiver/category/queries/useGetCategoryPlaceList';
+import { useGetNearbyPlaces } from '@/entities/archiver/place/queries/useGetNearbyPlaces';
+import { getCurrentLocation } from '@/shared/lib/native-bridge/nativeMethods.client';
 import { Item } from '@/shared/ui/common/Item';
 import { EyeIcon, FolderOutlineIcon, RightArrowIcon } from '@/shared/ui/icon';
 
-const DEFAULT_CATEGORY_ID = CATEGORIES[0]?.id ?? 1;
+const NEAR_CATEGORY_ID = 0;
+const DEFAULT_CATEGORY_ID = NEAR_CATEGORY_ID;
+
+const FALLBACK_LATITUDE = 37.5665;
+const FALLBACK_LONGITUDE = 126.978;
 
 export const ArchiverCategoryPage = (): React.ReactElement => {
   const router = useRouter();
@@ -21,9 +27,11 @@ export const ArchiverCategoryPage = (): React.ReactElement => {
     const id = raw ? Number(raw) : NaN;
 
     if (!Number.isFinite(id)) return DEFAULT_CATEGORY_ID;
-    if (!CATEGORIES.some((c) => c.id === id)) return DEFAULT_CATEGORY_ID;
+    if (id !== NEAR_CATEGORY_ID && !CATEGORIES.some((c) => c.id === id)) return DEFAULT_CATEGORY_ID;
     return id;
   }, [sp]);
+
+  const isNear = categoryId === NEAR_CATEGORY_ID;
 
   const setCategory = (nextId: number) => {
     const params = new URLSearchParams(sp?.toString() ?? '');
@@ -34,17 +42,80 @@ export const ArchiverCategoryPage = (): React.ReactElement => {
     router.replace(qs ? `${path}?${qs}` : path);
   };
 
-  const categoryTabs = useMemo(() => CATEGORIES.map((c) => ({ label: c.name, value: c.id })), []);
+  const categoryTabs = useMemo(
+    () => [
+      { label: '내주변', value: NEAR_CATEGORY_ID },
+      ...CATEGORIES.map((c) => ({ label: c.name, value: c.id })),
+    ],
+    [],
+  );
 
   const categoryName = useMemo(
     () => CATEGORIES.find((c) => c.id === categoryId)?.name ?? '',
     [categoryId],
   );
 
-  const { data, isLoading, isError } = useGetCategoryPlaceList({ categoryId, useMock: true });
-  const apiErrorMessage = data && !data.success ? data.message : null;
+  const [coords, setCoords] = useState<{ latitude: number; longitude: number } | null>(null);
+
+  useEffect(() => {
+    if (!isNear) return;
+    if (coords) return;
+
+    let cancelled = false;
+
+    const run = async () => {
+      const location = await getCurrentLocation();
+      const latitude = location?.coords?.latitude ?? FALLBACK_LATITUDE;
+      const longitude = location?.coords?.longitude ?? FALLBACK_LONGITUDE;
+
+      if (cancelled) return;
+      setCoords({ latitude, longitude });
+    };
+
+    run()
+      .catch(() => {
+        if (cancelled) return;
+        setCoords({ latitude: FALLBACK_LATITUDE, longitude: FALLBACK_LONGITUDE });
+      })
+      .finally(() => {
+        if (cancelled) return;
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [coords, isNear]);
+
+  const {
+    data: categoryData,
+    isLoading: isCategoryLoading,
+    isError: isCategoryError,
+  } = useGetCategoryPlaceList({
+    categoryId,
+    useMock: true,
+    enabled: !isNear,
+  });
+
+  const {
+    data: nearData,
+    isLoading: isNearLoading,
+    isError: isNearError,
+  } = useGetNearbyPlaces({
+    latitude: coords?.latitude ?? FALLBACK_LATITUDE,
+    longitude: coords?.longitude ?? FALLBACK_LONGITUDE,
+    useMock: true,
+    enabled: isNear && Boolean(coords),
+  });
+
+  const data = isNear ? nearData : categoryData;
+  const isLoading = isNear ? isNearLoading : isCategoryLoading;
+  const isError = isNear ? isNearError : isCategoryError;
+
+  const apiErrorMessage = data && data.data === null ? data.message : null;
   const places = data?.data?.places ?? [];
   const totalCount = data?.data?.totalCount ?? 0;
+
+  const canShowList = !isLoading && !isError && !apiErrorMessage && (!isNear || Boolean(coords));
 
   return (
     <div className="flex h-full flex-col min-h-0">
@@ -57,15 +128,16 @@ export const ArchiverCategoryPage = (): React.ReactElement => {
 
       <div className="px-5 pt-6">
         <p className="heading-20-bold">
-          {categoryName} <span className="text-primary-40">{totalCount}</span>
+          {isNear ? '내주변' : categoryName} <span className="text-primary-40">{totalCount}</span>
         </p>
       </div>
 
+      {isNear && !coords ? <div className="px-5 pt-6">위치 불러오는 중...</div> : null}
       {isLoading ? <div className="px-5 pt-6">로딩중...</div> : null}
       {isError ? <div className="px-5 pt-6">불러오기 실패</div> : null}
       {apiErrorMessage ? <div className="px-5 pt-6">{apiErrorMessage}</div> : null}
 
-      {!isLoading && !isError && !apiErrorMessage ? (
+      {canShowList ? (
         <div className="flex-1 min-h-0 pt-2">
           {places.map((p) => (
             <Item

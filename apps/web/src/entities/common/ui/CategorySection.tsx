@@ -35,7 +35,7 @@ export const CategorySection = (): React.ReactElement => {
               />
             }
             label="내주변"
-            path="/archiver/my-archive"
+            path="/archiver/category?categoryId=0"
           />
           <CategoryItem
             icon={

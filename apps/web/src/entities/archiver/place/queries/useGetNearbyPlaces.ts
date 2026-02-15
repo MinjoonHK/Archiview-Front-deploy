@@ -9,12 +9,13 @@ interface IParams {
   latitude: number;
   longitude: number;
   useMock?: boolean;
+  enabled?: boolean;
 }
 
-export const useGetNearbyPlaces = ({ latitude, longitude, useMock }: IParams) => {
+export const useGetNearbyPlaces = ({ latitude, longitude, useMock, enabled = true }: IParams) => {
   return useQuery<INearPlaceResponseDTO>({
     queryKey: archiverKeys.getNearbyPlaces.applyFilters({ latitude, longitude, useMock }).queryKey,
     queryFn: () => archiverPlaceGet.getNearbyPlaces({ latitude, longitude, useMock }),
-    enabled: Number.isFinite(latitude) && Number.isFinite(longitude),
+    enabled: enabled && Number.isFinite(latitude) && Number.isFinite(longitude),
   });
 };
