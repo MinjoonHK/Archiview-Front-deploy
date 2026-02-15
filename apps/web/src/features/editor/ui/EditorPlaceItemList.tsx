@@ -8,6 +8,43 @@ import { parseMetric } from '@/features/editor/utils/parseMetric';
 import type { PlaceOption } from './PlaceOptionTabs';
 import { EditorPlaceItem } from '../../../entities/editor/place/ui/EditorPlaceItem';
 
+const EmptyPlaceState = () => {
+  return (
+    <div className="flex flex-col items-center gap-6 py-24">
+      <Link
+        href="/editor/register-place"
+        className="flex size-[60px] items-center justify-center rounded-full bg-primary-40"
+      >
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M12 5V19"
+            stroke="white"
+            strokeWidth="2"
+            strokeLinecap="round"
+          />
+          <path
+            d="M5 12H19"
+            stroke="white"
+            strokeWidth="2"
+            strokeLinecap="round"
+          />
+        </svg>
+      </Link>
+      <p className="body-16-semibold text-center text-neutral-40">
+        아직 공유한 장소가 없어요.
+        <br />
+        소중한 정보를 등록해주세요!
+      </p>
+    </div>
+  );
+};
+
 function sortPlaces(places: IEditorInsightPlace[], metric: PlaceOption) {
   const copy = [...places];
 
@@ -45,7 +82,7 @@ export const EditorPlaceItemList = ({ places }: IEditorPlaceItemListProps) => {
 
   const sortedPlaces = useMemo(() => sortPlaces(places, metric), [places, metric]);
 
-  if (sortedPlaces.length === 0) return <div className="pt-6">장소가 없습니다.</div>;
+  if (sortedPlaces.length === 0) return <EmptyPlaceState />;
 
   return (
     <div className="pt-6">
