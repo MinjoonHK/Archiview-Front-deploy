@@ -5,7 +5,7 @@ import { Badge } from '@/shared/ui/Badge';
 import { Kard } from '@/shared/ui/common/Kard';
 import { DotThreeIcon, ProfileAddIcon } from '@/shared/ui/icon';
 import { useFollowEditor } from '@/entities/archiver/follow/mutation/useFollowEditor';
-import { useBlockEditor } from '@/entities/archiver/report/mutation/useBlockEditor';
+import { useBlockEditor } from '@/entities/archiver/follow/mutation/useBlockEditor';
 
 import { ReportBottomSheetModal } from './ReportBottomSheetModal';
 import { ReportModal, BlockModal } from './ReportModal';
@@ -143,7 +143,7 @@ export const EditorProfileCard = ({ editorId, editorData }: IEditorProfileCardPr
         }}
         // TODO : api 연동하기
         onConfirm={() => {
-          blockEditor({ editorId: editorId });
+          blockEditor(editorId);
           setBlockModalOpen(false);
         }}
         editorName={'에디터 닉네임'}
