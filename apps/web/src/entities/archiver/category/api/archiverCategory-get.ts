@@ -8,7 +8,7 @@ export const archiverCategoryGet = {
     useMock?: boolean;
   }): Promise<ICategoryPlaceListResponseDTO> => {
     const response = await clientApi
-      .get(`category/${params.categoryId}/places`, {
+      .get(`categories/${params.categoryId}/places`, {
         searchParams: { useMock: params?.useMock ?? false },
       })
       .json<ICategoryPlaceListResponseDTO>();

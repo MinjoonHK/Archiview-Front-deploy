@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 const CategoryItem = ({
   icon,
@@ -10,12 +11,12 @@ const CategoryItem = ({
   path: string;
 }): React.ReactElement => {
   return (
-    <div className="flex flex-col gap-1.5 items-center">
+    <Link href={path} className="flex flex-col gap-1.5 items-center">
       <div className="h-13 w-13 rounded-xl flex items-center justify-center bg-primary-30">
         {icon}
       </div>
       <div className="body-12-medium">{label}</div>
-    </div>
+    </Link>
   );
 };
 
@@ -34,14 +35,14 @@ export const CategorySection = (): React.ReactElement => {
               />
             }
             label="내주변"
-            path="/"
+            path="/archiver/my-archive"
           />
           <CategoryItem
             icon={
               <Image src="/images/archiverHome/KoreanImage.svg" alt="한식" width={56} height={56} />
             }
             label="한식"
-            path="/"
+            path="/archiver/category?categoryId=1"
           />
           <CategoryItem
             icon={
@@ -53,7 +54,7 @@ export const CategorySection = (): React.ReactElement => {
               />
             }
             label="양식"
-            path="/"
+            path="/archiver/category?categoryId=2"
           />
           <CategoryItem
             icon={
@@ -65,7 +66,7 @@ export const CategorySection = (): React.ReactElement => {
               />
             }
             label="일식"
-            path="/"
+            path="/archiver/category?categoryId=3"
           />
         </div>
         <div className="flex items-center justify-between">
@@ -74,7 +75,7 @@ export const CategorySection = (): React.ReactElement => {
               <Image src="/images/archiverHome/CafeImage.svg" alt="햄버거" width={56} height={56} />
             }
             label="카페"
-            path="/"
+            path="/archiver/category?categoryId=4"
           />
           <CategoryItem
             icon={
@@ -86,21 +87,21 @@ export const CategorySection = (): React.ReactElement => {
               />
             }
             label="이자카야"
-            path="/"
+            path="/archiver/category?categoryId=6"
           />
           <CategoryItem
             icon={
               <Image src="/images/archiverHome/DateImage.svg" alt="데이트" width={56} height={56} />
             }
             label="데이트"
-            path="/"
+            path="/archiver/category?categoryId=5"
           />
           <CategoryItem
             icon={
               <Image src="/images/archiverHome/OthersImage.svg" alt="기타" width={56} height={56} />
             }
             label="기타"
-            path="/"
+            path="/archiver/category?categoryId=7"
           />
         </div>
       </div>
