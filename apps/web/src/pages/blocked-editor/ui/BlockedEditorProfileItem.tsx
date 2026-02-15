@@ -5,6 +5,7 @@ import Image from 'next/image';
 
 import { Item } from '@/shared/ui/common/Item';
 import { UnBlockIcon } from '@/shared/ui/icon';
+import { useUnBlockEditor } from '@/entities/archiver/follow/mutation/useUnblockEditor';
 
 import { UnBlockModal } from './UnBlockModal';
 
@@ -22,6 +23,11 @@ export const BlockedEditorProfileItem = ({
   profileImageUrl,
 }: IBlockedEditorProfileItemProps): React.ReactElement => {
   const [modalOpen, setModalOpen] = useState(false);
+
+  const { unBlockEditor } = useUnBlockEditor({
+    useMock: false,
+    onSuccess: () => setModalOpen(false),
+  });
 
   return (
     <div>
@@ -66,7 +72,7 @@ export const BlockedEditorProfileItem = ({
       <UnBlockModal
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
-        onConfirm={() => console.log('sf')}
+        onConfirm={() => unBlockEditor(editorId)}
       />
     </div>
   );
