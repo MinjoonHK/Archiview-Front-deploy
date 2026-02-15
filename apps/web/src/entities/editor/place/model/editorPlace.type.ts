@@ -29,6 +29,7 @@ export interface IEditorInsightPlaceList {
 
 export interface IEditorInsightPlaceDetail {
   placeId: number;
+  phoneNumber: string;
   placeName: string;
   placeImageUrl: string;
   editorTotal: number;

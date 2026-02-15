@@ -1,5 +1,4 @@
 import { IEditorInsightPlaceDetail } from '@/entities/editor/place/model/editorPlace.type';
-import { CursorIcon } from '@/shared/ui/icon/place-info/CursorIcon';
 import { FolderIcon } from '@/shared/ui/icon/place-info/FolderIcon';
 import { MedalIcon } from '@/shared/ui/icon/place-info/MedalIcon';
 import PhoneIcon from '@/shared/ui/icon/place-info/PhoneIcon';
