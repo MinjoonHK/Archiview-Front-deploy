@@ -2,6 +2,7 @@
 
 import { OptionTabs } from '@/shared/ui/common/Tabs/OptionTabs';
 
+// TODO : 주석 해제 (내주변 기능 추가)
 export type CategoryTab =
   | '전체'
   | '내주변'

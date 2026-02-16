@@ -41,6 +41,16 @@ export const MyArchivePageInner = () => {
   //   run().catch(console.error);
   // }, []);
 
+  // TODO : 내주변 가드한거 치우기
+  const handleCategoryChange = (next: CategoryTab) => {
+    if (next === '내주변') {
+      alert('준비중이에요!');
+      return;
+    }
+
+    setCategory(next);
+  };
+
   const places: IPlace[] = useMemo(() => {
     const postPlaces = data?.data?.postPlaces ?? [];
 
@@ -58,6 +68,7 @@ export const MyArchivePageInner = () => {
   }, [data]);
 
   const filteredPlaces = useMemo(() => {
+    // TODO : 주석 해제
     if (category === '전체' || category === '내주변') return places;
     return places.filter((p) => p.category === category);
   }, [places, category]);
@@ -77,7 +88,7 @@ export const MyArchivePageInner = () => {
 
   return (
     <div className="flex h-full flex-col min-h-0">
-      <CategoryOptionTabs value={category} onChange={setCategory} />
+      <CategoryOptionTabs value={category} onChange={handleCategoryChange} />
       <pre>
         {/* {location
           ? JSON.stringify(location, null, 2)
