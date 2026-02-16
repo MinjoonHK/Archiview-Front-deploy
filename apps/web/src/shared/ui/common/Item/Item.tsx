@@ -17,6 +17,7 @@ export const Item = ({
   className,
   disableActive = false,
 }: IItemProps) => {
+  console.log(thumbnail);
   return (
     <div
       onClick={onClick}
