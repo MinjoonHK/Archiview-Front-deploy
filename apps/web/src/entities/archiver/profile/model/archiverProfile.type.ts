@@ -32,6 +32,7 @@ export interface IEditorProfile {
   introduction: string;
   hashtags: string[];
   profileImageUrl: string;
+  following: boolean;
 }
 
 export interface IEditorPlace {
