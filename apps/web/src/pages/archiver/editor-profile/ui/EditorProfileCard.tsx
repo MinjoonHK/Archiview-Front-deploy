@@ -224,9 +224,7 @@ export const EditorProfileCard = ({ editorId, editorData }: IEditorProfileCardPr
 
         {/* 하단(화이트 영역) */}
         <div className="bg-white px-5 pb-5 pt-4">
-          <p className="body-14-medium text-primary-40">
-            50자 이내로 자기소개합니다. 50자 이내로 자기소개합니다. 50자 이내로 자기소개합니다.
-          </p>
+          <p className="body-14-medium text-primary-40">{editorData.introduction}</p>
         </div>
       </Kard>
 

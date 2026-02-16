@@ -95,8 +95,8 @@ export const LoginPage = () => {
             <KakaoButton />
             <AppleLoginButton
               clientId={process.env.NEXT_PUBLIC_APPLE_CLIENT_ID!}
-              redirectUri="https://api.archiview.space/oauth2/authorization/apple"
-              redirectUriDev="https://api.archiview.space/oauth2/authorization/apple?dev=true"
+              redirectUri={process.env.NEXT_PUBLIC_APPLE_REDIRECT_URI!}
+              redirectUriDev={process.env.NEXT_PUBLIC_APPLE_REDIRECT_URI_DEV}
               className="w-full rounded-xl bg-black px-4 py-3 text-white"
             >
               Apple로 로그인
