@@ -8,6 +8,7 @@ import { Button } from '@/shared/ui/button';
 import { OnboardingCarousel, type IOnboardingCarouselHandle } from './OnboardingCarousel';
 import { AppleButton, GoogleButton, KakaoButton } from './SocialLoginButton';
 import { AppleLoginButton } from './AppleLoginButton';
+import { AppleIcon } from '@/shared/ui/icon/AppleIcon';
 
 const ONBOARDING_TEXT: Array<{ title: string; description: string }> = [
   {
@@ -101,9 +102,9 @@ export const LoginPage = () => {
             >
               Apple로 로그인
             </AppleLoginButton>
-            <div className="flex flex-col items-center gap-1">
+            {/* <div className="flex flex-col items-center gap-1">
               <GoogleButton />
-            </div>
+            </div> */}
           </div>
         </div>
       )}

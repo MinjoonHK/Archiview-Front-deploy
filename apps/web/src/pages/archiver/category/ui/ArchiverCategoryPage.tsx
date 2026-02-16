@@ -12,6 +12,9 @@ import { KakaoMap } from '@/shared/ui/KakaoMap';
 import { BottomSheet } from '@/shared/ui/common/BottomSheet/BottomSheet';
 import { Item } from '@/shared/ui/common/Item';
 import { EyeIcon, FolderOutlineIcon, RightArrowIcon } from '@/shared/ui/icon';
+import Image from 'next/image';
+import { useMinLoading } from '@/shared/hooks/useMinLoading';
+import { LoadingPage } from '@/shared/ui/common/Loading/LoadingPage';
 
 const NEAR_CATEGORY_ID = 0;
 const DEFAULT_CATEGORY_ID = NEAR_CATEGORY_ID;
@@ -117,15 +120,16 @@ export const ArchiverCategoryPage = (): React.ReactElement => {
     useMock: false,
     enabled: isNear && Boolean(coords),
   });
+  console.log(categoryData);
 
   const data = isNear ? nearData : categoryData;
-  const isLoading = isNear ? isNearLoading : isCategoryLoading;
+  const isRawLoading = isNear ? isNearLoading : isCategoryLoading;
+  const isLoading = useMinLoading(isRawLoading);
   const isError = isNear ? isNearError : isCategoryError;
 
   const apiErrorMessage = data && data.data === null ? data.message : null;
   const places = data?.data?.places ?? [];
   const totalCount = data?.data?.totalCount ?? 0;
-
   const canShowCategoryList = !isNear && !isLoading && !isError && !apiErrorMessage;
 
   return (
@@ -160,7 +164,7 @@ export const ArchiverCategoryPage = (): React.ReactElement => {
             contentClassName="overflow-y-auto px-0 pb-6"
           >
             {!coords ? <div className="px-5 pt-6">위치 불러오는 중...</div> : null}
-            {coords && isLoading ? <div className="px-5 pt-6">로딩중...</div> : null}
+            {coords && isLoading ? <LoadingPage text="장소를 불러오는 중..." role="ARCHIVER" /> : null}
             {coords && isError ? <div className="px-5 pt-6">불러오기 실패</div> : null}
             {coords && apiErrorMessage ? <div className="px-5 pt-6">{apiErrorMessage}</div> : null}
 
@@ -172,7 +176,9 @@ export const ArchiverCategoryPage = (): React.ReactElement => {
                   <Item
                     key={p.placeId}
                     thumbnail={
-                      <div className="h-18 w-18 overflow-hidden rounded-2xl bg-neutral-30" />
+                      <div className="relative h-18 w-18 overflow-hidden rounded-2xl bg-neutral-30">
+                        <Image src={p.imageUrl} alt={p.placeName} fill className="object-cover" />
+                      </div>
                     }
                     onClick={() => router.push(`/archiver/place-info/${p.placeId}`)}
                   >
@@ -211,7 +217,7 @@ export const ArchiverCategoryPage = (): React.ReactElement => {
             </p>
           </div>
 
-          {isLoading ? <div className="px-5 pt-6">로딩중...</div> : null}
+          {isLoading ? <LoadingPage text="장소를 불러오는 중..." role="ARCHIVER" /> : null}
           {isError ? <div className="px-5 pt-6">불러오기 실패</div> : null}
           {apiErrorMessage ? <div className="px-5 pt-6">{apiErrorMessage}</div> : null}
 
@@ -224,7 +230,9 @@ export const ArchiverCategoryPage = (): React.ReactElement => {
                   <Item
                     key={p.placeId}
                     thumbnail={
-                      <div className="h-18 w-18 overflow-hidden rounded-2xl bg-neutral-30" />
+                      <div className="relative h-18 w-18 overflow-hidden rounded-2xl bg-neutral-30">
+                        <Image src={p.imageUrl} alt={p.placeName} fill className="object-cover" />
+                      </div>
                     }
                     onClick={() => router.push(`/archiver/place-info/${p.placeId}`)}
                   >
