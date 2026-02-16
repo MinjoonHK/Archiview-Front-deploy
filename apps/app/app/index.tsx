@@ -4,7 +4,7 @@ import { WebView, emitAppReady } from '@/bridge';
 
 export default function Index() {
   return (
-    <SafeAreaView style={{ flex: 1 }} edges={['top', 'bottom']}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }} edges={['top', 'bottom']}>
       <WebView
         style={{ flex: 1 }}
         // source={{ uri: 'https://archiview.space/' }}

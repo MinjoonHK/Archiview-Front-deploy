@@ -16,9 +16,8 @@ export const useUnfollowEditor = (options?: IUseUnfollowEditorOptions) => {
   const { mutate: unfollowEditor } = useMutation({
     mutationFn: (editorId: string) => archiverFollowDelete.unFollowEditor(editorId),
     onSuccess: async (data: IFollowResponseDTO) => {
-      toast.success('언팔로우 완료');
 
-      await qc.invalidateQueries({ queryKey: archiverKeys.getMyFollows.all.queryKey });
+      await qc.invalidateQueries({ queryKey: archiverKeys.getMyFollows._def });
 
       options?.onSuccess?.(data);
     },

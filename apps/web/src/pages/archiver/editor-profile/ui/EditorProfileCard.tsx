@@ -14,6 +14,7 @@ import {
 
 import { ReportBottomSheetModal } from './ReportBottomSheetModal';
 import { ReportModal, BlockModal } from './ReportModal';
+import { FollowModal } from './FollowModal';
 
 interface IEditorProfile {
   nickname: string;
@@ -22,6 +23,7 @@ interface IEditorProfile {
   introduction: string;
   hashtags: string[];
   profileImageUrl: string;
+  following: boolean;
 }
 
 interface IEditorProfileCardProps {
@@ -145,6 +147,7 @@ export const EditorProfileCard = ({ editorId, editorData }: IEditorProfileCardPr
   const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
   const [reportModalOpen, setReportModalOpen] = useState(false);
   const [blockModalOpen, setBlockModalOpen] = useState(false);
+  const [followModalOpen, setFollowModalOpen] = useState(false);
 
   const { followEditor } = useFollowEditor();
   const { blockEditor } = useBlockEditor();
@@ -194,13 +197,17 @@ export const EditorProfileCard = ({ editorId, editorData }: IEditorProfileCardPr
                   />
                 </button>
 
-                {/* TODO : 친추완료 시 아이콘 바꾸기 */}
+                {/* TODO : 친추완료 시 친삭 아이콘으로 두어야 하나? */}
                 <button
                   type="button"
-                  onClick={() => followEditor(editorId)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setFollowModalOpen(true);
+                  }}
                   className="inline-flex items-center justify-center"
                 >
-                  <ProfileAddIcon className="text-black" />
+                  {!editorData.following && <ProfileAddIcon className="text-black" />}
                 </button>
 
                 <DotThreeIcon
@@ -258,6 +265,16 @@ export const EditorProfileCard = ({ editorId, editorData }: IEditorProfileCardPr
           setBlockModalOpen(false);
         }}
         editorName={'에디터 닉네임'}
+      />
+
+      <FollowModal
+        nickname={editorData.nickname}
+        isOpen={followModalOpen}
+        onClose={() => setFollowModalOpen(false)}
+        onConfirm={() => {
+          setFollowModalOpen(false);
+          followEditor(editorId);
+        }}
       />
     </>
   );

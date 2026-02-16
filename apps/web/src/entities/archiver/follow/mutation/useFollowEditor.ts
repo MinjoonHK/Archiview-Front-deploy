@@ -16,9 +16,8 @@ export const useFollowEditor = (options?: IUseFollowEditorOptions) => {
   const { mutate: followEditor } = useMutation({
     mutationFn: (editorId: string) => archiverFollowPost.followEditor(editorId),
     onSuccess: async (data: IFollowResponseDTO, editorId: string) => {
-      toast.success('팔로우 완료');
       await Promise.all([
-        qc.invalidateQueries({ queryKey: archiverKeys.getMyFollows.all.queryKey }),
+        qc.invalidateQueries({ queryKey: archiverKeys.getMyFollows._def }),
         qc.invalidateQueries({
           queryKey: archiverKeys.getEditorProfile.applyFilters({ editorId, useMock: false })
             .queryKey,
