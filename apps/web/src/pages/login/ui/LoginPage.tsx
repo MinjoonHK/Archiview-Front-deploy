@@ -97,7 +97,7 @@ export const LoginPage = () => {
               clientId={process.env.NEXT_PUBLIC_APPLE_CLIENT_ID!}
               redirectUri="https://api.archiview.space/login/oauth2/code/apple"
               // redirectUriDev="https://api.archiview.space/login/oauth2/code/apple?dev=true"
-              redirectUriDev="https://api.archiview.space/login/oauth2/code/apple"
+              redirectUriDev="https://api.archiview.space/login/oauth2/code/apple?dev=true"
               className="w-full rounded-xl bg-black px-4 py-3 text-white"
             >
               Apple로 로그인

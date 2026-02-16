@@ -2,7 +2,9 @@ import { cn } from '@/shared/lib/cn';
 import { useRef, useState } from 'react';
 
 interface IBottomSheetProps {
-  isOpen: boolean;
+  isOpen?: boolean;
+  lockOpen?: boolean;
+
   onOpenChange: (open: boolean) => void;
 
   height: number;
@@ -28,6 +30,7 @@ interface IBottomSheetProps {
  */
 export const BottomSheet = ({
   isOpen,
+  lockOpen,
   onOpenChange,
   height,
   peekHeight,
@@ -44,11 +47,13 @@ export const BottomSheet = ({
   const closedOffset = height - peekHeight;
 
   const handlePointerDown = (e: React.PointerEvent) => {
+    if (lockOpen) return;
     startYRef.current = e.clientY;
     isDraggingRef.current = false;
   };
 
   const handlePointerMove = (e: React.PointerEvent) => {
+    if (lockOpen) return;
     if (startYRef.current === null) return;
 
     const diff = e.clientY - startYRef.current;
@@ -68,6 +73,8 @@ export const BottomSheet = ({
   };
 
   const handlePointerUp = (e: React.PointerEvent) => {
+    if (lockOpen) return;
+
     if (startYRef.current === null) return;
 
     if (!isDraggingRef.current) {
