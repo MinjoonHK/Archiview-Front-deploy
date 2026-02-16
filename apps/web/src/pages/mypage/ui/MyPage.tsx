@@ -7,19 +7,21 @@ import { useAuth, SwitchRoleError } from '@/entities/auth/hooks/useAuth';
 import { LOCAL_STORAGE_KEYS, type StoredUserRole } from '@/shared/constants/localStorageKeys';
 import { ChangeRoleModal } from '@/entities/auth/ui/ChangeRoleModal';
 import { useLogout } from '@/entities/auth/hooks/useLogout';
+import { useWithdraw } from '@/entities/auth/hooks/useWithdraw';
 import { openInAppBrowser } from '@/shared/lib/native-bridge';
 import { EditorMyPage } from './editor/EditorMyPage';
 import { ArchiverMyPage } from './archiver/ArchiverMyPage';
 import { useGetMyProfile } from '@/entities/archiver/profile/queries/useGetMyProfile';
 import { LoadingPage } from '@/shared/ui/common/Loading/LoadingPage';
 import { useMinLoading } from '@/shared/hooks/useMinLoading';
+import { WithDrawModal } from './WithDrawModal';
+import { LogoutModal } from './LogoutModal';
 
 const isStoredUserRole = (value: string | null): value is StoredUserRole => {
   return value === 'GUEST' || value === 'ARCHIVER' || value === 'EDITOR';
 };
 
 export const MyPage = (): React.ReactElement => {
-  const reportSubmitUrl = process.env.NEXT_PUBLIC_REPORT_SUBMIT_URL;
   const termsOfServiceUrl = process.env.NEXT_PUBLIC_TERMS_OF_SERVICE_URL;
   const geoLocationTermsOfServiceUrl = process.env.NEXT_PUBLIC_GEO_LOCATION_TERMS_OF_SERVICE_URL;
   const privacyPolicyUrl = process.env.NEXT_PUBLIC_PRIVACY_POLICY_URL;
@@ -31,10 +33,13 @@ export const MyPage = (): React.ReactElement => {
   const router = useRouter();
   const { switchRole } = useAuth();
   const { logout } = useLogout();
+  const { withdraw } = useWithdraw();
   const { data: myData, isLoading: isMyDataLoading } = useGetMyProfile({ useMock: false });
 
   const [role, setRole] = useState<StoredUserRole | null>(null);
   const [openChangeRoleModal, setOpenChangeRoleModal] = useState(false);
+  const [openWithDrawModal, setOpenWithDrawModal] = useState(false);
+  const [openLogoutModal, setOpenLogoutModal] = useState(false);
 
   useEffect(() => {
     try {
@@ -61,6 +66,11 @@ export const MyPage = (): React.ReactElement => {
   }, [router, switchRole]);
 
   const handleLogout = useCallback(() => {
+    setOpenLogoutModal(true);
+  }, []);
+
+  const handleLogoutConfirm = useCallback(() => {
+    setOpenLogoutModal(false);
     logout();
   }, [logout]);
 
@@ -81,9 +91,13 @@ export const MyPage = (): React.ReactElement => {
   }, []);
 
   const handleWithdraw = useCallback(() => {
-    // eslint-disable-next-line no-void
-    void openExternalUrl(reportSubmitUrl);
-  }, [openExternalUrl, reportSubmitUrl]);
+    setOpenWithDrawModal(true);
+  }, []);
+
+  const handleWithdrawConfirm = useCallback(() => {
+    setOpenWithDrawModal(false);
+    withdraw();
+  }, [withdraw]);
 
   const handleContact = useCallback(() => {
     // eslint-disable-next-line no-void
@@ -157,6 +171,18 @@ export const MyPage = (): React.ReactElement => {
           setOpenChangeRoleModal(false);
           router.push('/register-editor');
         }}
+      />
+
+      <WithDrawModal
+        isOpen={openWithDrawModal}
+        onClose={() => setOpenWithDrawModal(false)}
+        onConfirm={handleWithdrawConfirm}
+      />
+
+      <LogoutModal
+        isOpen={openLogoutModal}
+        onClose={() => setOpenLogoutModal(false)}
+        onConfirm={handleLogoutConfirm}
       />
     </>
   );

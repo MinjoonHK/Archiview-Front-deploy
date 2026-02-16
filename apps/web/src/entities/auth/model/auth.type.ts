@@ -49,3 +49,6 @@ export type ISwitchRoleResponseDTO = ApiResponse<ISwitchRoleResponse>;
 
 // 에디터 프로필 등록
 export type IEditorProfileRegisterResponseDTO = ApiResponse<IEditorProfileRegisterResponse>;
+
+// 탈퇴
+export type IWithDrawResponseDTO = ApiResponse<Record<string, never>>;
