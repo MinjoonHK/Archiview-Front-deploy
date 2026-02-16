@@ -2,12 +2,7 @@
 
 import { useRouter, usePathname } from 'next/navigation';
 
-import {
-  LocationPinIcon,
-  UserCircleIcon,
-  HomeIcon,
-  NavigationFooterFolderIcon,
-} from '../../shared/ui/icon';
+import { LocationPinIcon, UserCircleIcon, HomeIcon, ProfileAddIcon } from '../../shared/ui/icon';
 
 // TODO : 라우팅 수정
 export const ARCHIVER_NAVIGATION_FOOTER_ITEMS = [
@@ -21,7 +16,7 @@ export const ARCHIVER_NAVIGATION_FOOTER_ITEMS = [
     key: 'follow',
     label: '팔로우',
     href: 'follow-list',
-    icon: NavigationFooterFolderIcon,
+    icon: ProfileAddIcon,
   },
   {
     key: 'archive',
