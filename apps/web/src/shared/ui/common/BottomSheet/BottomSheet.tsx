@@ -10,10 +10,12 @@ interface IBottomSheetProps {
   height: number;
   peekHeight: number;
 
+  bottomOffset?: number | string;
+
   header?: React.ReactNode;
   headerClassName?: string;
   contentClassName?: string;
-
+  className?: string;
   children: React.ReactNode;
 }
 
@@ -34,9 +36,11 @@ export const BottomSheet = ({
   onOpenChange,
   height,
   peekHeight,
+  bottomOffset = 'var(--navigation-footer-height, 0px)',
   header,
   headerClassName,
   contentClassName,
+  className,
   children,
 }: IBottomSheetProps) => {
   const sheetRef = useRef<HTMLDivElement | null>(null);
@@ -103,11 +107,13 @@ export const BottomSheet = ({
     <div
       ref={sheetRef}
       className={cn(
-        'fixed flex flex-col w-full max-w-125 bottom-0 left-1/2 z-40 h-full rounded-t-default bg-white',
+        'fixed flex flex-col w-full max-w-125 left-1/2 z-40 h-full rounded-t-default bg-white',
         'transition-transform duration-250 ease-out',
+        className,
       )}
       style={{
         height,
+        bottom: typeof bottomOffset === 'number' ? `${bottomOffset}px` : bottomOffset,
         transform: `translateX(-50%) translateY(${baseTranslateY + dragOffset}px)`,
       }}
     >

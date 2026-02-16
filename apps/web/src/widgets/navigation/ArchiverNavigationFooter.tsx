@@ -71,7 +71,7 @@ export const ArchiverNavigationFooter = ({
   const pathname = usePathname() ?? '';
 
   return (
-    <div className="h-18 bottom-0 px-4 border-t border-neutral-40 pt-2 pb-3">
+    <div className="h-18 bottom-0 px-4 border-t border-neutral-40 pt-2 pb-3 z-50 bg-white">
       <div className="flex items-center justify-between gap-2">
         {ARCHIVER_NAVIGATION_FOOTER_ITEMS.map((item) => {
           const isActive =
