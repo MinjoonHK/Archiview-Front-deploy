@@ -11,6 +11,7 @@ import { openInstagramUrlDeepLinkOrPopup } from '@/shared/lib/external/openInsta
 
 import { ReportEditorCardModal } from './ReportEditorCardModal';
 import { ArchivePlaceFinishModal } from './ArchivePlaceFinishModal';
+import { usePostInstagramFlow } from '@/entities/archiver/place/mutation/usePostInstagramFlow';
 interface IPostPlace {
   postPlaceId: number;
   postId: number;
@@ -44,6 +45,8 @@ export const CardSection = ({
   const { postPlaceCard } = usePostPlaceCardMutation({
     onSuccess: () => setOpenPlaceFinishModal(true),
   });
+
+  const { mutate: postInstagramFlow } = usePostInstagramFlow();
 
   const { deletePlaceCard } = useDeletePlaceCardMutation({
     onSuccess: () => setOpenPlaceFinishModal(true),
@@ -129,6 +132,7 @@ export const CardSection = ({
                   <button
                     onClick={() => {
                       openInstagramUrlDeepLinkOrPopup(post.instagramUrl);
+                      postInstagramFlow(post.postPlaceId);
                     }}
                   >
                     <Image
