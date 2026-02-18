@@ -164,6 +164,56 @@ export const RegisterEditorPage = () => {
     isInstagramUrlDisabled,
   ]);
 
+  const requiredStatus = useMemo(() => {
+    const trimmedNickname = nickname.trim();
+    const trimmedIntroduction = introduction.trim();
+    const trimmedInstagramId = instagramId.trim();
+    const trimmedInstagramUrl = instagramUrl.trim();
+
+    const items = [
+      { key: 'profileImage', label: '프로필 사진', done: !!profileImageUrl },
+      {
+        key: 'nickname',
+        label: '닉네임 중복확인',
+        done: trimmedNickname.length > 0 && isNicknameDisabled,
+      },
+      {
+        key: 'introduction',
+        label: '한줄소개(1~50자)',
+        done: trimmedIntroduction.length > 0 && trimmedIntroduction.length <= 50,
+      },
+      {
+        key: 'instagramId',
+        label: '인스타그램 아이디 확인',
+        done: trimmedInstagramId.length > 0 && isInstagramIdDisabled,
+      },
+      {
+        key: 'instagramUrl',
+        label: '인스타그램 URL 확인',
+        done: trimmedInstagramUrl.length > 0 && isInstagramUrlDisabled,
+      },
+      { key: 'hashtags', label: '해시태그 2개', done: hashtags.length === 2 },
+    ];
+
+    const doneCount = items.filter((it) => it.done).length;
+    return {
+      items,
+      doneCount,
+      totalCount: items.length,
+      remainingCount: items.length - doneCount,
+    };
+  }, [
+    hashtags.length,
+    introduction,
+    instagramId,
+    instagramUrl,
+    isInstagramIdDisabled,
+    isInstagramUrlDisabled,
+    isNicknameDisabled,
+    nickname,
+    profileImageUrl,
+  ]);
+
   const handleSubmit = () => {
     if (!isSubmitEnabled) return;
 
@@ -203,28 +253,34 @@ export const RegisterEditorPage = () => {
       />
 
       <div className="flex flex-col gap-5">
-        <div className="pt-6 flex justify-center">
-          <button
-            type="button"
-            onClick={openFilePicker}
-            className="relative h-22.5 w-22.5 rounded-full bg-neutral-20 overflow-hidden"
-            aria-label="프로필 이미지 업로드"
-          >
-            {/* 미리보기 */}
-            {profileImagePreViewUrl ? (
-              <Image
-                src={profileImagePreViewUrl}
-                alt="프로필 미리보기"
-                fill
-                unoptimized
-                className="object-cover"
-              />
-            ) : (
-              <div className="h-full w-full flex items-center justify-center text-neutral-40 text-sm">
-                프로필 사진 업로드
-              </div>
-            )}
-          </button>
+        <div>
+          <div className="flex flex-row justify-between mb-3">
+            <p className="body-14-semibold">프로필 사진</p>
+            <p className="caption-12-medium text-primary-40">*필수</p>
+          </div>
+          <div className="pt-6 flex justify-center">
+            <button
+              type="button"
+              onClick={openFilePicker}
+              className="relative h-22.5 w-22.5 rounded-full bg-neutral-20 overflow-hidden"
+              aria-label="프로필 이미지 업로드"
+            >
+              {/* 미리보기 */}
+              {profileImagePreViewUrl ? (
+                <Image
+                  src={profileImagePreViewUrl}
+                  alt="프로필 미리보기"
+                  fill
+                  unoptimized
+                  className="object-cover"
+                />
+              ) : (
+                <div className="h-full w-full flex items-center justify-center text-neutral-40 text-sm">
+                  프로필 사진 업로드
+                </div>
+              )}
+            </button>
+          </div>
 
           <input
             ref={fileRef}
@@ -303,6 +359,32 @@ export const RegisterEditorPage = () => {
       </div>
 
       <div className="pb-5 pt-3">
+        <div className="mb-3 rounded-2xl bg-neutral-10 px-4 py-3">
+          <div className="flex items-center justify-between">
+            <p className="body-14-semibold text-neutral-50">
+              필수 항목 {requiredStatus.doneCount}/{requiredStatus.totalCount}
+            </p>
+            <p className="caption-12-medium text-neutral-40">
+              {isSubmitEnabled ? '완료' : `${requiredStatus.remainingCount}개 남았어요`}
+            </p>
+          </div>
+
+          {!isSubmitEnabled ? (
+            <div className="mt-2 flex flex-wrap gap-2">
+              {requiredStatus.items
+                .filter((it) => !it.done)
+                .map((it) => (
+                  <span
+                    key={it.key}
+                    className="inline-flex items-center rounded-full bg-neutral-20 px-3 py-1 caption-12-medium text-neutral-50"
+                  >
+                    {it.label}
+                  </span>
+                ))}
+            </div>
+          ) : null}
+        </div>
+
         <Button disabled={!isSubmitEnabled} onClick={handleSubmit} className="w-full">
           등록완료
         </Button>
