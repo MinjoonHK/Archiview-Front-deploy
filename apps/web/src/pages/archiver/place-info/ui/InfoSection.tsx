@@ -10,11 +10,7 @@ import {
 } from '@/shared/constants/url';
 import { Button } from '@/shared/ui/button';
 
-import {
-  isWebViewBridgeAvailable,
-  openExternalUrl,
-  openInAppBrowser,
-} from '@/shared/lib/native-bridge';
+import { isAppWebView, openExternalLinkInWebViewOrBrowser } from '@/shared/lib/native-actions';
 
 interface IPlaceDetail {
   placeId: number;
@@ -46,27 +42,7 @@ export const InfoSection = ({
 
     const url = createKakaoMapSearchUrl(address);
 
-    if (isWebViewBridgeAvailable()) {
-      openExternalUrl(url)
-        .then((opened) => {
-          if (opened) return;
-          return openInAppBrowser(url);
-        })
-        .catch(() => {
-          return openInAppBrowser(url);
-        })
-        .catch(() => {
-          return;
-        });
-      return;
-    }
-
-    const newTab = window.open(url, '_blank');
-    if (newTab) {
-      newTab.opener = null;
-      return;
-    }
-    window.location.href = url;
+    openExternalLinkInWebViewOrBrowser(url);
   };
 
   const handleClickOpenKakaoMapDirections = () => {
@@ -79,7 +55,7 @@ export const InfoSection = ({
     if (typeof toLatitude !== 'number' || typeof toLongitude !== 'number') return;
     if (!Number.isFinite(toLatitude) || !Number.isFinite(toLongitude)) return;
 
-    if (isWebViewBridgeAvailable()) {
+    if (isAppWebView()) {
       // TODO: WebView/RN 환경에서는 브릿지로 현재 위치를 가져와서
       // `openExternalUrl`/`openInAppBrowser`로 길찾기 URL을 열어야 함.
       // (참고: web 브라우저는 `navigator.geolocation`을 사용)
