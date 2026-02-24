@@ -68,6 +68,7 @@ export const KakaoMap = ({
   const latestRef = useRef({ lat, lng, level });
   const markerClickingRef = useRef(false);
 
+  const [isMapReady, setIsMapReady] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -104,6 +105,7 @@ export const KakaoMap = ({
 
         const map = new kakao.maps.Map(elRef.current, { center, level });
         mapRef.current = map;
+        setIsMapReady(true);
 
         kakao.maps.event.addListener(map, 'click', () => {
           if (markerClickingRef.current) {
@@ -134,17 +136,17 @@ export const KakaoMap = ({
   useEffect(() => {
     const kakao = kakaoRef.current;
     const map = mapRef.current;
-    if (!kakao || !map) return;
+    if (!isMapReady || !kakao || !map) return;
 
     const center = new kakao.maps.LatLng(lat, lng);
     map.setCenter(center);
     map.setLevel(level);
-  }, [lat, lng, level]);
+  }, [lat, lng, level, isMapReady]);
 
   useEffect(() => {
     const kakao = kakaoRef.current;
     const map = mapRef.current;
-    if (!kakao || !map) return;
+    if (!isMapReady || !kakao || !map) return;
 
     markersRef.current.forEach((item) => item.setMap(null));
     markersRef.current = [];
@@ -225,7 +227,7 @@ export const KakaoMap = ({
         map,
       }),
     ];
-  }, [marker, markers]);
+  }, [marker, markers, isMapReady]);
 
   if (error) return <div>지도 로드 실패: {error}</div>;
 
