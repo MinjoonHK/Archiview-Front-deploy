@@ -39,9 +39,7 @@ export const CategoryOptionTabs = ({ value, onChange }: IProps) => {
   };
 
   const handleCategoryToggle = (categoryId: number) => {
-    const nextCategoryIds = value.categoryIds.includes(categoryId)
-      ? value.categoryIds.filter((id) => id !== categoryId)
-      : [...value.categoryIds, categoryId];
+    const nextCategoryIds = value.categoryIds.includes(categoryId) ? [] : [categoryId];
 
     onChange({
       ...value,

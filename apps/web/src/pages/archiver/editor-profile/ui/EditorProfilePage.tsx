@@ -88,7 +88,7 @@ export const EditorProfilePage = ({ editorId }: { editorId: string }) => {
     filter: mapFilter,
     latitude: nearbyLatitude,
     longitude: nearbyLongitude,
-    categoryIds: categoryFilter.categoryIds,
+    categoryId: categoryFilter.categoryIds[0],
     useMock: false,
   });
 
