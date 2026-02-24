@@ -71,11 +71,29 @@ export const archiverProfileGet = {
   getEditorPlacePins: async (params: {
     editorId: string;
     filter?: 'ALL' | 'NEARBY';
+    latitude?: number;
+    longitude?: number;
     useMock?: boolean;
   }): Promise<IEditorPlacePinsResponseDTO> => {
+    const filter = params?.filter ?? 'ALL';
+    const searchParams = new URLSearchParams();
+
+    searchParams.set('filter', filter);
+    searchParams.set('useMock', String(params?.useMock ?? false));
+
+    if (filter === 'NEARBY') {
+      if (Number.isFinite(params?.latitude)) {
+        searchParams.set('latitude', String(params.latitude));
+      }
+
+      if (Number.isFinite(params?.longitude)) {
+        searchParams.set('longitude', String(params.longitude));
+      }
+    }
+
     const response = await clientApi
       .get(`archivers/editors/${params.editorId}/map/places`, {
-        searchParams: { filter: params?.filter ?? 'ALL', useMock: params?.useMock ?? false },
+        searchParams,
       })
       .json<IEditorPlacePinsResponseDTO>();
     return response;

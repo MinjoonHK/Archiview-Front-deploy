@@ -56,11 +56,13 @@ export const EditorProfilePage = ({ editorId }: { editorId: string }) => {
     editorId,
     useMock: false,
   });
+
   const { data: placeListData, isLoading: isPlaceListLoading } = useGetEditorPlaceList({
     userId: editorId,
     sort,
     useMock: false,
   });
+
   const { data: placePinsData } = useGetEditorPlacePins({
     editorId,
     filter: 'ALL',

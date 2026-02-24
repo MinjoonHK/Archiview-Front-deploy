@@ -8,20 +8,32 @@ import { IEditorPlacePinsResponseDTO } from '../model/archiverProfile.type';
 export const useGetEditorPlacePins = (params: {
   editorId: string;
   filter?: 'ALL' | 'NEARBY';
+  latitude?: number;
+  longitude?: number;
   useMock?: boolean;
 }) => {
+  const filter = params.filter ?? 'ALL';
+  const hasNearbyCoords = Number.isFinite(params.latitude) && Number.isFinite(params.longitude);
+
   return useQuery<IEditorPlacePinsResponseDTO>({
     queryKey: archiverKeys.getEditorPlacePins.applyFilters({
       editorId: params.editorId,
-      filter: params.filter,
+      filter,
+      latitude: params.latitude,
+      longitude: params.longitude,
       useMock: params.useMock,
     }).queryKey,
     queryFn: () =>
       archiverProfileGet.getEditorPlacePins({
         editorId: params.editorId,
-        filter: params.filter ?? 'ALL',
+        filter,
+        latitude: params.latitude,
+        longitude: params.longitude,
         useMock: params.useMock ?? false,
       }),
-    enabled: Boolean(params.editorId) && params.editorId !== 'undefined',
+    enabled:
+      Boolean(params.editorId) &&
+      params.editorId !== 'undefined' &&
+      (filter === 'ALL' || hasNearbyCoords),
   });
 };
