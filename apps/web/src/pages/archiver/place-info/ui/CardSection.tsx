@@ -8,7 +8,6 @@ import { ReportEditorCardModal } from './ReportEditorCardModal';
 import { ArchivePlaceFinishModal } from './ArchivePlaceFinishModal';
 import { CardSectionItem, type IPostPlace } from './CardSectionItem';
 
-
 export const CardSection = ({
   postPlaces,
   placeName,
