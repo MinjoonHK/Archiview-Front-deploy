@@ -59,6 +59,7 @@ export const MyArchivePageInner = () => {
   });
   const [location, setLocation] = useState<GeoLocation | null>(null);
   const [mapCenter, setMapCenter] = useState({ lat: 37.5665, lng: 126.978 });
+  const [bottomSheetHeight, setBottomSheetHeight] = useState(400);
   const [selectedMarkerPlaceId, setSelectedMarkerPlaceId] = useState<number | null>(null);
   const shouldMoveToNearbyRef = useRef(false);
 
@@ -101,6 +102,19 @@ export const MyArchivePageInner = () => {
       cancelled = true;
     };
   }, [categoryFilter.scope]);
+
+  useEffect(() => {
+    const updateBottomSheetHeight = () => {
+      setBottomSheetHeight(Math.round(window.innerHeight * 0.45));
+    };
+
+    updateBottomSheetHeight();
+    window.addEventListener('resize', updateBottomSheetHeight);
+
+    return () => {
+      window.removeEventListener('resize', updateBottomSheetHeight);
+    };
+  }, []);
 
   useEffect(() => {
     if (categoryFilter.scope !== '내주변') return;
@@ -223,7 +237,7 @@ export const MyArchivePageInner = () => {
         <BottomSheet
           isOpen={open}
           onOpenChange={setOpen}
-          height={500}
+          height={bottomSheetHeight}
           peekHeight={72}
           header={
             <div className="px-5 pb-4 pt-2.5">
