@@ -64,6 +64,7 @@ export const EditorProfilePage = ({ editorId }: { editorId: string }) => {
   const [sort, setSort] = useState<SortKey>('LATEST');
   const [location, setLocation] = useState<GeoLocation | null>(null);
   const [mapCenter, setMapCenter] = useState({ lat: 37.5665, lng: 126.978 });
+  const [bottomSheetHeight, setBottomSheetHeight] = useState(400);
   const shouldMoveToNearbyRef = useRef(false);
 
   const mapFilter = categoryFilter.scope === '내주변' ? 'NEARBY' : 'ALL';
@@ -129,6 +130,19 @@ export const EditorProfilePage = ({ editorId }: { editorId: string }) => {
     });
     shouldMoveToNearbyRef.current = false;
   }, [categoryFilter.scope, location]);
+
+  useEffect(() => {
+    const updateBottomSheetHeight = () => {
+      setBottomSheetHeight(Math.round(window.innerHeight * 0.45));
+    };
+
+    updateBottomSheetHeight();
+    window.addEventListener('resize', updateBottomSheetHeight);
+
+    return () => {
+      window.removeEventListener('resize', updateBottomSheetHeight);
+    };
+  }, []);
 
   const mapPins = placePinsData?.data?.pins ?? [];
 
@@ -208,7 +222,7 @@ export const EditorProfilePage = ({ editorId }: { editorId: string }) => {
         <BottomSheet
           isOpen={open}
           onOpenChange={setOpen}
-          height={500}
+          height={bottomSheetHeight}
           peekHeight={72}
           header={
             <div className="flex flex-row justify-between pb-4 pt-2.5 px-5">
