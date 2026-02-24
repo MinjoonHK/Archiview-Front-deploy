@@ -124,21 +124,23 @@ export const archiverKeys = createQueryKeyStore({
   },
 
   /**
-   * @param {{editorId: string, filter?: 'ALL' | 'NEARBY', latitude?: number, longitude?: number, useMock?: boolean}} params
+   * @param {{editorId: string, filter?: 'ALL' | 'NEARBY', categoryIds?: number[], latitude?: number, longitude?: number, useMock?: boolean}} params
    * @description 에디터 업로드 장소 핀 지도 조회용 쿼리키
-   * @returns ['getEditorPlacePins', 'applyFilters', editorId, filter, latitude, longitude, useMock]
+   * @returns ['getEditorPlacePins', 'applyFilters', editorId, filter, categoryIds, latitude, longitude, useMock]
    */
   getEditorPlacePins: {
     all: null,
     applyFilters: (params: {
       editorId: string;
       filter?: 'ALL' | 'NEARBY';
+      categoryIds?: number[];
       latitude?: number;
       longitude?: number;
       useMock?: boolean;
     }) => [
       params.editorId,
       params?.filter ?? 'ALL',
+      params?.categoryIds ?? [],
       params?.latitude ?? 'none',
       params?.longitude ?? 'none',
       params?.useMock ?? false,

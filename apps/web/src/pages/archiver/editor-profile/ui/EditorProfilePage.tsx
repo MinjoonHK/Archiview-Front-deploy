@@ -1,12 +1,17 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import type { GeoLocation } from '@archiview/webview-bridge-contract';
 
 import { CATEGORIES } from '@/shared/constants/category';
+import { requestNativeCurrentLocation } from '@/shared/lib/native-actions';
 import { KakaoMap } from '@/shared/ui/KakaoMap';
 import { BottomSheet } from '@/shared/ui/common/BottomSheet/BottomSheet';
-import { CategoryOptionTabs, type CategoryTab } from '@/pages/editor/profile/CategoryOptionTabs';
+import {
+  CategoryOptionTabs,
+  type ICategoryOptionValue,
+} from '@/pages/editor/profile/CategoryOptionTabs';
 import { useGetEditorProfile } from '@/entities/archiver/profile/queries/useGetEditorProfile';
 import { useGetEditorPlaceList } from '@/entities/archiver/profile/queries/useGetEditorPlaceList';
 import { useGetEditorPlacePins } from '@/entities/archiver/profile/queries/useGetEditorPlacePins';
@@ -31,6 +36,9 @@ const CATEGORY_ID_TO_MARKER_URL: Record<number, string> = {
 };
 
 const DEFAULT_MARKER_URL = '/marker/defaultMarker.svg';
+const CATEGORY_NAME_BY_ID: Record<number, string> = Object.fromEntries(
+  CATEGORIES.map((category) => [category.id, category.name]),
+);
 
 const getMarkerCategoryId = (pin: IPin): number | undefined => {
   if (Array.isArray(pin.categoryIds) && pin.categoryIds.length > 0) {
@@ -49,8 +57,19 @@ export const EditorProfilePage = ({ editorId }: { editorId: string }) => {
   const router = useRouter();
 
   const [open, setOpen] = useState(false);
-  const [category, setCategory] = useState<CategoryTab>('전체');
+  const [categoryFilter, setCategoryFilter] = useState<ICategoryOptionValue>({
+    scope: '전체',
+    categoryIds: [],
+  });
   const [sort, setSort] = useState<SortKey>('LATEST');
+  const [location, setLocation] = useState<GeoLocation | null>(null);
+  const [mapCenter, setMapCenter] = useState({ lat: 37.5665, lng: 126.978 });
+  const shouldMoveToNearbyRef = useRef(false);
+
+  const mapFilter = categoryFilter.scope === '내주변' ? 'NEARBY' : 'ALL';
+  const nearbyLatitude = categoryFilter.scope === '내주변' ? location?.coords.latitude : undefined;
+  const nearbyLongitude =
+    categoryFilter.scope === '내주변' ? location?.coords.longitude : undefined;
 
   const { data: editorData, isLoading: isEditorDataLoading } = useGetEditorProfile({
     editorId,
@@ -65,13 +84,51 @@ export const EditorProfilePage = ({ editorId }: { editorId: string }) => {
 
   const { data: placePinsData } = useGetEditorPlacePins({
     editorId,
-    filter: 'ALL',
+    filter: mapFilter,
+    latitude: nearbyLatitude,
+    longitude: nearbyLongitude,
+    categoryIds: categoryFilter.categoryIds,
     useMock: false,
   });
 
   useEffect(() => {
-    console.log('[EditorProfilePage] editorPlacePins', placePinsData);
-  }, [placePinsData]);
+    if (categoryFilter.scope !== '내주변') {
+      shouldMoveToNearbyRef.current = false;
+      setLocation(null);
+      return;
+    }
+
+    shouldMoveToNearbyRef.current = true;
+
+    let cancelled = false;
+
+    const run = async () => {
+      const loc = await requestNativeCurrentLocation();
+      if (cancelled) return;
+      setLocation(loc);
+    };
+
+    run().catch(() => {
+      if (cancelled) return;
+      setLocation(null);
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [categoryFilter.scope]);
+
+  useEffect(() => {
+    if (categoryFilter.scope !== '내주변') return;
+    if (!location) return;
+    if (!shouldMoveToNearbyRef.current) return;
+
+    setMapCenter({
+      lat: location.coords.latitude,
+      lng: location.coords.longitude,
+    });
+    shouldMoveToNearbyRef.current = false;
+  }, [categoryFilter.scope, location]);
 
   const mapPins = placePinsData?.data?.pins ?? [];
 
@@ -96,27 +153,38 @@ export const EditorProfilePage = ({ editorId }: { editorId: string }) => {
     [mapPins],
   );
 
-  const mapCenter = useMemo(() => {
-    if (mapMarkers.length === 0) {
-      return { lat: 37.5665, lng: 126.978 };
-    }
-
-    return { lat: mapMarkers[0].lat, lng: mapMarkers[0].lng };
-  }, [mapMarkers]);
-
   const places = placeListData?.data?.postPlaces ?? [];
+  const selectedCategoryNames = useMemo(
+    () =>
+      categoryFilter.categoryIds
+        .map((id) => CATEGORY_NAME_BY_ID[id])
+        .filter((name): name is string => Boolean(name)),
+    [categoryFilter.categoryIds],
+  );
 
   const filteredPlaces = useMemo(() => {
-    if (category === '전체') return places;
+    if (categoryFilter.categoryIds.length === 0) return places;
 
-    // NEAR는 지금 지도 기반 로직이 없으니 일단 전체 반환(또는 빈 배열)
-    if (category === '내주변') return places;
+    return places.filter((place) => {
+      const placeWithCategories = place as { categoryIds?: number[]; categoryNames?: string[] };
 
-    return places.filter((p: any) => {
-      // p.categoryNames가 string[]이라고 가정
-      return Array.isArray(p.categoryNames) && p.categoryNames.includes(category);
+      if (
+        Array.isArray(placeWithCategories.categoryIds) &&
+        placeWithCategories.categoryIds.some((id) => categoryFilter.categoryIds.includes(id))
+      ) {
+        return true;
+      }
+
+      if (
+        Array.isArray(placeWithCategories.categoryNames) &&
+        selectedCategoryNames.some((name) => placeWithCategories.categoryNames?.includes(name))
+      ) {
+        return true;
+      }
+
+      return false;
     });
-  }, [places, category]);
+  }, [categoryFilter.categoryIds, places, selectedCategoryNames]);
 
   const editor = editorData?.data;
 
@@ -131,7 +199,7 @@ export const EditorProfilePage = ({ editorId }: { editorId: string }) => {
       <div className="px-5">
         <EditorProfileCard editorId={editorId} editorData={editorData?.data} />
       </div>
-      <CategoryOptionTabs value={category} onChange={setCategory} />
+      <CategoryOptionTabs value={categoryFilter} onChange={setCategoryFilter} />
 
       <div className="flex-1 min-h-0 pt-6">
         {/* <div className="h-100 pt-6"> */}
