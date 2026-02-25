@@ -164,8 +164,8 @@ export const MyArchivePageInner = () => {
               lng: location.coords.longitude,
               zIndex: 200,
               imageSrc: MY_LOCATION_MARKER_URL,
-              imageSize: { width: 48, height: 48 },
-              imageOffset: { x: 24, y: 48 },
+              imageSize: { width: 48, height: 68 },
+              imageOffset: { x: 24, y: 68 },
             },
           ]
         : []),
@@ -190,8 +190,8 @@ export const MyArchivePageInner = () => {
             lng: pin.longitude,
             zIndex: isSelected ? 100 : 1,
             imageSrc,
-            imageSize: isSelected ? { width: 64, height: 91 } : { width: 50, height: 71 },
-            imageOffset: isSelected ? { x: 50, y: 100 } : { x: 40, y: 80 },
+            imageSize: isSelected ? { width: 100, height: 142 } : { width: 80, height: 114 },
+            imageOffset: isSelected ? { x: 50, y: 142 } : { x: 40, y: 114 },
           };
         }),
     ],

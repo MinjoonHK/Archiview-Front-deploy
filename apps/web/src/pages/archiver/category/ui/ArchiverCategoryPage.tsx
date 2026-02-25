@@ -152,8 +152,8 @@ export const ArchiverCategoryPage = (): React.ReactElement => {
                       lng: coords.longitude,
                       zIndex: 200,
                       imageSrc: MY_LOCATION_MARKER_URL,
-                      imageSize: { width: 48, height: 48 },
-                      imageOffset: { x: 24, y: 48 },
+                      imageSize: { width: 48, height: 68 },
+                      imageOffset: { x: 24, y: 68 },
                     },
                   ]
                 : []

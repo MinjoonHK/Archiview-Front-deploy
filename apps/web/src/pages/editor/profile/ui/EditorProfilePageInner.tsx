@@ -185,8 +185,8 @@ export const EditorProfilePageInner = ({ profile }: { profile: IEditorProfile })
               lng: location.coords.longitude,
               zIndex: 200,
               imageSrc: MY_LOCATION_MARKER_URL,
-              imageSize: { width: 48, height: 48 },
-              imageOffset: { x: 24, y: 48 },
+              imageSize: { width: 48, height: 68 },
+              imageOffset: { x: 24, y: 68 },
             },
           ]
         : []),
@@ -215,8 +215,8 @@ export const EditorProfilePageInner = ({ profile }: { profile: IEditorProfile })
             lng: place.longitude as number,
             zIndex: isSelected ? 100 : 1,
             imageSrc,
-            imageSize: isSelected ? { width: 100, height: 100 } : { width: 80, height: 80 },
-            imageOffset: isSelected ? { x: 50, y: 100 } : { x: 40, y: 80 },
+            imageSize: isSelected ? { width: 100, height: 142 } : { width: 80, height: 114 },
+            imageOffset: isSelected ? { x: 50, y: 142 } : { x: 40, y: 114 },
           };
         }),
     ],
