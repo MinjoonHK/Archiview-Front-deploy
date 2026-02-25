@@ -61,7 +61,7 @@ export const EditorProfilePageInner = ({ profile }: { profile: IEditorProfile })
   });
   const [location, setLocation] = useState<GeoLocation | null>(null);
   const [mapCenter, setMapCenter] = useState({ lat: 37.5665, lng: 126.978 });
-  const [bottomSheetHeight, setBottomSheetHeight] = useState(400);
+  const [bottomSheetHeight, setBottomSheetHeight] = useState(350);
   const [selectedMarkerPlaceId, setSelectedMarkerPlaceId] = useState<number | null>(null);
   const shouldMoveToNearbyRef = useRef(false);
 
@@ -126,7 +126,7 @@ export const EditorProfilePageInner = ({ profile }: { profile: IEditorProfile })
 
   useEffect(() => {
     const updateBottomSheetHeight = () => {
-      setBottomSheetHeight(Math.round(window.innerHeight * 0.45));
+      setBottomSheetHeight(Math.round(window.innerHeight * 0.35));
     };
 
     updateBottomSheetHeight();
@@ -231,11 +231,11 @@ export const EditorProfilePageInner = ({ profile }: { profile: IEditorProfile })
     router.push('/editor/register-place');
   };
 
-  if (isPlaceListLoading) {
+  if (isPlaceListLoading && !placeListData) {
     return <LoadingPage text="내 장소를 불러오는 중입니다." role="EDITOR" />;
   }
 
-  if (isPlaceListError) {
+  if (isPlaceListError && !placeListData) {
     return <div className="px-5 pt-6">불러오기 실패</div>;
   }
 
@@ -256,7 +256,7 @@ export const EditorProfilePageInner = ({ profile }: { profile: IEditorProfile })
       <CategoryOptionTabs value={categoryFilter} onChange={setCategoryFilter} />
 
       <div className="flex-1 min-h-0 pt-6">
-        <KakaoMap
+        {/* <KakaoMap
           lat={mapCenter.lat}
           lng={mapCenter.lng}
           level={3}
@@ -269,7 +269,7 @@ export const EditorProfilePageInner = ({ profile }: { profile: IEditorProfile })
           onMapClick={() => {
             setSelectedMarkerPlaceId(null);
           }}
-        />
+        /> */}
 
         <BottomSheet
           isOpen={open}

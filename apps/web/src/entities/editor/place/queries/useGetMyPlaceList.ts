@@ -19,6 +19,7 @@ export const useGetMyPlaceList = (params?: IParams) => {
   return useQuery({
     queryKey: editorKeys.getMyPlaceList.applyFilters(params).queryKey,
     queryFn: () => editorPlaceGet.getMyPlaceList(params),
+    placeholderData: (previousData) => previousData,
     enabled: filter === 'ALL' || hasNearbyCoords,
   });
 };
