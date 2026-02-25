@@ -270,7 +270,7 @@ export const EditorProfilePageInner = ({ profile }: { profile: IEditorProfile })
       <CategoryOptionTabs value={categoryFilter} onChange={setCategoryFilter} />
 
       <div className="flex-1 min-h-0 pt-6">
-        <KakaoMap
+        {/* <KakaoMap
           lat={mapCenter.lat}
           lng={mapCenter.lng}
           level={3}
@@ -283,7 +283,7 @@ export const EditorProfilePageInner = ({ profile }: { profile: IEditorProfile })
           onMapClick={() => {
             setSelectedMarkerPlaceId(null);
           }}
-        />
+        /> */}
 
         <BottomSheet
           isOpen={open}
