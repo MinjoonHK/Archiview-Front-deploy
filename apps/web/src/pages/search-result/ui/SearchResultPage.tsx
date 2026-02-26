@@ -56,7 +56,7 @@ export const SearchResultPage = () => {
           }}
         />
       </div>
-      <div className="flex flex-col pt-[20px] gap-[32px] flex-1 min-h-0 overflow-y-auto">
+      <div className="flex flex-col pt-[20px] gap-[32px] flex-1 min-h-0 overflow-y-auto scrollbar-hide">
         {tab === 'all' && !searchTerm && (
           <>
             <RecentSearchSection
