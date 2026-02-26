@@ -16,7 +16,7 @@ import { RecommendationSection } from './RecommendationSection';
 import { InfoSection } from './InfoSection';
 import { EditorSection } from './EditorSection';
 import { ErrorPage } from '@/shared/ui/common/Error/ErrorPage';
-import { LoadingPage } from '@/shared/ui/common/Loading/LoadingPage';
+import { Loading } from '@/shared/ui/common/Loading/Loading';
 import { useMinLoading } from '@/shared/hooks/useMinLoading';
 
 interface ITabItem {
@@ -50,17 +50,17 @@ export const SearchResultPage = () => {
     isError: isRecommendationsError,
   } = useGetRecommendations();
   const { mutate: deleteRecent } = useDeleteRecent();
-  const showLoading = useMinLoading(
-    isSearchLoading || isRecentLoading || isRecommendationsLoading,
+  const showInitialLoading = useMinLoading(
+    isRecentLoading || isRecommendationsLoading,
     1200,
   );
+  const showSearchLoading = useMinLoading(isSearchLoading, 1200);
+
+  const isLoading =
+    (!searchTerm && showInitialLoading) || (searchTerm && showSearchLoading);
 
   if (isSearchError || isRecentError || isRecommendationsError) {
     return <ErrorPage />;
-  }
-
-  if (showLoading) {
-    return <LoadingPage text="검색 결과를 불러오는 중입니다." />;
   }
 
   return (
@@ -80,7 +80,17 @@ export const SearchResultPage = () => {
         />
       </div>
       <div className="flex flex-col pt-[20px] gap-[32px] flex-1 min-h-0 overflow-y-auto scrollbar-hide">
-        {tab === 'all' && !searchTerm && (
+        {isLoading ? (
+          <div className="flex-1 flex w-full min-h-[200px]">
+            <Loading
+              text="검색 결과를 불러오는 중입니다."
+              role="ARCHIVER"
+              transparentBg
+            />
+          </div>
+        ) : null}
+
+        {tab === 'all' && !searchTerm && !isLoading && (
           <>
             <RecentSearchSection
               histories={recentData?.data?.histories ?? []}
@@ -90,7 +100,7 @@ export const SearchResultPage = () => {
           </>
         )}
 
-        {tab === 'all' && searchTerm && searchData?.data && (
+        {tab === 'all' && searchTerm && !isLoading && searchData?.data && (
           <>
             {searchData.data.places.length === 0 && searchData.data.editors.length === 0 ? (
               <div className="flex flex-1 items-center justify-center px-[20px]">
@@ -120,12 +130,17 @@ export const SearchResultPage = () => {
           </>
         )}
 
-        {tab === 'info' && searchTerm && searchData?.data && searchData.data.places.length > 0 && (
+        {tab === 'info' &&
+          searchTerm &&
+          !isLoading &&
+          searchData?.data &&
+          searchData.data.places.length > 0 && (
           <InfoSection places={searchData.data.places} />
         )}
 
         {tab === 'editor' &&
           searchTerm &&
+          !isLoading &&
           searchData?.data &&
           searchData.data.editors.length > 0 && (
             <EditorSection editors={searchData.data.editors} searchTerm={searchTerm} />
