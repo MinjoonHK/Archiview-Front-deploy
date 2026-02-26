@@ -87,8 +87,8 @@ export const CardSection = ({
                     label={hashTag}
                     className={
                       index === 0
-                        ? 'bg-primary-40 text-neutral-10 border-none'
-                        : 'bg-primary-10 text-primary-40 border-none'
+                        ? 'bg-primary-40 text-neutral-10 border-none caption-12-medium'
+                        : 'bg-primary-10 text-primary-40 border-none caption-12-medium'
                     }
                   />
                 ))}
