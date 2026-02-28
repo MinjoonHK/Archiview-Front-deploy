@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 
 import { PencilIcon } from '@/shared/ui/icon/place-info/PencilIcon';
 import { Chip } from '@/shared/ui/Chip';
@@ -21,12 +22,14 @@ export const EditorInfoCard = ({
   return (
     <div className="flex items-center gap-4 rounded-default bg-primary-30 px-5 py-4">
       {/* 프로필 이미지 */}
-      <div className="h-[60px] w-[60px] shrink-0 overflow-hidden rounded-full bg-neutral-20">
+      <div className="relative h-[60px] w-[60px] shrink-0 overflow-hidden rounded-full bg-neutral-20">
         {profileImageUrl ? (
-          <img
+          <Image
+            preload={true}
             src={profileImageUrl}
             alt={`${nickname} 프로필`}
-            className="h-full w-full object-cover"
+            fill
+            className="object-cover"
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center text-neutral-40">
