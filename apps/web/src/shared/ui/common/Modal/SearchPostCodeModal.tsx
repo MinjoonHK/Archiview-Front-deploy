@@ -54,16 +54,16 @@ export const SearchPostCodeModal = ({ isOpen, onClose, onComplete }: ISearchPost
   if (!isOpen) return null;
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} className="w-[374px] max-w-md">
-      <div className="flex flex-col w-full">
-        <div className="flex items-center justify-between mb-4">
+    <Modal isOpen={isOpen} onClose={onClose} className="w-93.5 max-w-md">
+      <div className="flex flex-col w-full mb-6">
+        <div className="flex items-center justify-between mb-10">
           <h2 className="body-16-bold">주소검색</h2>
 
           <button type="button" onClick={onClose} className="p-1 text-neutral-70" aria-label="닫기">
             <XIcon className="w-3 h-3" />
           </button>
         </div>
-        <div className="flex flex-col gap-7">
+        <div className="flex flex-col gap-10">
           <div>
             <div className="flex gap-2 mb-1">
               <BoxInput>
