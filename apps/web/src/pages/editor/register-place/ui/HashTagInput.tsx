@@ -21,8 +21,6 @@ export const HashTagInput = ({ className }: { className?: string }) => {
       name: 'hashTags',
     }) ?? [];
 
-  const hasTags = tags.length > 0;
-
   const handleAddTag = () => {
     const trimmed = inputValue.trim().replace(/^#+/, '');
     if (!trimmed) return;
@@ -57,7 +55,7 @@ export const HashTagInput = ({ className }: { className?: string }) => {
 
   return (
     <div className={cn(className)}>
-      <div className="flex flex-col gap-2.5">
+      <div className="group flex flex-col gap-2.5">
         <div className="flex justify-between">
           <p className="body-14-semibold mb-3">게시글의 해시태그를 자유롭게 설정해보세요</p>
           <p className="caption-12-medium text-primary-40">*최대 3개</p>
@@ -66,10 +64,7 @@ export const HashTagInput = ({ className }: { className?: string }) => {
         <div className="flex gap-3">
           <BoxInput
             state={errorMessage ? 'error' : 'default'}
-            message={
-              errorMessage ??
-              (hasTags ? '해시태그는 최대 3개까지 추가할 수 있어요' : '해시태그를 입력해주세요')
-            }
+            message={errorMessage ?? ''}
             className="flex-1"
           >
             <input
@@ -98,7 +93,7 @@ export const HashTagInput = ({ className }: { className?: string }) => {
           </button>
         </div>
 
-        <div className="flex flex-wrap gap-1">
+        <div className={cn('flex flex-wrap gap-1', errorMessage && 'mt-3')}>
           {tags.map((tag) => (
             <Chip
               key={tag}
