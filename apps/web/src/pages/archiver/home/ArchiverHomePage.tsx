@@ -62,6 +62,7 @@ export const ArchiverHomePage = (): React.ReactElement => {
             <div className="body-14-regular text-primary-50">소중한 정보를 검색해보세요!</div>
           </div>
           <Image
+            preload={true}
             src="/images/MainFolderIcon.svg"
             alt="MainFolderImage"
             width={124}
