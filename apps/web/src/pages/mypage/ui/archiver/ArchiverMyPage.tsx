@@ -40,7 +40,7 @@ export const ArchiverMyPage = ({
   const router = useRouter();
 
   const handleManageBlockedEditors = () => {
-    router.push('blocked-editor');
+    router.push('/blocked-editor');
   };
 
   return (

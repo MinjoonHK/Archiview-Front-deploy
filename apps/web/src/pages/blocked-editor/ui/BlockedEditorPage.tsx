@@ -28,7 +28,6 @@ export const BlockedEditorPage = () => {
 
   if (isError) return <ErrorPage />;
 
-  console.log(data?.data?.editors);
   return (
     <div>
       {blockedEditors?.map((editor: IBlockedEditor) => (

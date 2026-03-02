@@ -237,7 +237,7 @@ export const EditProfilePage = () => {
             aria-label="프로필 이미지 업로드"
           >
             {/* 미리보기 */}
-            {profileImagePreViewUrl ? (
+            {profileImagePreViewUrl?.trim() ? (
               <Image
                 src={profileImagePreViewUrl}
                 alt="프로필 미리보기"
@@ -245,9 +245,7 @@ export const EditProfilePage = () => {
                 className="object-cover"
               />
             ) : (
-              <div className="h-full w-full flex items-center justify-center text-neutral-40 text-sm">
-                프로필 사진 업로드
-              </div>
+              <div className="h-full w-full bg-neutral-30" />
             )}
           </button>
 

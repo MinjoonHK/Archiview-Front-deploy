@@ -309,7 +309,7 @@ export const EditorProfilePageInner = ({ profile }: { profile: IEditorProfile })
               shareCount={place.stats.directionCount}
               instagramCount={place.stats.instagramInflowCount}
               thumbnail={
-                place.placeImageUrl ? (
+                place.placeImageUrl?.trim() ? (
                   <img
                     src={place.placeImageUrl}
                     alt={place.placeName}

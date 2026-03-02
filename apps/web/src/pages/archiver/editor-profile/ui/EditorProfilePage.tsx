@@ -111,8 +111,6 @@ export const EditorProfilePage = ({ editorId }: { editorId: string }) => {
     useMock: false,
   });
 
-  console.log(placeListData);
-
   useEffect(() => {
     if (categoryFilter.scope !== '내주변') {
       shouldMoveToNearbyRef.current = false;

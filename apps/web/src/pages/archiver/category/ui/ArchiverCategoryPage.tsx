@@ -20,8 +20,6 @@ const DEFAULT_CATEGORY_ID = NEAR_CATEGORY_ID;
 
 const FALLBACK_LATITUDE = 37.5665;
 const FALLBACK_LONGITUDE = 126.978;
-// TODO : 폴백 이미지 제거..
-const FALLBACK_PLACE_IMAGE = '/images/TestImage.png';
 const MY_LOCATION_MARKER_URL = '/marker/myMarker.png';
 
 export const ArchiverCategoryPage = (): React.ReactElement => {
@@ -190,12 +188,11 @@ export const ArchiverCategoryPage = (): React.ReactElement => {
                     key={p.placeId}
                     thumbnail={
                       <div className="relative h-18 w-18 overflow-hidden rounded-2xl bg-neutral-30">
-                        <Image
-                          src={p.imageUrl || FALLBACK_PLACE_IMAGE}
-                          alt={p.placeName}
-                          fill
-                          className="object-cover"
-                        />
+                        {p.imageUrl?.trim() ? (
+                          <Image src={p.imageUrl} alt={p.placeName} fill className="object-cover" />
+                        ) : (
+                          <div className="h-full w-full bg-neutral-30" />
+                        )}
                       </div>
                     }
                     onClick={() => router.push(`/archiver/place-info/${p.placeId}`)}
@@ -252,12 +249,11 @@ export const ArchiverCategoryPage = (): React.ReactElement => {
                     key={p.placeId}
                     thumbnail={
                       <div className="relative h-18 w-18 overflow-hidden rounded-2xl bg-neutral-30">
-                        <Image
-                          src={p.imageUrl || FALLBACK_PLACE_IMAGE}
-                          alt={p.placeName}
-                          fill
-                          className="object-cover"
-                        />
+                        {p.imageUrl?.trim() ? (
+                          <Image src={p.imageUrl} alt={p.placeName} fill className="object-cover" />
+                        ) : (
+                          <div className="h-full w-full bg-neutral-30" />
+                        )}
                       </div>
                     }
                     onClick={() => router.push(`/archiver/place-info/${p.placeId}`)}

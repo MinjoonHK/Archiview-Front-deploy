@@ -25,7 +25,7 @@ export const HotPlaceCard = ({
   address,
 }: IHotPlaceCardProps) => {
   const stripHash = (tag?: string) => (tag ?? '').trim().replace(/^#/, '');
-  const safeImageUrl = imageUrl?.trimEnd();
+  const safeImageUrl = imageUrl?.trim();
   const badgeContainerRef = useRef<HTMLDivElement>(null);
   const badgeMeasureRefs = useRef<Array<HTMLDivElement | null>>([]);
 
@@ -105,13 +105,11 @@ export const HotPlaceCard = ({
       <Kard className="flex flex-col w-45 shadow-default overflow-hidden border-none">
         {/* <div className="relative w-full aspect-3/2 shrink-0 overflow-hidden"> */}
         <div className="relative w-full shrink-0 overflow-hidden" style={{ height: '99px' }}>
-          <Image
-            src={safeImageUrl}
-            alt={name}
-            fill
-            className="object-cover"
-            priority={false}
-          />
+          {safeImageUrl ? (
+            <Image src={safeImageUrl} alt={name} fill className="object-cover" priority={false} />
+          ) : (
+            <div className="h-full w-full bg-neutral-30" />
+          )}
         </div>
         <div className="p-3 flex flex-col gap-2">
           <span className="body-16-bold truncate">{name}</span>
