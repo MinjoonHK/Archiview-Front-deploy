@@ -247,7 +247,6 @@ export const EditProfilePage = () => {
                 src={profileImagePreViewUrl}
                 alt="프로필 미리보기"
                 fill
-                unoptimized
                 className="object-cover"
               />
             ) : (

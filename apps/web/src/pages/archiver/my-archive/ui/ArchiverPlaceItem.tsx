@@ -30,7 +30,6 @@ export const ArchiverPlaceItem = ({
             alt={name}
             fill
             sizes="72px"
-            unoptimized
             className="object-cover"
           />
         </div>

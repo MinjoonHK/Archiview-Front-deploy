@@ -97,7 +97,6 @@ export const EditorRecommendCard = ({ editor }: IEditorRecommendCardProps) => {
             height={90}
             className="object-cover"
             priority={false}
-            unoptimized
           />
         </div>
         <div className="p-3">

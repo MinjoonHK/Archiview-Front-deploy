@@ -111,7 +111,6 @@ export const HotPlaceCard = ({
             fill
             className="object-cover"
             priority={false}
-            unoptimized
           />
         </div>
         <div className="p-3 flex flex-col gap-2">
