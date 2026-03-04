@@ -10,26 +10,19 @@ import { InfoSection } from './InfoSection';
 import { CardSection } from './CardSection';
 import { useMinLoading } from '@/shared/hooks/useMinLoading';
 import { ErrorPage } from '@/shared/ui/common/Error/ErrorPage';
+import { Loading } from '@/shared/ui/common/Loading/Loading';
 
 export const PlaceInfoPage = ({ placeId }: { placeId: number }) => {
   const searchParams = useSearchParams();
   const editorId = searchParams?.get('editor') ?? null;
 
-  const {
-    data: placeDetailData,
-    isLoading,
-    isError,
-  } = useGetPlaceDetail({
+  const { data: placeDetailData, isError } = useGetPlaceDetail({
     placeId,
     useMock: false,
     enabled: !editorId,
   });
 
-  const {
-    data: editorPlaceData,
-    isLoading: isEditorPlaceLoading,
-    isError: isEditorPlaceError,
-  } = useGetEditorPlace({
+  const { data: editorPlaceData, isError: isEditorPlaceError } = useGetEditorPlace({
     userId: editorId ?? '',
     placeId,
     useMock: false,
@@ -37,10 +30,8 @@ export const PlaceInfoPage = ({ placeId }: { placeId: number }) => {
   });
 
   const placeData = editorId ? editorPlaceData : placeDetailData;
-  const showLoading = useMinLoading(editorId ? isEditorPlaceLoading : isLoading, 1500);
   const showError = editorId ? isEditorPlaceError : isError;
 
-  if (showLoading) return null;
   if (showError) return <ErrorPage />;
 
   return (
