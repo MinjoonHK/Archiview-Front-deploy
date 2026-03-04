@@ -9,7 +9,6 @@ import { RoundedHeaderSection } from './RoundedHeader';
 import { InfoSection } from './InfoSection';
 import { CardSection } from './CardSection';
 import { useMinLoading } from '@/shared/hooks/useMinLoading';
-import { LoadingPage } from '@/shared/ui/common/Loading/LoadingPage';
 import { ErrorPage } from '@/shared/ui/common/Error/ErrorPage';
 
 export const PlaceInfoPage = ({ placeId }: { placeId: number }) => {
@@ -38,13 +37,10 @@ export const PlaceInfoPage = ({ placeId }: { placeId: number }) => {
   });
 
   const placeData = editorId ? editorPlaceData : placeDetailData;
-  const showLoading = useMinLoading(
-    editorId ? isEditorPlaceLoading : isLoading,
-    1500,
-  );
+  const showLoading = useMinLoading(editorId ? isEditorPlaceLoading : isLoading, 1500);
   const showError = editorId ? isEditorPlaceError : isError;
 
-  if (showLoading) return <LoadingPage text="장소 정보를 불러오는 중입니다." role="ARCHIVER" />;
+  if (showLoading) return null;
   if (showError) return <ErrorPage />;
 
   return (
