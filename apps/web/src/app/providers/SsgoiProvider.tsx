@@ -2,10 +2,22 @@
 
 import type { ReactNode } from 'react';
 import { Ssgoi, type SsgoiConfig } from '@ssgoi/react';
+import { drill } from '@ssgoi/react/view-transitions';
 import { usePathname } from 'next/navigation';
 
 const ssgoiConfig: SsgoiConfig = {
-  transitions: [],
+  transitions: [
+    {
+      from: '/archiver/home',
+      to: '/archiver/place-info/*',
+      transition: drill({ direction: 'enter' }),
+    },
+    {
+      from: '/archiver/place-info/*',
+      to: '/archiver/home',
+      transition: drill({ direction: 'exit' }),
+    },
+  ],
 };
 
 export function SsgoiProvider({ children }: { children: ReactNode }): ReactNode {
