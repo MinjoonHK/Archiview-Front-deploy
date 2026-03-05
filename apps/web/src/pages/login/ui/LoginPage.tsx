@@ -3,12 +3,20 @@
 import Image from 'next/image';
 import { useRef, useState } from 'react';
 
+import { useAppleMobileLogin } from '@/entities/auth/mutations/useAppleMobileLogin';
+import type { IAppleMobileLoginResponseDTO } from '@/entities/auth/model/auth.type';
+import { LOCAL_STORAGE_KEYS } from '@/shared/constants/localStorageKeys';
+import {
+  isNativeMethodAvailable,
+  isWebViewBridgeAvailable,
+  signInWithApple,
+} from '@/shared/lib/native-bridge';
 import { Button } from '@/shared/ui/button';
+import { AppleIcon } from '@/shared/ui/icon/AppleIcon';
 
 import { OnboardingCarousel, type IOnboardingCarouselHandle } from './OnboardingCarousel';
-import { AppleButton, GoogleButton, KakaoButton } from './SocialLoginButton';
+import { KakaoButton } from './SocialLoginButton';
 import { AppleLoginButton } from './AppleLoginButton';
-import { AppleIcon } from '@/shared/ui/icon/AppleIcon';
 
 const ONBOARDING_TEXT: Array<{ title: string; description: string }> = [
   {
@@ -27,7 +35,78 @@ const ONBOARDING_TEXT: Array<{ title: string; description: string }> = [
 
 export const LoginPage = () => {
   const [step, setStep] = useState<'onboarding' | 'login'>('onboarding');
+  const [isNativeAppleSigningIn, setIsNativeAppleSigningIn] = useState(false);
   const carouselRef = useRef<IOnboardingCarouselHandle>(null);
+
+  const { mutateAsync: mobileAppleLogin, isPending: isMobileAppleLoginPending } =
+    useAppleMobileLogin();
+
+  const canUseNativeAppleLogin =
+    typeof window !== 'undefined' &&
+    isWebViewBridgeAvailable() &&
+    isNativeMethodAvailable('signInWithApple');
+
+  const isNativeAppleLoginPending = isNativeAppleSigningIn || isMobileAppleLoginPending;
+
+  const isRecord = (value: unknown): value is Record<string, unknown> => {
+    return typeof value === 'object' && value !== null;
+  };
+
+  const extractAccessToken = (response: IAppleMobileLoginResponseDTO): string | null => {
+    if (!response.success) {
+      return null;
+    }
+
+    if (!isRecord(response.data)) {
+      return null;
+    }
+
+    const accessToken = response.data.accessToken;
+    return typeof accessToken === 'string' && accessToken.length > 0 ? accessToken : null;
+  };
+
+  const handleNativeAppleLogin = async () => {
+    if (isNativeAppleLoginPending) return;
+
+    setIsNativeAppleSigningIn(true);
+
+    try {
+      const nativeResult = await signInWithApple();
+      console.log(nativeResult);
+      if (!nativeResult || nativeResult.status === 'cancelled') {
+        return;
+      }
+
+      if (nativeResult.status === 'error') {
+        console.error('Native Apple login failed', nativeResult.reason, nativeResult.message);
+        return;
+      }
+
+      const idToken = nativeResult.credential.idToken;
+      const authorizationCode = nativeResult.credential.authorizationCode;
+
+      if (!idToken || !authorizationCode) {
+        console.error('Native Apple login credential is missing required tokens');
+        return;
+      }
+
+      const response = await mobileAppleLogin({ idToken, authorizationCode });
+
+      const accessToken = extractAccessToken(response);
+
+      if (!accessToken) {
+        console.error('Mobile Apple login response does not include accessToken');
+        return;
+      }
+
+      localStorage.setItem(LOCAL_STORAGE_KEYS.accessToken, accessToken);
+      window.location.href = '/';
+    } catch (error) {
+      console.error('Failed to login with native Apple login', error);
+    } finally {
+      setIsNativeAppleSigningIn(false);
+    }
+  };
 
   const handleNext = () => {
     if (carouselRef.current?.canScrollNext()) {
@@ -94,17 +173,27 @@ export const LoginPage = () => {
           </div>
           <div className="flex w-full flex-col gap-4 px-5 pb-10">
             <KakaoButton />
-            <AppleLoginButton
-              clientId={process.env.NEXT_PUBLIC_APPLE_CLIENT_ID!}
-              redirectUri={process.env.NEXT_PUBLIC_APPLE_REDIRECT_URI!}
-              redirectUriDev={process.env.NEXT_PUBLIC_APPLE_REDIRECT_URI_DEV}
-              className="w-full rounded-xl bg-black px-4 py-3 text-white flex items-center justify-center"
-            >
-              Apple로 로그인
-            </AppleLoginButton>
-            {/* <div className="flex flex-col items-center gap-1">
-              <GoogleButton />
-            </div> */}
+            {canUseNativeAppleLogin ? (
+              <Button
+                variant="login"
+                startIcon={<AppleIcon />}
+                className="bg-[#000000] w-full"
+                type="button"
+                onClick={handleNativeAppleLogin}
+                disabled={isNativeAppleLoginPending}
+              >
+                <span className="text-neutral-10">Apple로 로그인</span>
+              </Button>
+            ) : (
+              <AppleLoginButton
+                clientId={process.env.NEXT_PUBLIC_APPLE_CLIENT_ID!}
+                redirectUri={process.env.NEXT_PUBLIC_APPLE_REDIRECT_URI!}
+                redirectUriDev={process.env.NEXT_PUBLIC_APPLE_REDIRECT_URI_DEV}
+                className="w-full rounded-xl bg-black px-4 py-3 text-white flex items-center justify-center"
+              >
+                Apple로 로그인
+              </AppleLoginButton>
+            )}
           </div>
         </div>
       )}

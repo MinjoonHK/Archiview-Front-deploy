@@ -10,6 +10,7 @@ export {
   openAppSettings,
   openInAppBrowser,
   pickImage,
+  signInWithApple,
   setToken,
 } from './nativeMethods.client';
 export { registerNativeBridgeEventForwarders, subscribeNativeEvent } from './nativeEvents.client';

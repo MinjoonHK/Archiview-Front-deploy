@@ -2,6 +2,8 @@ import { clientApi } from '@/shared/lib/api/client';
 import { AUTH_ENDPOINTS } from '@/shared/constants/endpoints/auth/AuthEndpoints';
 
 import {
+  IAppleMobileLoginRequestDTO,
+  IAppleMobileLoginResponseDTO,
   IRegisterRequestDTO,
   IRegisterResponeDTO,
   ISwitchRoleResponseDTO,
@@ -30,6 +32,17 @@ export const authPost = {
   // 로그아웃
   logout: async (): Promise<ApiResponse<null>> => {
     const response = await clientApi.post(`${AUTH_ENDPOINTS.logout}`).json<ApiResponse<null>>();
+
+    return response;
+  },
+
+  // 모바일 애플 로그인
+  mobileAppleLogin: async (
+    payload: IAppleMobileLoginRequestDTO,
+  ): Promise<IAppleMobileLoginResponseDTO> => {
+    const response = await clientApi
+      .post(`${AUTH_ENDPOINTS.mobile.apple}`, { json: payload })
+      .json<IAppleMobileLoginResponseDTO>();
 
     return response;
   },
