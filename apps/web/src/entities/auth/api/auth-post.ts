@@ -54,7 +54,7 @@ export const authPost = {
     payload: IKakaoMobileLoginRequestDTO,
   ): Promise<IKakaoMobileLoginResponseDTO> => {
     const response = await unauthClientApi
-      .post(`${AUTH_ENDPOINTS.mobile.kakao}`, { json: payload })
+      .post(`auth/mobile/kakao`, { json: payload })
       .json<IKakaoMobileLoginResponseDTO>();
 
     return response;

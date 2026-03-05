@@ -104,13 +104,22 @@ export const LoginPage = () => {
       }
 
       const kakaoAccessToken = nativeResult.credential.accessToken;
+      const accountEmail = nativeResult.credential.email;
 
       if (!kakaoAccessToken) {
         console.error('Native Kakao login credential is missing accessToken');
         return;
       }
 
-      const response = await mobileKakaoLogin({ accessToken: kakaoAccessToken });
+      if (!accountEmail) {
+        console.error('Native Kakao login credential is missing email');
+        return;
+      }
+
+      const response = await mobileKakaoLogin({
+        accessToken: kakaoAccessToken,
+        // account_email: accountEmail,
+      });
       const accessToken = extractAccessToken(response);
 
       if (!accessToken) {
