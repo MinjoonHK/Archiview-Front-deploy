@@ -12,10 +12,16 @@ export const RoundedHeaderSection = ({
   place?: IEditorInsightPlaceDetail;
   thumbnail: string;
 }) => {
+  const imageSrc = thumbnail.trim();
+
   return (
     <section className="relative mb-[86px]">
       <div className="h-[196px] overflow-hidden">
-        <img src={thumbnail} alt="" className="w-full h-full object-cover" />
+        {imageSrc ? (
+          <Image src={imageSrc} alt="" className="w-full h-full object-cover" unoptimized />
+        ) : (
+          <div className="h-full w-full bg-neutral-30" />
+        )}
       </div>
       <div
         className="

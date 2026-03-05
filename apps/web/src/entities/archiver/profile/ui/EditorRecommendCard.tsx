@@ -14,6 +14,7 @@ interface IEditorRecommendCardProps {
 
 export const EditorRecommendCard = ({ editor }: IEditorRecommendCardProps) => {
   const stripHash = (tag?: string) => (tag ?? '').trim().replace(/^#/, '');
+  const profileImageUrl = editor.profileImageUrl?.trim();
 
   const badgeContainerRef = useRef<HTMLDivElement>(null);
   const badgeMeasureRefs = useRef<Array<HTMLDivElement | null>>([]);
@@ -90,15 +91,18 @@ export const EditorRecommendCard = ({ editor }: IEditorRecommendCardProps) => {
     <Link href={`/archiver/editor-profile/${editor.editorId}`} className="block shrink-0">
       <Kard className="shrink-0 w-45 shadow-default overflow-hidden border-none">
         <div className="relative w-full shrink-0 overflow-hidden" style={{ height: '99px' }}>
-          <Image
-            src={editor.profileImageUrl || '/images/ExampleImage.png'}
-            alt=""
-            width={200}
-            height={90}
-            className="object-cover"
-            priority={false}
-            unoptimized
-          />
+          {profileImageUrl ? (
+            <Image
+              src={profileImageUrl}
+              alt=""
+              width={200}
+              height={90}
+              className="object-cover"
+              priority={false}
+            />
+          ) : (
+            <div className="h-full w-full bg-neutral-30" />
+          )}
         </div>
         <div className="p-3">
           <div className="flex items-center justify-between">
