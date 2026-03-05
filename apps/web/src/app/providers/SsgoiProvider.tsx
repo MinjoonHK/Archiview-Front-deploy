@@ -77,7 +77,7 @@ const ssgoiConfig: SsgoiConfig = {
     {
       from: '/archiver/editor-profile/*',
       to: '/archiver/follow-list',
-      transition: drill({ direction: 'exit' }),
+      transition: swap(),
     },
 
     {
