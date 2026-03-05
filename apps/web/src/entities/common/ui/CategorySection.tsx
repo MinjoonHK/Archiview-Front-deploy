@@ -88,17 +88,11 @@ const CategorySectionComponent = (): React.ReactElement => {
         }),
     );
 
-    Promise.all(preloadPromises)
-      .then(() => {
-        if (!cancelled) {
-          setIsIconsReady(true);
-        }
-      })
-      .catch(() => {
-        if (!cancelled) {
-          setIsIconsReady(true);
-        }
-      });
+    void Promise.all(preloadPromises).then(() => {
+      if (!cancelled) {
+        setIsIconsReady(true);
+      }
+    });
 
     return () => {
       cancelled = true;
