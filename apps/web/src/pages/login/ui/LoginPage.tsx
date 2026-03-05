@@ -9,7 +9,9 @@ import type {
   IAppleMobileLoginResponseDTO,
   IKakaoMobileLoginResponseDTO,
 } from '@/entities/auth/model/auth.type';
-import { LOCAL_STORAGE_KEYS } from '@/shared/constants/localStorageKeys';
+import Cookies from 'js-cookie';
+
+import { COOKIE_KEYS, getDefaultCookieOptions } from '@/shared/constants/cookies';
 import {
   isNativeMethodAvailable,
   isWebViewBridgeAvailable,
@@ -80,7 +82,7 @@ export const LoginPage = () => {
   };
 
   const persistAccessToken = (accessToken: string) => {
-    localStorage.setItem(LOCAL_STORAGE_KEYS.accessToken, accessToken);
+    Cookies.set(COOKIE_KEYS.accessToken, accessToken, getDefaultCookieOptions());
     window.location.href = '/';
   };
 
