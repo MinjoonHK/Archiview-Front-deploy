@@ -39,6 +39,21 @@
     "plugins": [
       "expo-router",
       [
+        "@react-native-seoul/kakao-login",
+        {
+          "kakaoAppKey": "da1d6064b32ed92f55aa747f2898a4b6",
+          "kotlinVersion": "2.0.21"
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "extraMavenRepos": ["https://devrepo.kakao.com/nexus/content/groups/public/"]
+          }
+        }
+      ],
+      [
         "expo-location",
         {
           "locationWhenInUsePermission": "아카이뷰는 내 주변 장소를 찾고 지도에 내 위치를 표시하기 위해 위치 권한이 필요합니다."

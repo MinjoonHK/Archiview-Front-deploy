@@ -3,6 +3,7 @@ import * as WebBrowser from 'expo-web-browser';
 import * as Location from 'expo-location';
 import * as AppleAuthentication from 'expo-apple-authentication';
 import { Linking, Platform } from 'react-native';
+import { login as kakaoLogin } from '@react-native-seoul/kakao-login';
 
 import { bridge } from '@webview-bridge/react-native';
 import type {
@@ -10,6 +11,7 @@ import type {
   AppleSignInResult,
   AppBridgeState,
   GeoLocation,
+  KakaoSignInResult,
   PickImageAsset,
   PickImageOptions,
   PickImageResult,
@@ -55,6 +57,13 @@ const getErrorMessage = (error: unknown): string | undefined => {
 
   const message = (error as { message?: unknown }).message;
   return typeof message === 'string' ? message : undefined;
+};
+
+const isCancelledError = (error: unknown): boolean => {
+  const message = getErrorMessage(error);
+  if (!message) return false;
+
+  return /cancel/i.test(message);
 };
 
 export const appBridge = bridge<AppBridgeState>(({ get, set }) => ({
@@ -197,15 +206,15 @@ export const appBridge = bridge<AppBridgeState>(({ get, set }) => ({
           AppleAuthentication.AppleAuthenticationScope.EMAIL,
         ],
       });
-      console.log(credential)
+
       return {
         status: 'success',
         credential: {
           idToken: credential.identityToken ?? null,
           authorizationCode: credential.authorizationCode ?? null,
-          // user: credential.user ?? null,
-          // email: credential.email ?? null,
-          // fullName: toAppleFullName(credential.fullName ?? null),
+          user: credential.user ?? null,
+          email: credential.email ?? null,
+          fullName: toAppleFullName(credential.fullName ?? null),
         },
       };
     } catch (error) {
@@ -218,6 +227,47 @@ export const appBridge = bridge<AppBridgeState>(({ get, set }) => ({
       return {
         status: 'error',
         reason: code ?? 'sign-in-failed',
+        message: getErrorMessage(error),
+      };
+    }
+  },
+
+  async signInWithKakao(): Promise<KakaoSignInResult> {
+    if (Platform.OS !== 'ios' && Platform.OS !== 'android') {
+      return {
+        status: 'error',
+        reason: 'unsupported-platform',
+        message: 'Kakao login is only available on iOS or Android',
+      };
+    }
+
+    try {
+      const token = await kakaoLogin();
+
+      if (!token?.accessToken) {
+        return {
+          status: 'error',
+          reason: 'missing-access-token',
+          message: 'Kakao login returned no accessToken',
+        };
+      }
+
+      return {
+        status: 'success',
+        credential: {
+          accessToken: token.accessToken,
+          refreshToken: token.refreshToken ?? null,
+          idToken: token.idToken ?? null,
+        },
+      };
+    } catch (error) {
+      if (isCancelledError(error)) {
+        return { status: 'cancelled' };
+      }
+
+      return {
+        status: 'error',
+        reason: getErrorCode(error) ?? 'sign-in-failed',
         message: getErrorMessage(error),
       };
     }

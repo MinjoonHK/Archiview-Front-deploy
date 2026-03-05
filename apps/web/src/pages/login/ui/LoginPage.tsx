@@ -4,15 +4,21 @@ import Image from 'next/image';
 import { useRef, useState } from 'react';
 
 import { useAppleMobileLogin } from '@/entities/auth/mutations/useAppleMobileLogin';
-import type { IAppleMobileLoginResponseDTO } from '@/entities/auth/model/auth.type';
+import { useKakaoMobileLogin } from '@/entities/auth/mutations/useKakaoMobileLogin';
+import type {
+  IAppleMobileLoginResponseDTO,
+  IKakaoMobileLoginResponseDTO,
+} from '@/entities/auth/model/auth.type';
 import { LOCAL_STORAGE_KEYS } from '@/shared/constants/localStorageKeys';
 import {
   isNativeMethodAvailable,
   isWebViewBridgeAvailable,
   signInWithApple,
+  signInWithKakao,
 } from '@/shared/lib/native-bridge';
 import { Button } from '@/shared/ui/button';
 import { AppleIcon } from '@/shared/ui/icon/AppleIcon';
+import { KakaoIcon } from '@/shared/ui/icon/KakaoIcon';
 
 import { OnboardingCarousel, type IOnboardingCarouselHandle } from './OnboardingCarousel';
 import { KakaoButton } from './SocialLoginButton';
@@ -35,16 +41,22 @@ const ONBOARDING_TEXT: Array<{ title: string; description: string }> = [
 
 export const LoginPage = () => {
   const [step, setStep] = useState<'onboarding' | 'login'>('onboarding');
+  const [isNativeKakaoSigningIn, setIsNativeKakaoSigningIn] = useState(false);
   const [isNativeAppleSigningIn, setIsNativeAppleSigningIn] = useState(false);
   const carouselRef = useRef<IOnboardingCarouselHandle>(null);
 
   const { mutateAsync: mobileAppleLogin, isPending: isMobileAppleLoginPending } =
     useAppleMobileLogin();
+  const { mutateAsync: mobileKakaoLogin, isPending: isMobileKakaoLoginPending } =
+    useKakaoMobileLogin();
 
-  const canUseNativeAppleLogin =
-    typeof window !== 'undefined' &&
-    isWebViewBridgeAvailable() &&
-    isNativeMethodAvailable('signInWithApple');
+  const isBridgeAvailable = typeof window !== 'undefined' && isWebViewBridgeAvailable();
+
+  const canUseNativeKakaoLogin = isBridgeAvailable && isNativeMethodAvailable('signInWithKakao');
+
+  const canUseNativeAppleLogin = isBridgeAvailable && isNativeMethodAvailable('signInWithApple');
+
+  const isNativeKakaoLoginPending = isNativeKakaoSigningIn || isMobileKakaoLoginPending;
 
   const isNativeAppleLoginPending = isNativeAppleSigningIn || isMobileAppleLoginPending;
 
@@ -52,7 +64,9 @@ export const LoginPage = () => {
     return typeof value === 'object' && value !== null;
   };
 
-  const extractAccessToken = (response: IAppleMobileLoginResponseDTO): string | null => {
+  const extractAccessToken = (
+    response: IAppleMobileLoginResponseDTO | IKakaoMobileLoginResponseDTO,
+  ): string | null => {
     if (!response.success) {
       return null;
     }
@@ -65,6 +79,51 @@ export const LoginPage = () => {
     return typeof accessToken === 'string' && accessToken.length > 0 ? accessToken : null;
   };
 
+  const persistAccessToken = (accessToken: string) => {
+    localStorage.setItem(LOCAL_STORAGE_KEYS.accessToken, accessToken);
+    window.location.href = '/';
+  };
+
+  const handleNativeKakaoLogin = async () => {
+    if (isNativeKakaoLoginPending) return;
+
+    setIsNativeKakaoSigningIn(true);
+
+    try {
+      const nativeResult = await signInWithKakao();
+
+      if (!nativeResult || nativeResult.status === 'cancelled') {
+        return;
+      }
+
+      if (nativeResult.status === 'error') {
+        console.error('Native Kakao login failed', nativeResult.reason, nativeResult.message);
+        return;
+      }
+
+      const kakaoAccessToken = nativeResult.credential.accessToken;
+
+      if (!kakaoAccessToken) {
+        console.error('Native Kakao login credential is missing accessToken');
+        return;
+      }
+
+      const response = await mobileKakaoLogin({ accessToken: kakaoAccessToken });
+      const accessToken = extractAccessToken(response);
+
+      if (!accessToken) {
+        console.error('Mobile Kakao login response does not include accessToken');
+        return;
+      }
+
+      persistAccessToken(accessToken);
+    } catch (error) {
+      console.error('Failed to login with native Kakao login', error);
+    } finally {
+      setIsNativeKakaoSigningIn(false);
+    }
+  };
+
   const handleNativeAppleLogin = async () => {
     if (isNativeAppleLoginPending) return;
 
@@ -72,7 +131,7 @@ export const LoginPage = () => {
 
     try {
       const nativeResult = await signInWithApple();
-      console.log(nativeResult);
+
       if (!nativeResult || nativeResult.status === 'cancelled') {
         return;
       }
@@ -99,8 +158,7 @@ export const LoginPage = () => {
         return;
       }
 
-      localStorage.setItem(LOCAL_STORAGE_KEYS.accessToken, accessToken);
-      window.location.href = '/';
+      persistAccessToken(accessToken);
     } catch (error) {
       console.error('Failed to login with native Apple login', error);
     } finally {
@@ -172,7 +230,20 @@ export const LoginPage = () => {
             <Image src="/images/LoginPageImage.png" alt="archiview 로고" width={246} height={45} />
           </div>
           <div className="flex w-full flex-col gap-4 px-5 pb-10">
-            <KakaoButton />
+            {canUseNativeKakaoLogin ? (
+              <Button
+                variant="login"
+                startIcon={<KakaoIcon />}
+                className="bg-[#FEE500] w-full"
+                type="button"
+                onClick={handleNativeKakaoLogin}
+                disabled={isNativeKakaoLoginPending}
+              >
+                <span className="text-neutral-70">카카오톡으로 로그인</span>
+              </Button>
+            ) : (
+              <KakaoButton />
+            )}
             {canUseNativeAppleLogin ? (
               <Button
                 variant="login"

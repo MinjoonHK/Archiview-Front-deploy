@@ -33,6 +33,26 @@ export type AppleSignInResult =
       message?: string;
     };
 
+export type KakaoNativeCredential = {
+  accessToken: string;
+  refreshToken?: string | null;
+  idToken?: string | null;
+};
+
+export type KakaoSignInResult =
+  | {
+      status: 'success';
+      credential: KakaoNativeCredential;
+    }
+  | {
+      status: 'cancelled';
+    }
+  | {
+      status: 'error';
+      reason: string;
+      message?: string;
+    };
+
 export type GeoCoordinates = {
   latitude: number;
   longitude: number;
@@ -89,6 +109,7 @@ export interface AppBridgeState extends Bridge {
   getCurrentLocation(): Promise<GeoLocation | null>;
 
   signInWithApple(): Promise<AppleSignInResult>;
+  signInWithKakao(): Promise<KakaoSignInResult>;
 
   setToken(token: NativeToken): Promise<void>;
   getToken(): Promise<NativeToken>;

@@ -3,6 +3,7 @@
 import type {
   AppleSignInResult,
   GeoLocation,
+  KakaoSignInResult,
   NativeToken,
   PickImageOptions,
   PickImageResult,
@@ -66,6 +67,14 @@ export const signInWithApple = async (): Promise<AppleSignInResult | null> => {
   }
 
   return nativeLongTaskBridge.signInWithApple();
+};
+
+export const signInWithKakao = async (): Promise<KakaoSignInResult | null> => {
+  if (!nativeLongTaskBridge.isNativeMethodAvailable('signInWithKakao')) {
+    return null;
+  }
+
+  return nativeLongTaskBridge.signInWithKakao();
 };
 
 export const setToken = async (token: NativeToken): Promise<boolean> => {

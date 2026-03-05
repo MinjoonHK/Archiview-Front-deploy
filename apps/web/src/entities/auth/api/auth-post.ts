@@ -1,9 +1,11 @@
-import { clientApi } from '@/shared/lib/api/client';
+import { clientApi, unauthClientApi } from '@/shared/lib/api/client';
 import { AUTH_ENDPOINTS } from '@/shared/constants/endpoints/auth/AuthEndpoints';
 
 import {
   IAppleMobileLoginRequestDTO,
   IAppleMobileLoginResponseDTO,
+  IKakaoMobileLoginRequestDTO,
+  IKakaoMobileLoginResponseDTO,
   IRegisterRequestDTO,
   IRegisterResponeDTO,
   ISwitchRoleResponseDTO,
@@ -40,9 +42,20 @@ export const authPost = {
   mobileAppleLogin: async (
     payload: IAppleMobileLoginRequestDTO,
   ): Promise<IAppleMobileLoginResponseDTO> => {
-    const response = await clientApi
+    const response = await unauthClientApi
       .post(`${AUTH_ENDPOINTS.mobile.apple}`, { json: payload })
       .json<IAppleMobileLoginResponseDTO>();
+
+    return response;
+  },
+
+  // 모바일 카카오 로그인
+  mobileKakaoLogin: async (
+    payload: IKakaoMobileLoginRequestDTO,
+  ): Promise<IKakaoMobileLoginResponseDTO> => {
+    const response = await unauthClientApi
+      .post(`${AUTH_ENDPOINTS.mobile.kakao}`, { json: payload })
+      .json<IKakaoMobileLoginResponseDTO>();
 
     return response;
   },
