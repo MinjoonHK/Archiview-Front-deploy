@@ -43,10 +43,10 @@ export const ArchiverCategoryPage = (): React.ReactElement => {
 
   const setCategory = (nextId: number) => {
     // TODO : 내주변 가드 치우기
-    if (nextId === NEAR_CATEGORY_ID) {
-      alert('준비중이에요!');
-      return;
-    }
+    // if (nextId === NEAR_CATEGORY_ID) {
+    //   alert('준비중이에요!');
+    //   return;
+    // }
 
     const params = new URLSearchParams(sp?.toString() ?? '');
     params.set('categoryId', String(nextId));

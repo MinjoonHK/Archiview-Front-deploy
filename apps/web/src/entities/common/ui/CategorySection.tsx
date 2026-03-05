@@ -56,8 +56,7 @@ export const CategorySection = (): React.ReactElement => {
               />
             }
             label="내주변"
-            onClick={() => alert('준비중이에요!')}
-            // path="/archiver/category?categoryId=0"
+            path="/archiver/category?categoryId=0"
           />
           <CategoryItem
             icon={
