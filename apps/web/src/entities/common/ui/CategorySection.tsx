@@ -33,6 +33,7 @@ const CategoryItem = ({
     );
   }
 
+
   return (
     <button type="button" className={baseClass} onClick={onClick}>
       {content}
