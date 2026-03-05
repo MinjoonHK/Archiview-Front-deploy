@@ -23,6 +23,24 @@ const FALLBACK_LONGITUDE = 126.978;
 // TODO : 폴백 이미지 제거..
 const FALLBACK_PLACE_IMAGE = '/images/TestImage.png';
 const MY_LOCATION_MARKER_URL = '/marker/myMarker.png';
+const SKELETON_ITEM_COUNT = 5;
+
+const MapSkeleton = () => <div className="h-full w-full animate-pulse bg-neutral-20" />;
+
+const PlaceListSkeleton = () => (
+  <div className="px-5 pt-4">
+    {[...Array(SKELETON_ITEM_COUNT)].map((unusedItem, index) => (
+      <div key={`place-skeleton-${index}`} className="flex gap-3 py-3">
+        <div className="h-18 w-18 shrink-0 animate-pulse rounded-2xl bg-neutral-20" />
+        <div className="flex min-w-0 flex-1 flex-col gap-2">
+          <div className="h-5 w-2/3 animate-pulse rounded bg-neutral-20" />
+          <div className="h-4 w-full animate-pulse rounded bg-neutral-20" />
+          <div className="h-4 w-1/2 animate-pulse rounded bg-neutral-20" />
+        </div>
+      </div>
+    ))}
+  </div>
+);
 
 export const ArchiverCategoryPage = (): React.ReactElement => {
   const router = useRouter();
@@ -122,6 +140,8 @@ export const ArchiverCategoryPage = (): React.ReactElement => {
   const isRawLoading = isNear ? isNearLoading : isCategoryLoading;
   const isLoading = useMinLoading(isRawLoading);
   const isError = isNear ? isNearError : isCategoryError;
+  const isNearMapLoading = isNear && (!coords || isLoading);
+  const isNearListLoading = isNear && (!coords || isLoading);
 
   const apiErrorMessage = data && data.data === null ? data.message : null;
   const places = data?.data?.places ?? [];
@@ -139,25 +159,29 @@ export const ArchiverCategoryPage = (): React.ReactElement => {
 
       {isNear ? (
         <div className="flex-1 min-h-0 pt-6">
-          <KakaoMap
-            lat={coords?.latitude ?? FALLBACK_LATITUDE}
-            lng={coords?.longitude ?? FALLBACK_LONGITUDE}
-            level={3}
-            markers={
-              coords
-                ? [
-                    {
-                      lat: coords.latitude,
-                      lng: coords.longitude,
-                      zIndex: 200,
-                      imageSrc: MY_LOCATION_MARKER_URL,
-                      imageSize: { width: 48, height: 68 },
-                      imageOffset: { x: 24, y: 68 },
-                    },
-                  ]
-                : []
-            }
-          />
+          {isNearMapLoading ? (
+            <MapSkeleton />
+          ) : (
+            <KakaoMap
+              lat={coords?.latitude ?? FALLBACK_LATITUDE}
+              lng={coords?.longitude ?? FALLBACK_LONGITUDE}
+              level={3}
+              markers={
+                coords
+                  ? [
+                      {
+                        lat: coords.latitude,
+                        lng: coords.longitude,
+                        zIndex: 200,
+                        imageSrc: MY_LOCATION_MARKER_URL,
+                        imageSize: { width: 48, height: 68 },
+                        imageOffset: { x: 24, y: 68 },
+                      },
+                    ]
+                  : []
+              }
+            />
+          )}
 
           <BottomSheet
             isOpen={sheetOpen}
@@ -173,14 +197,13 @@ export const ArchiverCategoryPage = (): React.ReactElement => {
             }
             contentClassName="overflow-y-auto px-0 pb-6"
           >
-            {!coords ? <div className="px-5 pt-6">위치 불러오는 중입니다.</div> : null}
-            {coords && isLoading ? (
-              <div className="px-5 pt-6">장소를 불러오는 중입니다.</div>
+            {isNearListLoading ? <PlaceListSkeleton /> : null}
+            {!isNearListLoading && isError ? <div className="px-5 pt-6">불러오기 실패</div> : null}
+            {!isNearListLoading && apiErrorMessage ? (
+              <div className="px-5 pt-6">{apiErrorMessage}</div>
             ) : null}
-            {coords && isError ? <div className="px-5 pt-6">불러오기 실패</div> : null}
-            {coords && apiErrorMessage ? <div className="px-5 pt-6">{apiErrorMessage}</div> : null}
 
-            {coords && !isLoading && !isError && !apiErrorMessage ? (
+            {!isNearListLoading && !isError && !apiErrorMessage ? (
               places.length === 0 ? (
                 <div className="flex flex-1 items-center justify-center py-30">
                   <p className="body-16-semibold text-neutral-40 text-center whitespace-pre-wrap">
@@ -198,7 +221,6 @@ export const ArchiverCategoryPage = (): React.ReactElement => {
                           alt={p.placeName}
                           fill
                           className="object-cover"
-                          unoptimized
                         />
                       </div>
                     }
@@ -239,7 +261,7 @@ export const ArchiverCategoryPage = (): React.ReactElement => {
             </p>
           </div>
 
-          {isLoading ? <div className="px-5 pt-6">장소를 불러오는 중입니다.</div> : null}
+          {isLoading ? <PlaceListSkeleton /> : null}
           {isError ? <div className="px-5 pt-6">불러오기 실패</div> : null}
           {apiErrorMessage ? <div className="px-5 pt-6">{apiErrorMessage}</div> : null}
 
