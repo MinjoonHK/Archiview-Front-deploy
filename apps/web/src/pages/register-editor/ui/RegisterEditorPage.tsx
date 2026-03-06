@@ -138,27 +138,25 @@ export const RegisterEditorPage = () => {
   );
 
   const isSubmitEnabled = useMemo(() => {
-    const hasProfileImage = !!profileImageUrl;
     const hasNickname = nickname.trim().length > 0;
     const hasIntroduction = introduction.trim().length <= 50 && introduction.trim().length > 0;
     const hasInstagramId = instagramId.trim().length > 0;
     const hasInstagramUrl = instagramUrl.trim().length > 0;
-    const hasHashtags = hashtags.length === 2;
+    const hasHashtags = hashtags.length >= 2;
 
     const allRequiredInputsDisabled =
       isNicknameDisabled && isInstagramIdDisabled && isInstagramUrlDisabled;
 
     return (
-      hasProfileImage &&
       hasNickname &&
       hasInstagramId &&
       hasInstagramUrl &&
       hasHashtags &&
       hasIntroduction &&
-      allRequiredInputsDisabled
+      allRequiredInputsDisabled &&
+      isChecked
     );
   }, [
-    profileImageUrl,
     nickname,
     introduction,
     instagramId,
@@ -167,6 +165,7 @@ export const RegisterEditorPage = () => {
     isNicknameDisabled,
     isInstagramIdDisabled,
     isInstagramUrlDisabled,
+    isChecked,
   ]);
 
   const requiredStatus = useMemo(() => {
@@ -176,7 +175,6 @@ export const RegisterEditorPage = () => {
     const trimmedInstagramUrl = instagramUrl.trim();
 
     const items = [
-      { key: 'profileImage', label: '프로필 사진', done: !!profileImageUrl },
       {
         key: 'nickname',
         label: '닉네임 중복확인',
@@ -197,7 +195,8 @@ export const RegisterEditorPage = () => {
         label: '인스타그램 URL 확인',
         done: trimmedInstagramUrl.length > 0 && isInstagramUrlDisabled,
       },
-      { key: 'hashtags', label: '해시태그 2개', done: hashtags.length === 2 },
+      { key: 'hashtags', label: '해시태그 2개', done: hashtags.length >= 2 },
+      { key: 'checked', label: '정보 공개 동의', done: isChecked },
     ];
 
     const doneCount = items.filter((it) => it.done).length;
@@ -212,11 +211,11 @@ export const RegisterEditorPage = () => {
     introduction,
     instagramId,
     instagramUrl,
+    isChecked,
     isInstagramIdDisabled,
     isInstagramUrlDisabled,
     isNicknameDisabled,
     nickname,
-    profileImageUrl,
   ]);
 
   const handleSubmit = () => {
@@ -363,17 +362,17 @@ export const RegisterEditorPage = () => {
       </div>
 
       <div className="pb-5 pt-3">
-        {/* <div className="mb-3 rounded-2xl bg-neutral-10 px-4 py-3"> */}
-        {/* <div className="flex items-center justify-between">
-            <p className="body-14-semibold text-neutral-50">
-              필수 항목 {requiredStatus.doneCount}/{requiredStatus.totalCount}
-            </p>
-            <p className="caption-12-medium text-neutral-40">
-              {isSubmitEnabled ? '완료' : `${requiredStatus.remainingCount}개 남았어요`}
-            </p>
-          </div> */}
+        {!isSubmitEnabled && (
+          <div className="mb-3 rounded-2xl bg-neutral-10 px-4 py-3">
+            <div className="flex items-center justify-between">
+              <p className="body-14-semibold text-neutral-50">
+                필수 항목 {requiredStatus.doneCount}/{requiredStatus.totalCount}
+              </p>
+              <p className="caption-12-medium text-neutral-40">
+                {`${requiredStatus.remainingCount}개 남았어요`}
+              </p>
+            </div>
 
-        {/* {!isSubmitEnabled ? (
             <div className="mt-2 flex flex-wrap gap-2">
               {requiredStatus.items
                 .filter((it) => !it.done)
@@ -386,8 +385,8 @@ export const RegisterEditorPage = () => {
                   </span>
                 ))}
             </div>
-          ) : null} */}
-        {/* </div> */}
+          </div>
+        )}
 
         <Button disabled={!isSubmitEnabled} onClick={handleSubmit} className="w-full">
           등록완료

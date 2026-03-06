@@ -158,7 +158,7 @@ export const MyPage = (): React.ReactElement => {
         onClose={() => setOpenChangeRoleModal(false)}
         onConfirm={() => {
           setOpenChangeRoleModal(false);
-          router.push('/register-editor');
+          router.push('/term-agree-editor');
         }}
       />
 
