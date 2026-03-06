@@ -186,7 +186,7 @@ export const LoginPage = () => {
 
       const bodyText = e.response ? await e.response.clone().text() : null;
 
-      console.error('[mobileKakaoLogin]', {
+      console.error('[mobileAppleLogin]', {
         name: e.name,
         message: e.message,
         status: e.response?.status,
