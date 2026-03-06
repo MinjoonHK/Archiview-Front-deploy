@@ -109,31 +109,31 @@ const ssgoiConfig: SsgoiConfig = {
     {
       from: '/editor/home',
       to: '/editor/profile',
-      transition: snap(),
+      transition: swap(),
       symmetric: true,
     },
     {
       from: '/editor/home',
       to: '/editor/register-place',
-      transition: snap(),
+      transition: swap(),
       symmetric: true,
     },
     {
       from: '/editor/home',
       to: '/mypage',
-      transition: snap(),
+      transition: swap(),
       symmetric: true,
     },
     {
       from: '/editor/profile',
       to: '/editor/register-place',
-      transition: snap(),
+      transition: swap(),
       symmetric: true,
     },
     {
       from: '/editor/profile',
       to: '/mypage',
-      transition: snap(),
+      transition: swap(),
       symmetric: true,
     },
     // 에디터 홈 <-> 장소 상세
