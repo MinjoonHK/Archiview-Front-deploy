@@ -35,13 +35,25 @@ export const TermAgreePage = () => {
         <CheckItem checked={allChecked} onCheckedChange={onToggleAll} className="bg-[#F5F6FA] mb-1">
           전체 약관에 동의합니다
         </CheckItem>
-        <CheckItem checked={service} onCheckedChange={setService}>
+        <CheckItem
+          checked={service}
+          onCheckedChange={setService}
+          redirectUrl={process.env.NEXT_PUBLIC_TERMS_OF_SERVICE_URL ?? ''}
+        >
           <span className="text-neutral-40 mr-1">(필수)</span> 서비스 이용약관
         </CheckItem>
-        <CheckItem checked={privacy} onCheckedChange={setPrivacy}>
+        <CheckItem
+          checked={privacy}
+          onCheckedChange={setPrivacy}
+          redirectUrl={process.env.NEXT_PUBLIC_PRIVACY_POLICY_URL ?? ''}
+        >
           <span className="text-neutral-40 mr-1">(필수)</span> 개인정보 수집 및 이용동의
         </CheckItem>
-        <CheckItem checked={location} onCheckedChange={setLocation}>
+        <CheckItem
+          checked={location}
+          onCheckedChange={setLocation}
+          redirectUrl={process.env.NEXT_PUBLIC_GEO_LOCATION_TERMS_OF_SERVICE_URL ?? ''}
+        >
           <span className="text-neutral-40 mr-1">(필수)</span> 위치 기반 서비스 이용동의
         </CheckItem>
       </div>
